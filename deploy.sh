@@ -3,10 +3,8 @@
 # exit on any failure
 set -e
 
-
 REPO=tarteel
 PORT=4444
-args+=(--restart=always --cpuset-cpus=6)
 
 # stop and remove existing container
 if [ -n "$(docker ps --all --quiet --filter name=^/${REPO}$)" ]; then
@@ -22,6 +20,9 @@ APP_PATH="$SCRIPT_DIR/"
 set -x
 args+=(
   --name=${REPO}
+  --cpus="1.0"
+  --memory=2g
+  --restart=always
   --volume=${APP_PATH}:/app
   --workdir=/app
   --detach
