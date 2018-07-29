@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 import random
 from django.http import HttpResponse, JsonResponse
 from quickstart.models import AnnotatedRecording
+from django.shortcuts import render
 
 END_OF_FILE = 6236
-
 
 def get_ayah(request, line_length=200):
 
@@ -28,3 +28,5 @@ def get_ayah(request, line_length=200):
 
     return JsonResponse(result)
 
+def index(request):
+    return render(request, 'audio/index.html', {})

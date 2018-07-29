@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'audio',
-    'storages',
     'quickstart',
     'django.contrib.admin',
     'django.contrib.auth',

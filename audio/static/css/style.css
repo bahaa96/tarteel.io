@@ -1,0 +1,113 @@
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+#core-text {
+  padding: 15px 30px;
+  text-align: center;
+}
+
+#progress {
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 8px 0px; 
+}
+.progress-bubble {
+  font-weight: bold;
+  border: solid 2px #9a9e9b;
+  color: #9a9e9b;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+}
+.complete {
+  background-color: #9a9e9b;
+  color: white;
+}
+
+#ayah {
+  font-size: 28px;
+  line-height: 2;
+  display: none;
+  color: #9a9e9b;
+}
+#ayah-loc {
+  margin-top: 14px;
+  color: black;
+  font-size: 14px;
+}
+.info {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #7a7e7b;
+}
+#thank-you {
+  display: none;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+  text-align: center;
+}
+footer > * {
+  width: 100%;
+  height: 100%;
+}
+.review, #mic {
+  display: none;
+}
+.footer-btn {
+  padding-top: 8px;
+}
+.footer-btn span {
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.footer-btn svg {
+  height: 100%;
+  width: 100%;
+  fill-opacity: 0.7;
+  fill: #FFFFFF;
+}
+
+#start {
+  background-color: #aaaaaa;
+}
+#mic {
+  background-color: #aaaaaa;
+}
+#mic.recording {
+  animation: ani 1.7s infinite;
+}
+#submit {
+  background-color: #70af70;
+}
+#retry {
+  background-color: #708baf;
+}
+
+@keyframes ani {
+  0% {
+    background-color: #bf9999;
+  }
+  50% {
+    background-color: #af7070;
+  }
+  100% {
+    background-color: #bf9999;
+  }
+}
