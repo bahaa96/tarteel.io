@@ -1,6 +1,6 @@
 var api = {
   get_ayah: function(callback) {
-    $.get("https://tarteel.tarjim.ly/get_ayah/", function(data) {
+    $.get("/get_ayah", function(data) {
       callback.call(this, data);
     })
   },
@@ -14,7 +14,7 @@ var api = {
     $.ajax(
       {
         type: "POST",
-        url: "https://tarteel.tarjim.ly/api/recordings/",
+        url: "/api/recordings/",
         data: fd,
         processData: false,
         contentType: false,

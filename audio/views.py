@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import random
+import datetime
 from django.http import HttpResponse, JsonResponse
 from quickstart.models import AnnotatedRecording
 from django.shortcuts import render
@@ -29,7 +30,10 @@ def get_ayah(request, line_length=200):
     return JsonResponse(result)
 
 def index(request):
-    return render(request, 'audio/index.html', {})
+    recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+    daily_count = AnnotatedRecording.objects.filter(timestamp__gt=yesterday).exclude(file__isnull=True).count()
+    return render(request, 'audio/index.html', {'recording_count':recording_count, 'daily_count':daily_count})
 
 def privacy(request):
     return render(request, 'audio/privacy.html', {})
