@@ -30,3 +30,6 @@ def get_ayah(request, line_length=200):
 
 def index(request):
     return render(request, 'audio/index.html', {})
+
+def privacy(request):
+    return render(request, 'audio/privacy.html', {})
