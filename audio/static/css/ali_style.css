@@ -373,6 +373,28 @@ button[class*="btn"] {border: 0;}
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82c8a0', endColorstr='#82c79e', GradientType=0 );
 }
 
+table {
+  margin:1em auto;
+}
+td {
+  height:30px;
+  width:30px;
+  border:1px solid;
+  text-align:center;
+}
+td:first-child {
+  border-left:solid;
+}
+td:nth-child(3n) {
+  border-right:solid ;
+}
+tr:first-child {
+  border-top:solid;
+}
+tr:nth-child(3n) td {
+  border-bottom:solid ;
+}
+
 .btn-gradient.red:active      {background: #E35252;}
 .btn-gradient.orange:active {background: #E8601B;}
 .btn-gradient.cyan:active   {background: #169499;}
