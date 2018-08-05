@@ -35,6 +35,9 @@ def index(request):
     daily_count = AnnotatedRecording.objects.filter(timestamp__gt=yesterday).exclude(file__isnull=True).count()
     return render(request, 'audio/index.html', {'recording_count':recording_count, 'daily_count':daily_count})
 
+def about(request):
+    return render(request, 'audio/about.html', {})
+
 def privacy(request):
     return render(request, 'audio/privacy.html', {})
 

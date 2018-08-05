@@ -6,6 +6,10 @@ html {
   text-align: center;
 }
 
+a {
+  color:gray;
+}
+
 #progress {
   height: 50px;
   display: flex;
