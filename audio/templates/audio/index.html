@@ -5,11 +5,12 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
   </head>
-  <body>
+  <body style="max-width: 600px; margin: auto">
     <div id="core-text">
       <div class="info" id="start-text">
-        Salaam and welcome to the <a href="/about">Tarteel 10,000 Challenge</a>! Thank you for helping us build the world's first public, open-source dataset of Quran recitations by ordinary people, like you and me. 
-        <br><br>
+        <h3> Salaam! </h3>
+        Welcome to the <a href="/about">Tarteel 10,000 Challenge</a>! Thank you for helping us build the world's first public, open-source dataset of Quran recitations by ordinary people, like you and me. 
+        <h3> How it works </h3>
         This app will provide you with <b>5 random verses</b> to recite. Once given the ayah, you will record your recitation of it. These recitations <a href="/privacy">will be released</a> as an open-source initiative to encourage machine learning applications based on recitations of the Quran.
         <br><br> Click <strong>START</strong> below to get started!
       </div>
@@ -52,8 +53,10 @@
           <div class="progress-bubble">4</div>
           <div class="progress-bubble">5</div>
         </div>
-        <span id="ayah-text"></span>
-        <br><div id="ayah-loc">[<span id="surah-num"></span> : <span id="ayah-num"></span>]</div>
+        <div class="card">
+          <span id="ayah-text"></span>
+          <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
+        </div>
       </div>
     </div>
     <footer>
