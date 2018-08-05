@@ -11,6 +11,11 @@ END_OF_FILE = 6236
 # get_ayah gets the surah num, ayah num, and text of a random ayah of a specified maximum length
 def get_ayah(request, line_length=200):
 
+    # user tracking - ensure there is always a session key
+    if not request.session.session_key:
+        request.session.create()
+    session_key = request.session.session_key
+
     # Get random line
     with open('quran-simple.txt', 'r', encoding='utf-8') as f:
         lines = [line for line in f.readlines()[0:END_OF_FILE] if len(line) < line_length]
@@ -24,8 +29,8 @@ def get_ayah(request, line_length=200):
     hash = random.getrandbits(32)
 
     # Format as json, and save row in DB
-    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash}
-    row = AnnotatedRecording(surah_num=surah, ayah_num=ayah, hash_string=hash)
+    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash, "session_id": session_key}
+    row = AnnotatedRecording(surah_num=surah, ayah_num=ayah, hash_string=hash, session_id=session_key)
     row.save()
 
     return JsonResponse(result)
