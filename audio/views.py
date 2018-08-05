@@ -8,6 +8,7 @@ from django.shortcuts import render
 
 END_OF_FILE = 6236
 
+# get_ayah gets the surah num, ayah num, and text of a random ayah of a specified maximum length
 def get_ayah(request, line_length=200):
 
     # Get random line
@@ -29,6 +30,9 @@ def get_ayah(request, line_length=200):
 
     return JsonResponse(result)
 
+################################################################################
+############################## static page views ###############################
+################################################################################
 def index(request):
     recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
