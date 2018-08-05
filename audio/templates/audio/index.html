@@ -1,4 +1,4 @@
-{% load static %}
+  {% load static %}
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,97 @@
         <br><br>
         Today, you helped us collect <b>{{daily_count}} recordings</b>, and we have collected a total of <b> {{recording_count}} recordings</b> altogether.
         <br><br>
-        Help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br> 
+
+        Help us reach our diversification goal by telling us a little bit about you.. 
+      <br>
+      I am..
+      <select id="gender">
+        <option value="hide">-- Gender --</option>
+        <option value="Male" rel="icon-temperature">Male</option>
+        <option value="Female">Female</option>
+      </select> 
+      I am.. 
+    <select id="Age">
+        <option value="hide">-- Age --</option>
+        <option value="2010">13-18</option>
+        <option value="2011">18-25</option>
+        <option value="2012">25-35</option>
+        <option value="2013">35-45</option>
+        <option value="2014">45-55</option>
+        <option value="2015">55+</option>
+    </select> years old..
+    I most identify as... 
+  <select >
+    <option value="hide">-- Ethnicity --</option>
+    <optgroup label="White">
+      <option value="White English">English</option>
+      <option value="White Welsh">Welsh</option>
+      <option value="White Scottish">Scottish</option>
+      <option value="White Northern Irish">Northern Irish</option>
+      <option value="White Irish">Irish</option>
+      <option value="White Gypsy or Irish Traveller">Gypsy or Irish Traveller</option>
+      <option value="White Other">Any other White background</option>
+    </optgroup>
+    <optgroup label="Mixed or Multiple ethnic groups">
+      <option value="Mixed White and Black Caribbean">White and Black Caribbean</option>
+      <option value="Mixed White and Black African">White and Black African</option>
+      <option value="Mixed White Other">Any other Mixed or Multiple background</option>
+    </optgroup>
+    <optgroup label="Asian">
+      <option value="Asian Indian">Indian</option>
+      <option value="Asian Pakistani">Pakistani</option>
+      <option value="Asian Bangladeshi">Bangladeshi</option>
+      <option value="Asian Chinese">Chinese</option>
+      <option value="Asian Other">Any other Asian background</option>
+    </optgroup>
+    <optgroup label="Black">
+      <option value="Black African">African</option>
+      <option value="Black African American">African American</option>
+      <option value="Black Caribbean">Caribbean</option>
+      <option value="Black Other">Any other Black background</option>
+    </optgroup>
+    <optgroup label="Other ethnic groups">
+      <option value="Arab">Arab</option>
+      <option value="Hispanic">Hispanic</option>
+      <option value="Latino">Latino</option>
+      <option value="Native American">Native American</option>
+      <option value="Pacific Islander">Pacific Islander</option>
+      <option value="Other">Any other ethnic group</option>
+    </optgroup>
+  </select>
+
+ <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+      <style type="text/css">
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+      </style>
+      <div id="mc_embed_signup">
+<div class="clear"><input type="submit" value="That's Me!" name="subscribe" id="mc-embedded-subscribe" class="button"></div></div>
+
+
+
+ <!-- Begin MailChimp Signup Form -->
+      <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+      <style type="text/css">
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+      </style>
+      <div id="mc_embed_signup">
+      <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <div id="mc_embed_signup_scroll">
+        <label for="mce-EMAIL">Subscribe to our mailing list if you want updates on the project!</label>
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab8add36046818c66a55a4f9c_4015afc1f5" tabindex="-1" value=""></div>
+          <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+          </div>
+      </form>
+      </div>  
+      <!--End mc_embed_signup-->
+      
+        You can also help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br> 
         <!-- Sharingbutton Facebook -->
         <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
           <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
@@ -42,8 +132,9 @@
             </div>
           </div>
         </a>    
+      
       </div>
-
+      
       <div id="ayah">
         <div id="progress">
           <div class="progress-bubble complete">1</div>
