@@ -1,10 +1,17 @@
 var audio_context;
 var recorder;
+var audioStream;
 function startUserMedia(stream) {
-  var input = audio_context.createMediaStreamSource(stream);
-  recorder = new Recorder(input);
+  audioStream = stream;
+ var input = audio_context.createMediaStreamSource(audioStream);
+ recorder = new Recorder(input);
+ recorder && recorder.record();
 }
-window.onload = function init() {
+function stopRecording() {
+  recorder.stop();
+  audioStream.getTracks()[0].stop();
+}
+function startRecording() {
   try {
     // webkit shim
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
