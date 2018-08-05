@@ -4,7 +4,7 @@ import quickstart.views
 
 from django.conf.urls import url
 from django.contrib import admin
-from audio.views import get_ayah, index, privacy, sudoku, about
+from audio.views import get_ayah, index, privacy, about
 from django.conf import settings
 from django.conf.urls.static import static
 
