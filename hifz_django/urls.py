@@ -13,6 +13,7 @@ from quickstart.views import AnnotatedRecordingList
 router = routers.DefaultRouter()
 router.register(r'users', quickstart.views.UserViewSet)
 router.register(r'groups', quickstart.views.GroupViewSet)
+router.register(r'demographics', quickstart.views.DemographicInformationViewSet)
 # router.register(r'upload-audio', AnnotatedRecordingView.as_view(), base_name="annotated-recording")
 
 urlpatterns = [

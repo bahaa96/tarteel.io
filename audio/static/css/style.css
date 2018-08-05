@@ -69,6 +69,9 @@ body {
 #thank-you {
   display: none;
 }
+#demographics {
+  display: none;
+}
 
 footer {
   position: fixed;
