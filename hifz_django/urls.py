@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/recordings/', AnnotatedRecordingList.as_view(), name='file-upload'),
     url(r'^privacy/', privacy),
-    url(r'^sudoku/', sudoku),    
 ]
 
 if settings.DEBUG:

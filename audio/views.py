@@ -37,6 +37,3 @@ def index(request):
 
 def privacy(request):
     return render(request, 'audio/privacy.html', {})
-
-def sudoku(request):
-    return render(request, 'audio/sudoku.html', {})
