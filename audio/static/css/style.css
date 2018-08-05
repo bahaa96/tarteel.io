@@ -3,11 +3,29 @@ html {
 }
 #core-text {
   padding: 15px 30px;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 a {
   color:gray;
+}
+
+body {
+  background-color: #F5F4F3
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+}
+
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
 }
 
 #progress {
@@ -36,12 +54,12 @@ a {
   font-size: 28px;
   line-height: 2;
   display: none;
-  color: #9a9e9b;
+  color: black;
 }
 #ayah-loc {
   margin-top: 14px;
   color: black;
-  font-size: 14px;
+  font-size: 18px;
 }
 .info {
   margin-top: 10px;
