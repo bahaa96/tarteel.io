@@ -43,6 +43,7 @@ $("footer").click(function(evt) {
         state = StateEnum.THANK_YOU;
         $("#ayah").hide();
         $("#thank-you").show();
+        $("body").css("background-color","#fff"); // because mailchimp plug-in is on a white background
         $("#start").show();
       } else {
         api.get_ayah(load_ayah_callback);
@@ -52,6 +53,7 @@ $("footer").click(function(evt) {
     state = StateEnum.RECORDING;
     recorder.clear();
     recorder && recorder.record();
+    $("body").css("background-color","#F5F4F3"); // because mailchimp plug-in is on a white background
     $("#mic").show();
     $("#mic").addClass("recording");
     $("#mic span").text("Stop");

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from quickstart.serializers import UserSerializer, GroupSerializer, AnnotatedRecordingSerializer
-from quickstart.models import AnnotatedRecording
+from quickstart.serializers import UserSerializer, GroupSerializer, AnnotatedRecordingSerializer, DemographicInformationSerializer
+from quickstart.models import AnnotatedRecording, DemographicInformation
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,7 +14,7 @@ class AnnotatedRecordingList(APIView):
 	parser_classes = (MultiPartParser, FormParser)
 
 	def get(self, request, format=None):
-	    recordings = AnnotatedRecording.objects.all()
+	    recordings = AnnotatedRecording.objects.all().order_by('-timestamp')
 	    serializer = AnnotatedRecordingSerializer(recordings, many=True)
 	    return Response(serializer.data)
 
@@ -33,6 +33,14 @@ class AnnotatedRecordingList(APIView):
 		except:
 			return Response("Invalid hash or timed out request", status=status.HTTP_400_BAD_REQUEST)
 		return Response(status=status.HTTP_201_CREATED)
+
+
+class DemographicInformationViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows demographic information to be viewed or edited.
+    """
+    queryset = DemographicInformation.objects.all().order_by('-timestamp')
+    serializer_class = DemographicInformationSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
