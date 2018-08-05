@@ -4,7 +4,7 @@ import quickstart.views
 
 from django.conf.urls import url
 from django.contrib import admin
-from audio.views import get_ayah, index, privacy, sudoku
+from audio.views import get_ayah, index, privacy, sudoku, about
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/recordings/', AnnotatedRecordingList.as_view(), name='file-upload'),
     url(r'^privacy/', privacy),
+    url(r'^about/', about),
 ]
 
 if settings.DEBUG:
