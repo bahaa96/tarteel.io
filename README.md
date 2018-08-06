@@ -1,6 +1,6 @@
 # hifz.io
 
-https://tarteel.tarjim.ly/
+https://tarteel.io/
 
 deploy on tarjimly server
 ```
