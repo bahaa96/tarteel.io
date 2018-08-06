@@ -25,7 +25,7 @@ SECRET_KEY = '6tr7m@f*o0kmw(39r2ce%hnm6_%jem&ijju#uy89nw8_@2#()v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['52.37.77.137', 'tarteel.io']
 
 
 # Application definition

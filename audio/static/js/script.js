@@ -28,6 +28,24 @@ function load_ayah_callback(data) {
   }
 }
 
+$("#demographics-form").submit(
+  function() {
+    $.ajax(
+      {
+        type: "POST",
+        url: "/api/demographics/",
+        data: $("#demographics-form").serialize(),
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            $("#demographics-form-div").html("");
+        }
+      }
+    );
+    return false;
+  }
+)
+
 $("footer").click(function(evt) {
   $(".footer-btn").hide();
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
