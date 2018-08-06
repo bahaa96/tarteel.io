@@ -4,7 +4,7 @@
 set -e
 
 REPO=tarteel
-PORT=4444
+PORT=80
 
 # stop and remove existing container
 if [ -n "$(docker ps --all --quiet --filter name=^/${REPO}$)" ]; then
@@ -26,7 +26,7 @@ args+=(
   --volume=${APP_PATH}:/app
   --workdir=/app
   --detach
-  --publish 127.0.0.1:$PORT:8000
+  --publish $PORT:8000
   --env TERM=xterm-256color
   --tty
   python:3
