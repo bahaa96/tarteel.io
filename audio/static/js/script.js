@@ -15,6 +15,7 @@ var recording_data = new Array(AYAHS_PER_SUBISSION);
 function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
+  $("body").css("background-color","#F5F4F3"); // because mailchimp plug-in is on a white background
   $("#ayah").show();
   $("#mic").show();
   $("#mic").removeClass("recording");
