@@ -43,18 +43,23 @@ class DemographicInformationViewList(APIView):
   API endpoint that allows demographic information to be viewed or edited.
   """
   def get(self, request, format=None):
-      recordings = DemographicInformation.objects.all().order_by('-timestamp')
-      serializer = DemographicInformationSerializer(recordings, many=True)
-      return Response(serializer.data)
+    recordings = DemographicInformation.objects.all().order_by('-timestamp')
+    serializer = DemographicInformationSerializer(recordings, many=True)
+    return Response(serializer.data)
 
   def post(self, request, *args, **kwargs):
     session_key = request.session.session_key
     new_entry = DemographicInformationSerializer(data=request.data)
-    new_entry.session_id = session_key
     if not(new_entry.is_valid()):
       raise ValueError("Invalid serializer data")
     try:
-      new_entry.save()
+      new_entry = DemographicInformation.objects.create(
+          session_id=session_key,
+          gender=new_entry.data.get('gender'),
+          age=new_entry.data.get('age'),
+          ethnicity=new_entry.data.get('ethnicity'),
+          country=new_entry.data.get('country')
+          )
     except:
       return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_201_CREATED)
