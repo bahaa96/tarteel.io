@@ -26,18 +26,4 @@ var api = {
     )
   },
 
-  send_demographics: function() {
-    $.ajax(
-      {
-        type: "POST",
-        url: "/api/demographics/",
-        data: $("#demographics-form").serialize(),
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            $("#demographics-form-div").html("");
-        },
-      }
-    )
-  },  
 }

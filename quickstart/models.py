@@ -12,10 +12,10 @@ class AnnotatedRecording(models.Model):
     session_id = models.CharField(max_length=32)
 
 class DemographicInformation(models.Model):
-    session_id = models.CharField(max_length=32)
+    session_id = models.CharField(max_length=32, blank=True)
     platform = models.CharField(max_length=32, default='web')  # this could be used to store different platforms such as android, ios, web if different identificaiton methods are used for each one
     gender = models.CharField(max_length=32)
     age = models.CharField(max_length=32)
-    ethnicity = models.CharField(max_length=32)
-    country = models.CharField(max_length=32)
+    ethnicity = models.CharField(max_length=32, blank=True, null=True)
+    country = models.CharField(max_length=32, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True) 

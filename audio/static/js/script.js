@@ -30,13 +30,13 @@ function load_ayah_callback(data) {
 
 $("#demographics-form").submit(
   function() {
+    console.log($("#demographics-form").serialize());
     $.ajax(
       {
         type: "POST",
         url: "/api/demographics/",
         data: $("#demographics-form").serialize(),
-        processData: false,
-        contentType: false,
+        dataType: "json",
         success: function (data) {
             $("#demographics-form-div").html("");
         }
