@@ -8,12 +8,11 @@ from audio.views import get_ayah, index, privacy, about
 from django.conf import settings
 from django.conf.urls.static import static
 
-from quickstart.views import AnnotatedRecordingList
+from quickstart.views import AnnotatedRecordingList, DemographicInformationViewList
 
 router = routers.DefaultRouter()
 router.register(r'users', quickstart.views.UserViewSet)
 router.register(r'groups', quickstart.views.GroupViewSet)
-router.register(r'demographics', quickstart.views.DemographicInformationViewSet)
 # router.register(r'upload-audio', AnnotatedRecordingView.as_view(), base_name="annotated-recording")
 
 urlpatterns = [
@@ -23,6 +22,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/recordings/', AnnotatedRecordingList.as_view(), name='file-upload'),
+    url(r'^api/demographics/', DemographicInformationViewList.as_view(), name='demographic'),
     url(r'^privacy/', privacy),
     url(r'^about/', about),
 ]

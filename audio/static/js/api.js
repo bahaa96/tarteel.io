@@ -4,7 +4,7 @@ var api = {
       callback.call(this, data);
     })
   },
-  
+
   send_recording: function(audio, surah_num, ayah_num, hash_string) {
     var fd = new FormData();
 
@@ -25,4 +25,19 @@ var api = {
       }
     )
   },
+
+  send_demographics: function() {
+    $.ajax(
+      {
+        type: "POST",
+        url: "/api/demographics/",
+        data: $("#demographics-form").serialize(),
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            $("#demographics-form-div").html("");
+        },
+      }
+    )
+  },  
 }

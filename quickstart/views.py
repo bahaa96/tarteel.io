@@ -21,7 +21,7 @@ class AnnotatedRecordingList(APIView):
       return Response(serializer.data)
 
   def post(self, request, *args, **kwargs):
-    print(request.data)
+    session_key = request.session.session_key
     new_recording = AnnotatedRecordingSerializer(data=request.data)
     if not(new_recording.is_valid()):
       raise ValueError("Invalid serializer data")
@@ -31,18 +31,33 @@ class AnnotatedRecordingList(APIView):
         ayah_num=new_recording.data['ayah_num'],
         surah_num=new_recording.data['surah_num'])
       existing_recording.file = request.data['file']
+      existing_recording.session_id = session_key
       existing_recording.save()
     except:
       return Response("Invalid hash or timed out request", status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_201_CREATED)
 
 
-class DemographicInformationViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows demographic information to be viewed or edited.
-    """
-    queryset = DemographicInformation.objects.all().order_by('-timestamp')
-    serializer_class = DemographicInformationSerializer
+class DemographicInformationViewList(APIView):
+  """
+  API endpoint that allows demographic information to be viewed or edited.
+  """
+  def get(self, request, format=None):
+      recordings = DemographicInformation.objects.all().order_by('-timestamp')
+      serializer = DemographicInformationSerializer(recordings, many=True)
+      return Response(serializer.data)
+
+  def post(self, request, *args, **kwargs):
+    session_key = request.session.session_key
+    new_entry = DemographicInformationSerializer(data=request.data)
+    new_entry.session_id = session_key
+    if not(new_entry.is_valid()):
+      raise ValueError("Invalid serializer data")
+    try:
+      new_entry.save()
+    except:
+      return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_201_CREATED)
 
 
 class UserViewSet(viewsets.ModelViewSet):
