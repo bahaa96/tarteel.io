@@ -323,4 +323,34 @@ background-color: #FF6600
     margin: 5px;
 }
 
+select{
+  background:transparent;
+   width: 170px;
+   padding: 2px;
+   font-family: 'Open Sans', sans-serif;
+   font-size:12px;
+   font-weight:600;
+   color:black;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 32px;
+  -webkit-appearance: none;
+ 
+  }
+
+.select-div{
+  width: 60px;
+  height: 32px;
+  overflow: hidden;
+  background: url(arrowhead.png) no-repeat right grey;
+  -webkit-border-radius: 4px 4px 4px 4px;
+   -moz-border-radius: 4px 4px 4px 4px;
+      border-radius: 4px 4px 4px 4px;
+
+}
+
+select > option {
+  background: grey;
+}
 
