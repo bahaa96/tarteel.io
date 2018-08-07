@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import random
 import datetime
 from django.http import HttpResponse, JsonResponse
-from quickstart.models import AnnotatedRecording
+from quickstart.models import AnnotatedRecording, DemographicInformation
 from django.shortcuts import render
 
 END_OF_FILE = 6236
@@ -39,10 +39,23 @@ def get_ayah(request, line_length=200):
 ############################## static page views ###############################
 ################################################################################
 def index(request):
+    if not request.session.session_key:
+        request.session.create()
+    session_key = request.session.session_key
+
     recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    daily_count = AnnotatedRecording.objects.filter(timestamp__gt=yesterday).exclude(file__isnull=True).count()
-    return render(request, 'audio/index.html', {'recording_count':recording_count, 'daily_count':daily_count})
+    
+    if DemographicInformation.objects.filter(session_id=session_key).exists():
+        ask_for_demographics = False
+    else:
+        ask_for_demographics = True
+
+    daily_count = AnnotatedRecording.objects.filter(
+        timestamp__gt=yesterday).exclude(file__isnull=True).count()
+
+    return render(request, 'audio/index.html', {'recording_count':recording_count, 
+        'daily_count':daily_count, 'ask_for_demographics':ask_for_demographics})
 
 def about(request):
     return render(request, 'audio/about.html', {})
