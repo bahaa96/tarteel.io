@@ -5,7 +5,7 @@ from quickstart.models import AnnotatedRecording, DemographicInformation
 class AnnotatedRecordingSerializer(serializers.ModelSerializer):
   class Meta():
     model = AnnotatedRecording
-    fields = ('file', 'hash_string', 'surah_num', 'ayah_num', 'timestamp')
+    fields = ('file', 'hash_string', 'surah_num', 'ayah_num', 'timestamp', 'session_id')
 
 class DemographicInformationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta():
