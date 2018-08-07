@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['52.37.77.137', '.tarteel.io', 'localhost', '172.31.22.119', '5
 
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
