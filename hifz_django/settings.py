@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['52.37.77.137', '.tarteel.io', 'localhost', '172.31.22.119', '54.187.2.185']
 
-
+SECURE_SSL_REDIRECT = True
 # Application definition
 
 INSTALLED_APPS = [
