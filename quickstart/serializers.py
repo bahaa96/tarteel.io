@@ -2,7 +2,12 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from quickstart.models import AnnotatedRecording, DemographicInformation
 
-class AnnotatedRecordingSerializer(serializers.ModelSerializer):
+class AnnotatedRecordingSerializerPost(serializers.ModelSerializer):
+  class Meta():
+    model = AnnotatedRecording
+    fields = ('file', 'hash_string', 'surah_num', 'ayah_num', 'timestamp')
+
+class AnnotatedRecordingSerializerGet(serializers.ModelSerializer):
   class Meta():
     model = AnnotatedRecording
     fields = ('file', 'hash_string', 'surah_num', 'ayah_num', 'timestamp', 'session_id')

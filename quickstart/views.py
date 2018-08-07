@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from rest_framework import viewsets
-from quickstart.serializers import UserSerializer, GroupSerializer, AnnotatedRecordingSerializer, DemographicInformationSerializer
+from quickstart.serializers import UserSerializer, GroupSerializer, AnnotatedRecordingSerializerPost, AnnotatedRecordingSerializerGet, DemographicInformationSerializer
 from quickstart.models import AnnotatedRecording, DemographicInformation
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -12,17 +12,16 @@ from rest_framework.decorators import api_view
 
 
 class AnnotatedRecordingList(APIView):
-
   parser_classes = (MultiPartParser, FormParser)
 
   def get(self, request, format=None):
       recordings = AnnotatedRecording.objects.all().order_by('-timestamp')
-      serializer = AnnotatedRecordingSerializer(recordings, many=True)
+      serializer = AnnotatedRecordingSerializerGet(recordings, many=True)
       return Response(serializer.data)
 
   def post(self, request, *args, **kwargs):
     session_key = request.session.session_key
-    new_recording = AnnotatedRecordingSerializer(data=request.data)
+    new_recording = AnnotatedRecordingSerializerPost(data=request.data)
     if not(new_recording.is_valid()):
       raise ValueError("Invalid serializer data")
     try:
