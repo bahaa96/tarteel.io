@@ -31,7 +31,6 @@ function load_ayah_callback(data) {
 
 $("#demographics-form").submit(
   function() {
-    console.log($("#demographics-form").serialize());
     $.ajax(
       {
         type: "POST",
@@ -47,6 +46,13 @@ $("#demographics-form").submit(
   }
 )
 
+function targetHasId(target, id) {
+  if ($(target).parents("#"+id).length || $(target).attr('id') == id) {
+    return true
+  }
+  return false
+}
+
 $("footer").click(function(evt) {
   $(".footer-btn").hide();
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
@@ -55,13 +61,14 @@ $("footer").click(function(evt) {
     $("#start").hide();
     $(".complete").removeClass("complete");
     api.get_ayah(load_ayah_callback);
-  } else if (state == StateEnum.COMMIT_DECISION &&
-    $(evt.target).parents("#submit").length) {
+  } else if (targetHasId(evt.target, "submit")) {
       session_count += 1;
       if (session_count % AYAHS_PER_SUBISSION == 0) {
         for (var i = 0; i < recording_data.length; i++) {
           var record = recording_data[i];
-          api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+          if (record) {
+            api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+          }
         }
         state = StateEnum.THANK_YOU;
         $("#ayah").hide();
@@ -72,22 +79,24 @@ $("footer").click(function(evt) {
         api.get_ayah(load_ayah_callback);
       }
   } else if (state == StateEnum.AYAH_LOADED ||
-      (state == StateEnum.COMMIT_DECISION && $(evt.target).parents("#retry").length)) {
+      (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
     startRecording()
     state = StateEnum.RECORDING;
     $("#mic").show();
     $("#mic").addClass("recording");
     $("#mic span").text("Stop");
   } else if (state == StateEnum.RECORDING) {
-    recorder.exportWAV(function(blob) {
-      recording_data[session_count % AYAHS_PER_SUBISSION] = {
-        surah_num: ayah_data.surah,
-        ayah_num: ayah_data.ayah,
-        hash_string: session_id,
-        audio: blob
-      }
-    })
-    stopRecording()
+    if (recorder) {
+      recorder.exportWAV(function(blob) {
+        recording_data[session_count % AYAHS_PER_SUBISSION] = {
+          surah_num: ayah_data.surah,
+          ayah_num: ayah_data.ayah,
+          hash_string: session_id,
+          audio: blob
+        }
+      })
+      stopRecording()
+    }
     state = StateEnum.COMMIT_DECISION;
     $(".review").show();
   }
