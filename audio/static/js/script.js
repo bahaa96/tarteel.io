@@ -39,6 +39,7 @@ $("#demographics-form").submit(
         dataType: "json",
         success: function (data) {
             $("#demographics-form-div").html("");
+            $("#one-more").html("");
         }
       }
     );
