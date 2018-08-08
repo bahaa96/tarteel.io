@@ -8,6 +8,11 @@ function startUserMedia(stream) {
  recorder && recorder.record();
 }
 function stopRecording() {
+  recorder.exportWAV(function(blob) {
+    var a = new FileReader();
+    a.onload = function(e) {console.log(e.target.result);}
+    a.readAsDataURL(blob);
+  });
   recorder.stop();
   audioStream.getTracks()[0].stop();
 }
