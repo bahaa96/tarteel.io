@@ -1,14 +1,25 @@
 var audio_context;
 var recorder;
 var audioStream;
+let meter;
+
+function drawLoop(time) {
+  $("#mic").css("transform", `scale(${ 1 + Number(parseFloat(meter.volume).toFixed(2)) })`)
+  rafID = window.requestAnimationFrame( drawLoop );
+}
+
 function startUserMedia(stream) {
   audioStream = stream;
  var input = audio_context.createMediaStreamSource(audioStream);
+  meter = createAudioMeter(audio_context);
+  input.connect(meter);
+  drawLoop();
  recorder = new Recorder(input);
  recorder && recorder.record();
 }
 function stopRecording() {
   recorder.stop();
+  meter.shutdown();
   audioStream.getTracks()[0].stop();
 }
 function startRecording() {
