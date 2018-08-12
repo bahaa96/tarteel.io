@@ -397,7 +397,7 @@
           <div class="progress-bubble">4</div>
           <div class="progress-bubble">5</div>
         </div>
-        <div class="card">
+        <div class="ayah-container">
           <span id="ayah-text"></span>
           <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
         </div>
@@ -405,26 +405,25 @@
     </div>
     <div class="anti-footer"></div>
     <footer>
-      <div class="footer-btn" id="start">
+      <div class="footer-btn " id="start" >
         <span>Start</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 1 20 22"><path d="M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"/></svg>
+        <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 1 20 22"><path d="M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"/></svg>-->
       </div>
-      <div class="footer-btn" id="mic">
-        <span>Record</span>
+      <div class="recording-btn" id="mic">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
       </div>
-      <div class="footer-btn review" id="submit">
-        <span>Submit</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 1 20 22"><path d="M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"/></svg>
-      </div>
-      <div class="footer-btn review" id="retry">
-        <span>Retry</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79
+      <div class="review">
+        <div class="footer-btn" id="submit">
+          <span>Submit</span>
+        </div>
+        <div class="recording-btn " id="retry">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79
           C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0
           c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71
           c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79
           c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95
           C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
+        </div>
       </div>
     </footer>
     <script src="{% static 'js/jquery-1.8.1.js' %}"></script>
@@ -432,6 +431,7 @@
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder_object.js' %}"></script>
     <script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'js/volume-meter.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
