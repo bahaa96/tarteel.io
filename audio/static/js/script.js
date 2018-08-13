@@ -122,5 +122,5 @@ $('.dropdown').click(function () {
         $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
     });
 
-// const isMobile = new MobileDetect(window.navigator.userAgent);
-// if(isMobile.os()) $(".mobile-app").show()
+const isMobile = new MobileDetect(window.navigator.userAgent);
+if(isMobile.os()) $(".mobile-app").show()
