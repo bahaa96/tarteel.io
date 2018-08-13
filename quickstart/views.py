@@ -20,7 +20,7 @@ class AnnotatedRecordingList(APIView):
       return Response(serializer.data)
 
   def post(self, request, *args, **kwargs):
-    session_key = request.session.session_key
+    session_key = request.session.session_key or request.data["session_id"]
     new_recording = AnnotatedRecordingSerializerPost(data=request.data)
     if not(new_recording.is_valid()):
       raise ValueError("Invalid serializer data")
@@ -47,7 +47,7 @@ class DemographicInformationViewList(APIView):
     return Response(serializer.data)
 
   def post(self, request, *args, **kwargs):
-    session_key = request.session.session_key
+    session_key = request.session.session_key or request.data["session_id"]
     new_entry = DemographicInformationSerializer(data=request.data)
     if not(new_entry.is_valid()):
       raise ValueError("Invalid serializer data")
@@ -58,7 +58,7 @@ class DemographicInformationViewList(APIView):
           age=new_entry.data.get('age'),
           ethnicity=new_entry.data.get('ethnicity'),
           country=new_entry.data.get('country')
-          )
+        )
     except:
       return Response("Invalid request", status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_201_CREATED)
@@ -79,3 +79,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+
+class RecordingsCount(APIView):
+    """
+    API endpoint that gets the total count of the recording files 
+    """
+
+    def get(self, request, format=None):
+        recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
+
+        return Response({"count": recording_count})

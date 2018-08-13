@@ -15,9 +15,9 @@ var recording_data = new Array(AYAHS_PER_SUBISSION);
 function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
-  $("body").css("background-color","#F5F4F3"); // because mailchimp plug-in is on a white background
   $("#ayah").show();
   $("#mic").show();
+  $("footer").css("height", "250px");
   $("#mic").removeClass("recording");
   $("#mic span").text("Record");
   $("#ayah-text").text(data.line);
@@ -55,7 +55,7 @@ function targetHasId(target, id) {
 }
 
 $("footer").click(function(evt) {
-  $(".footer-btn").hide();
+  $("#start").hide();
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
     recording_data = new Array(AYAHS_PER_SUBISSION);
     $(".info").hide();
@@ -74,18 +74,20 @@ $("footer").click(function(evt) {
         state = StateEnum.THANK_YOU;
         $("#ayah").hide();
         $("#thank-you").show();
-        $("body").css("background-color","#fff"); // because mailchimp plug-in is on a white background
+        $(".review").hide()
+        $("footer").css({"height": "120px", "position": "relative"});
         $("#start").show();
       } else {
+        $(".review").hide();
         api.get_ayah(load_ayah_callback);
       }
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
     startRecording()
     state = StateEnum.RECORDING;
+    $(".review").hide();
     $("#mic").show();
     $("#mic").addClass("recording");
-    $("#mic span").text("Stop");
   } else if (state == StateEnum.RECORDING) {
     if (recorder) {
       recorder.exportWAV(function(blob) {
@@ -99,7 +101,8 @@ $("footer").click(function(evt) {
       stopRecording()
     }
     state = StateEnum.COMMIT_DECISION;
-    $(".review").show();
+    $(".review").css("display", "flex");
+    $("#mic").hide();
   }
 });
 

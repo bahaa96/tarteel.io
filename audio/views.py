@@ -5,6 +5,7 @@ import datetime
 from django.http import HttpResponse, JsonResponse
 from quickstart.models import AnnotatedRecording, DemographicInformation
 from django.shortcuts import render
+import io
 
 END_OF_FILE = 6236
 
@@ -17,7 +18,7 @@ def get_ayah(request, line_length=200):
     session_key = request.session.session_key
 
     # Get random line
-    with open('quran-simple.txt', 'r', encoding='utf-8') as f:
+    with io.open('quran-simple.txt', 'r', encoding='utf-8') as f:
         lines = [line for line in f.readlines()[0:END_OF_FILE] if len(line) < line_length]
         f.close()
     random_line = random.choice(lines).split('|')
