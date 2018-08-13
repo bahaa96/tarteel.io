@@ -12,14 +12,15 @@ var session_count = 0;
 var ayah_data;
 var recording_data = new Array(AYAHS_PER_SUBISSION);
 
+window.mySwipe = new Swipe(document.getElementById('slider'), {
+  disableScroll: true,
+});
+
+
 function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
-  $("#ayah").show();
-  $("#mic").show();
-  $("footer").css("height", "250px");
   $("#mic").removeClass("recording");
-  $("#mic span").text("Record");
   $("#ayah-text").text(data.line);
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
@@ -54,13 +55,13 @@ function targetHasId(target, id) {
   return false
 }
 
-$("footer").click(function(evt) {
-  $("#start").hide();
+$("footer .btn").click(function(evt) {
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
     recording_data = new Array(AYAHS_PER_SUBISSION);
-    $(".info").hide();
-    $("#start").hide();
+    window.mySwipe.slide(1)
     $(".complete").removeClass("complete");
+    $("#ayah").show();
+    $("#mic").show();
     api.get_ayah(load_ayah_callback);
   } else if (targetHasId(evt.target, "submit")) {
       session_count += 1;
@@ -72,13 +73,13 @@ $("footer").click(function(evt) {
           }
         }
         state = StateEnum.THANK_YOU;
+        window.mySwipe.next()
         $("#ayah").hide();
         $("#thank-you").show();
         $(".review").hide()
-        $("footer").css({"height": "120px", "position": "relative"});
-        $("#start").show();
       } else {
         $(".review").hide();
+        $("#mic").show()
         api.get_ayah(load_ayah_callback);
       }
   } else if (state == StateEnum.AYAH_LOADED ||
@@ -102,6 +103,7 @@ $("footer").click(function(evt) {
     }
     state = StateEnum.COMMIT_DECISION;
     $(".review").css("display", "flex");
+    $("#mic").removeClass("recording");
     $("#mic").hide();
   }
 });
@@ -119,3 +121,6 @@ $('.dropdown').click(function () {
         $(this).parents('.dropdown').find('span').text($(this).text());
         $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
     });
+
+// const isMobile = new MobileDetect(window.navigator.userAgent);
+// if(isMobile.os()) $(".mobile-app").show()

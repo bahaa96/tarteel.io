@@ -2,7 +2,9 @@
   font-family: GeezaPro;
   src: url(../fonts/Geeza-Pro.ttf);
 }
-
+* {
+  outline: 0;
+}
 /*Styling Selectbox*/
 .dropdown {
   width: 300px;
@@ -15,7 +17,6 @@
   font-size: 14px;
   color: #474747;
   margin: 7px;
-  /*height: 100%;*/
   text-align: left
 }
 .dropdown .select {
@@ -81,8 +82,8 @@ html {
 }
 #core-text {
   padding: 15px 30px;
-  margin-bottom: 20px;
-  /*text-align: center;*/
+  justify-content: center;
+  display: flex;
 }
 
 a {
@@ -94,10 +95,9 @@ body {
 }
 
 .ayah-container {
-    /* Add shadows to create the "card" effect */
     text-align: center;
     padding: 10px;
-    background-color: #fff;
+    margin-top: 50px;
 }
 #ayah-text {
   font-family: GeezaPro;
@@ -134,7 +134,6 @@ body {
 #ayah {
   font-size: 28px;
   line-height: 2;
-  display: none;
   color: black;
 }
 #ayah-loc {
@@ -142,9 +141,16 @@ body {
   color: #9fa1a8;
   font-size: 18px;
 }
+.navbar {
+  text-align: center;
+}
+.logo-img {
+  height: 10em;
+  width: 10em;
+}
 .info {
   margin-top: 10px;
-  font-size: 18px;
+  font-size: 16px;
   color: #7a7e7b;
 }
 .info h3, .info strong, .info b {
@@ -153,15 +159,58 @@ body {
 #thank-you {
   display: none;
 }
+@media screen and (max-width: 650px){
+  #ayah {
+    font-size: 20px;
+  }
+  #thank-you {
+    padding: 0 2em;
+    text-align: center
+  }
+}
 #demographics {
   display: none;
 }
-
-footer {
-  position: fixed;
-  left: 0;
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+  height: 100% !important;
+}
+.swipe-wrap > div {
+  float:left;
+  width:100%;
+  position: relative;
+}
+.screen1 {
+  height: 100%;
+  overflow-y: auto;
+}
+.screen2 {
+  height: 100%;
+}
+.screen2 footer {
+  height: 250px;
+  position: absolute;
   bottom: 0;
-  height: 120px;
+  left: 0;
+}
+.screen3 {
+  height: 100%;
+  overflow-y: auto;
+}
+.screen3 .content {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  min-height: 100%;
+}
+footer {
+  height: 100px;
   width: 100%;
   color: white;
   display: flex;
@@ -180,7 +229,7 @@ footer {
 .review #submit {
   margin-top: 50px;
 }
-.review, #mic {
+.review {
   display: none;
 }
 .footer-btn {
@@ -200,7 +249,6 @@ footer {
 .footer-btn svg, .recording-btn svg {
   height: 100%;
   width: 100%;
-  fill-opacity: 0.7;
   fill: #FFFFFF;
   bottom: -10px;
   position: relative;
@@ -218,7 +266,39 @@ footer {
 #retry {
   background-color: #19213b;
 }
+#mc_embed_signup .button {
+  background: #00F260;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right bottom, #00F260, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right bottom, #00F260, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+}
+.mobile-app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 1em 0;
+  color: #fff;
+  background: #0F2027;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: none;
+}
+.mobile-app .close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+.mobile-app a {
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  padding: 7px 10px;
+  display: inline-block;
+  margin: 0 5px;
+}
 @keyframes ani {
   0% {
     background-color: #bf9999;
