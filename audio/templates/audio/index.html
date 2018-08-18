@@ -3,11 +3,12 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="{% static 'css/swiper-style.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
 
-
+    <title>Tarteel</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123499302-1"></script>
     <script>
@@ -20,30 +21,73 @@
 
   </head>
   <body style="max-width: 600px; margin: auto">
-    <div id="core-text">
-      <div class="info" id="start-text">
-        <h3> Salaam! </h3>
+  <div id='slider' class='swipe'>
+    <div class='swipe-wrap'>
+      <div class="screen1">
+        <div class="navbar">
+          <img src="../../static/img/Logo3x.png" alt="Tarteel-logo" class="logo-img">
+        </div>
+        <div id="core-text">
+          <div class="info" id="start-text">
+            <h3> Salaam! </h3>
 
 
-        Welcome to the <a href="/about">Tarteel 10,000 Challenge</a>! Thank you for helping us build the world's first public, open-source dataset of Quran recitations by ordinary people, like you and me. 
-        <h3> How it works </h3>
-        This app will provide you with <b>5 random verses</b> to recite. Once given the ayah, you will record your recitation of it. These recitations <a href="/privacy">will be released</a> as an open-source initiative to encourage machine learning applications based on recitations of the Quran.
-        <br><br> Click <strong>START</strong> below to get started!
+            Welcome to the <a href="/about">Tarteel 10,000 Challenge</a>! Thank you for helping us build the world's first public, open-source dataset of Quran recitations by ordinary people, like you and me.
+            <h3> How it works </h3>
+            This app will provide you with <b>5 random verses</b> to recite. Once given the ayah, you will record your recitation of it. These recitations <a href="/privacy">will be released</a> as an open-source initiative to encourage machine learning applications based on recitations of the Quran.
+            <br><br> Click <strong>START</strong> below to get started!
+          </div>
+        </div>
+        <footer>
+          <div class="footer-btn btn" id="start" >
+            <span>Start</span>
+          </div>
+        </footer>
       </div>
-      <div class="info" id="thank-you">
+      <div class="screen2">
+        <div id="ayah">
+          <div id="progress">
+            <div class="progress-bubble complete">1</div>
+            <div class="progress-bubble">2</div>
+            <div class="progress-bubble">3</div>
+            <div class="progress-bubble">4</div>
+            <div class="progress-bubble">5</div>
+          </div>
+          <div class="ayah-container">
+            <span id="ayah-text"></span>
+            <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
+          </div>
+        </div>
+        <footer>
+          <div class="recording-btn btn" id="mic">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          </div>
+          <div class="review">
+            <div class="footer-btn btn" id="submit">
+              <span>Submit</span>
+            </div>
+            <div class="recording-btn btn" id="retry">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <div class="screen3">
+        <div class="content">
+          <div class="info" id="thank-you">
 
-        {%if ask_for_demographics%}
+            {%if ask_for_demographics%}
 
-        <h3> Thank you! <span id="one-more">One more thing... </span></h3>  
-        <div id='demographics-form-div'>
-        With your help, we have reached a total of <strong>{{recording_count}}</strong> recordings. That's great, but at Tarteel, we're also committed to making sure that our recordings reflect recitations by both women and men and from the different ethnicities and ages that make up the Muslim <i>ummah</i>.       
-        <br><br>
-          <form id='demographics-form' >
-        Help us assess how well we're doing by telling us a little bit about yourself... 
-        <br><br>
+            <h3> Thank you! <span id="one-more">One more thing... </span></h3>
+            <div id='demographics-form-div'>
+              With your help, we have reached a total of <strong>{{recording_count}}</strong> recordings. That's great, but at Tarteel, we're also committed to making sure that our recordings reflect recitations by both women and men and from the different ethnicities and ages that make up the Muslim <i>ummah</i>.
+              <br><br>
+              <form id='demographics-form' >
+                Help us assess how well we're doing by telling us a little bit about yourself...
+                <br><br>
 
-        <div style="text-align:center">
-        <span class="container">          
+                <div style="text-align:center; margin: 0 -40px;">
+        <span class="dropdown-container">
               <div class="dropdown" style="width:80px">
                 <div class="select">
                   <span>Gender</span>
@@ -56,11 +100,11 @@
                   <li id="other">Other</li>
                 </ul>
               </div>
-          
+
           <span class="msg"></span>
         </span>
 
-        <span class="container">          
+                  <span class="dropdown-container">
               <div class="dropdown" style="width:80px">
                 <div class="select">
                   <span>Age</span>
@@ -75,11 +119,11 @@
                   <li id="46">46-55</li>
                   <li id="56">56+</li>
                 </ul>
-              </div>          
+              </div>
           <span class="msg"></span>
-        </span>       
+        </span>
 
-        <span class="container">          
+                  <span class="dropdown-container">
               <div class="dropdown" style="width:100px">
                 <div class="select">
                   <span>Heritage</span>
@@ -317,121 +361,102 @@
                   <li id="ZW">Zimbabwe</li>
                   <li id="Other">Other</li>
                 </ul>
-              </div>          
+              </div>
           <span class="msg"></span>
-        </span>       
+        </span>
 
-        </div>
+                </div>
 
 
-  
-<br>
- <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-      <style type="text/css">
-        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-      </style>
-      <div id="mc_embed_signup" style="text-align:center">
-<div class="clear"><input type="submit" value="That's Me!" id="submit-demographic" class="button"></div></div>
-</form>
-      </div>
 
-      {%else%}
-      <h3> Thank you! </h3>  
-      <i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.
-      {%endif%}
-
- <!-- Begin MailChimp Signup Form -->
-      <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-      <style type="text/css">
-        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-        /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-      </style>
-      <div id="mc_embed_signup">
-      <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-          <div id="mc_embed_signup_scroll">
-        <label for="mce-EMAIL">Subscribe if you want updates on Tarteel!</label>
-        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab8add36046818c66a55a4f9c_4015afc1f5" tabindex="-1" value=""></div>
-          <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-          </div>
-      </form>
-      </div> 
-      <!--End mc_embed_signup-->
-
-      <br>
-      Continue recording by clicking START below!
-
-<!--         You can also help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br> 
-        <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-          <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+                <br>
+                <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+                <style type="text/css">
+                  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+                  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+                     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                </style>
+                <div id="mc_embed_signup" style="text-align:center">
+                  <div class="clear"><input type="submit" value="That's Me!" id="submit-demographic" class="button"></div></div>
+              </form>
             </div>
-          </div>
-        </a>
 
-        <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-          <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-            </div>
-          </div>
-        </a>
+            {%else%}
+            <h3 style="text-align: center; font-size: 2em"> Thank you! </h3>
+            <i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.
+            {%endif%}
 
-        <a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F&amp;title=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;summary=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;source=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-          <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+            <!-- Begin MailChimp Signup Form -->
+            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+            <style type="text/css">
+              #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+              /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+                 We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+            </style>
+            <div id="mc_embed_signup">
+              <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                <div id="mc_embed_signup_scroll">
+                  <label for="mce-EMAIL">Subscribe if you want updates on Tarteel!</label>
+                  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                  <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                  <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab8add36046818c66a55a4f9c_4015afc1f5" tabindex="-1" value=""></div>
+                  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                </div>
+              </form>
             </div>
+            <!--End mc_embed_signup-->
+
+            <br>
+            <p style="text-align: center">Continue recording by clicking START below!</p>
+
+            <!--         You can also help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br>
+                    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+
+                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+
+                    <a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F&amp;title=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;summary=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;source=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+             -->
           </div>
-        </a>    
- -->      
-      </div>
-      
-      <div id="ayah">
-        <div id="progress">
-          <div class="progress-bubble complete">1</div>
-          <div class="progress-bubble">2</div>
-          <div class="progress-bubble">3</div>
-          <div class="progress-bubble">4</div>
-          <div class="progress-bubble">5</div>
-        </div>
-        <div class="ayah-container">
-          <span id="ayah-text"></span>
-          <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
+          <footer>
+            <div class="footer-btn btn" id="start" >
+              <span>Start</span>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
-    <div class="anti-footer"></div>
-    <footer>
-      <div class="footer-btn " id="start" >
-        <span>Start</span>
-        <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 1 20 22"><path d="M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"/></svg>-->
-      </div>
-      <div class="recording-btn" id="mic">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-      </div>
-      <div class="review">
-        <div class="footer-btn" id="submit">
-          <span>Submit</span>
-        </div>
-        <div class="recording-btn " id="retry">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79
-          C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0
-          c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71
-          c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79
-          c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95
-          C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
-        </div>
-      </div>
-    </footer>
+  </div>
+
+    <div class="mobile-app">
+      <span class="close" onclick="this.parentNode.remove()">&#10006;</span>
+      <p>Get a better experience on mobile!</p>
+      <a href="http://bit.ly/2Owlhio">Android</a>
+      <a href="">IOS</a>
+    </div>
+
     <script src="{% static 'js/jquery-1.8.1.js' %}"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder_object.js' %}"></script>
     <script src="{% static 'js/api.js' %}"></script>
     <script src="{% static 'js/volume-meter.js' %}"></script>
+    <script src="{% static 'js/swipe.js' %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
