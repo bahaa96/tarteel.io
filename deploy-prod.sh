@@ -28,6 +28,7 @@ args+=(
   --detach
   --publish $PORT:8000
   --env TERM=xterm-256color
+  --env ENV=development
   --tty
   python:3
   /bin/sh -c "pip3 install -r requirements.txt && ./manage.py makemigrations && ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"
