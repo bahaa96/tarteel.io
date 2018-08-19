@@ -86,6 +86,6 @@ class RecordingsCount(APIView):
     """
 
     def get(self, request, format=None):
-        recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
+        recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
 
         return Response({"count": recording_count})
