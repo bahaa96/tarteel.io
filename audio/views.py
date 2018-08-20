@@ -6,10 +6,13 @@ from django.http import HttpResponse, JsonResponse
 from quickstart.models import AnnotatedRecording, DemographicInformation
 from django.shortcuts import render
 import io
+import json
+from rest_framework.decorators import api_view
 
 END_OF_FILE = 6236
 
 # get_ayah gets the surah num, ayah num, and text of a random ayah of a specified maximum length
+@api_view(['GET', 'POST'])
 def get_ayah(request, line_length=200):
 
     # user tracking - ensure there is always a session key
@@ -18,15 +21,14 @@ def get_ayah(request, line_length=200):
     session_key = request.session.session_key
 
     # Get random line
-    with io.open('quran-simple.txt', 'r', encoding='utf-8') as f:
-        lines = [line for line in f.readlines()[0:END_OF_FILE] if len(line) < line_length]
+    with io.open('data.json', 'r', encoding='utf-8') as f:
+        lines = json.load(f)
         f.close()
-    random_line = random.choice(lines).split('|')
 
     # Parse line and add hash
-    surah = random_line[0]
-    ayah = random_line[1]
-    line = random_line[2]
+    surah = request.data['surah'] if request.method == 'POST' else str(random.randint(1, 114))
+    ayah = request.data['ayah'] if request.method == 'POST' else str(random.randint(1, len(lines[surah].keys())))
+    line = lines[surah][ayah]
     hash = random.getrandbits(32)
 
     # Format as json, and save row in DB
