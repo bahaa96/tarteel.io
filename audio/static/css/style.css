@@ -5,6 +5,21 @@
 * {
   outline: 0;
 }
+@font-face {
+  font-family: 'surah_names';
+  src: url('../fonts/surah_names/surah_names.eot?yg3f94');
+  src: url('../fonts/surah_names/surah_names.eot?yg3f94#iefix')
+  format('embedded-opentype'),
+  url('../fonts/surah_names/surah_names.ttf?yg3f94')
+  format('truetype'),
+  url('../fonts/surah_names/surah_names.woff?yg3f94')
+  format('woff'),
+  url('../fonts/surah_names/surah_names.svg?yg3f94#surah_names')
+  format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /*Styling Selectbox*/
 .dropdown {
   width: 300px;
@@ -130,9 +145,47 @@ body {
   border-color: #5ec49e;
   color: white;
 }
-
+.navbar {
+  /*display: flex;*/
+  margin-top: 5px;
+  flex-flow: row;
+  justify-content: space-between;
+  height: 50px;
+  display: none;
+}
+.navbar .logo {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.navbar .logo img {
+  height: 100%;
+  width: 100%;
+}
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.navbar ul li {
+  display: inline-block;
+  font-size: 14px;
+  color: #393e4e;
+  height: 100%;
+  padding: 15px 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.navbar a {
+  text-decoration: none;
+  transition: 0.25s;
+}
+.navbar ul li a:hover {
+  color: #2ca4ab;
+}
 #ayah {
-  font-size: 28px;
+  font-size: 22px;
   line-height: 2;
   color: black;
 }
@@ -141,7 +194,12 @@ body {
   color: #9fa1a8;
   font-size: 18px;
 }
-.navbar {
+.ayah-container .change-ayah {
+  color: #9fa1a8;
+  font-size: 10px;
+  cursor: pointer;
+}
+.banner {
   text-align: center;
 }
 .logo-img {
@@ -156,8 +214,11 @@ body {
 .info h3, .info strong, .info b {
   color: #485364;
 }
-#thank-you {
-  display: none;
+.screen4 h3, .screen4 label, .screen4 strong {
+  color: #393e4e;
+}
+.screen4 .footer-btn span {
+  text-transform: none !important;
 }
 @media screen and (max-width: 650px){
   #ayah {
@@ -180,6 +241,8 @@ body {
   overflow: hidden;
   position: relative;
   height: 100% !important;
+  display: flex;
+  align-items: center;
 }
 .swipe-wrap > div {
   float:left;
@@ -210,6 +273,100 @@ body {
   flex-flow: column;
   min-height: 100%;
 }
+.screen5 .content, .screen6 .content {
+  text-align: center;
+}
+.screen5 .content .title h3, .screen6 .content .title h3 {
+  font-weight: 100;
+}
+.screen5 .content form .input-wrapper input, .screen6 .content form .input-wrapper input {
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  padding: 10px;
+  width: 300px;
+  font-size: 14px;
+  transition: 0.25s;
+  text-align: center;
+}
+.screen5 .content form input:focus, .screen5 .content form input:hover,
+.screen6 .content form input:focus, .screen6 .content form input:hover {
+  border: 1px solid #2ca4ab;
+}
+.screen5 .content ul, .screen6 .content ul {
+  list-style-type: none;
+  height: 70%;
+  overflow-y: auto;
+}
+.screen5 .content ul li {
+  display: flex;
+  flex-flow: row;
+  cursor: pointer;
+  padding: 0 1em;
+  line-height: 35px;
+}
+.screen5 .content ul li:hover, .screen6 .content ul li:hover {
+  background: #F1F1F1;
+}
+.screen5 .content ul li:hover p, .screen6 .content ul li:hover p {
+  color: #2ca4ab;
+}
+.screen5 .content ul li .number, .screen6 .content ul li .number {
+  color: #848484;
+}
+.screen5 .content ul li .text {
+  flex: 1;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  margin-left: 2em;
+}
+.screen5 .content ul li .text p {
+  color: #2ca4ab;
+  font-size: 12pt;
+  font-weight: 600;
+}
+.screen5 .content ul li p.arabic {
+  font-family: 'surah_names' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 25px;
+  float: right;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2ca4ab;
+}
+.screen6 .content ul li {
+  color: #485364;
+  font-size: 16pt;
+  padding: 1em;
+  line-height: 35px;
+  transition: 0.25s;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row-reverse;
+}
+.screen6 .content ul li p {
+  line-height: 35px;
+  margin: 0;
+  transition: 0.25s;
+  direction: rtl;
+}
+.screen6 .content ul li p.text{
+  flex: 1;
+}
+.screen6 .back button{
+  background: transparent;
+  border: 0;
+  padding: 1em;
+  color: #2ca4ab;
+}
+
 footer {
   height: 100px;
   width: 100%;
@@ -228,13 +385,13 @@ footer {
   align-items: center;
 }
 .review #submit {
-  margin-top: 50px;
+  margin-top: 35px;
 }
 .review {
   display: none;
 }
 .footer-btn {
-  padding: 10px 3em;
+  padding: 8px 3em;
   background-color: #5ec49e;
   border-radius: 23px;
   display: inline;
@@ -251,12 +408,12 @@ footer {
   height: 85%;
   width: 85%;
   fill: #FFFFFF;
-  bottom: -12px;
+  bottom: -9px;
   position: relative;
 }
 .recording-btn {
-  height: 65px;
-  width: 65px;
+  height: 50px;
+  width: 50px;
   background-color: #5ec49e;
   border-radius: 50%;
   cursor: pointer;
@@ -266,6 +423,23 @@ footer {
 }
 #retry {
   background-color: #19213b;
+}
+.note-buttons {
+  position: absolute;
+  bottom: 2em;
+  display: flex;
+  justify-content: center;
+}
+.note-buttons button {
+  color: #a5aab2;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: none;
+  margin: 0 2em;
+}
+.note-buttons button.previous {
+  margin-right: 5em;
 }
 #mc_embed_signup .button {
   background-color: #5EC49E !important;
@@ -296,6 +470,66 @@ footer {
   padding: 7px 10px;
   display: inline-block;
   margin: 0 5px;
+}
+.mobile-app-banner {
+  height: 15em;
+  width: 15em;
+  margin: auto;
+}
+.mobile-app-banner img {
+  height: 100%;
+  width: 100%;
+}
+.mobile-page-text {
+  text-align: center;
+  font-size: 18pt;
+  color: #485364;
+  margin: 3em 0;
+}
+.mobile-buttons {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.mobile-buttons a {
+  text-decoration: none;
+  border: 2px solid #2ca4ab;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 1em;
+  color: #2ca4ab;
+  font-size: 14pt;
+  font-weight: 500;
+  width: 100px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.mobile-buttons a p {
+  margin: 0;
+  line-height: 28px;
+}
+.mobile-buttons a img {
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
+}
+.about_us_page_ayah_count {
+  text-align: center;
+}
+.about_us_page_ayah_count h3 {
+  font-size: 20pt;
+  margin-bottom: 0;
+}
+.about_us_page_ayah_count p {
+  margin-top: 5px;
+}
+.about_us_page_recited {
+  text-align: center;
+  margin-top: 3em;
+}
+.about-page {
+  padding: 2em 0 8em 0 !important;
 }
 @keyframes ani {
   0% {
@@ -526,3 +760,17 @@ select > option {
   background: grey;
 }
 
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 23px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #2ca4ab;
+  outline: 1px solid slategrey;
+  border-radius: 23px;
+}

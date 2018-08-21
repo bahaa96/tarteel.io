@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="{% static 'css/swiper-style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/arabic-text.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
@@ -24,7 +25,7 @@
   <div id='slider' class='swipe'>
     <div class='swipe-wrap'>
       <div class="screen1">
-        <div class="navbar">
+        <div class="banner">
           <img src="../../static/img/Logo3x.png" alt="Tarteel-logo" class="logo-img">
         </div>
         <div id="core-text">
@@ -53,9 +54,23 @@
             <div class="progress-bubble">4</div>
             <div class="progress-bubble">5</div>
           </div>
+          <div class="navbar">
+            <div class="logo" >
+              <a href="/about">
+                <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
+              </a>
+            </div>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a onclick="goToSubscribe()">Subscribe</a></li>
+              <li><a href="/mobile_app">Mobile App</a></li>
+              <li><a onclick="goToDemographics()">Demographic Info</a></li>
+            </ul>
+          </div>
           <div class="ayah-container">
             <span id="ayah-text"></span>
             <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
+            <span class="change-ayah" onclick="window.mySwipe.slide(4)">Click here to change Ayah</span>
           </div>
         </div>
         <footer>
@@ -64,384 +79,420 @@
           </div>
           <div class="review">
             <div class="footer-btn btn" id="submit">
-              <span>Submit</span>
+              <span>Next</span>
             </div>
             <div class="recording-btn btn" id="retry">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
             </div>
           </div>
+          <div class="note-buttons">
+            <button class="previous-ayah" onclick="setPreviousAyah()">Previous Ayah</button>
+            <button class="previous" onclick="setPreviousAyah()">Previous</button>
+            <button class="next" onclick="setNextAyah()">Next</button>
+          </div>
         </footer>
       </div>
       <div class="screen3">
-        <div class="content">
-          <div class="info" id="thank-you">
-
-            {%if ask_for_demographics%}
-
-            <h3> Thank you! <span id="one-more">One more thing... </span></h3>
-            <div id='demographics-form-div'>
-              With your help, we have reached a total of <strong>{{recording_count}}</strong> recordings. That's great, but at Tarteel, we're also committed to making sure that our recordings reflect recitations by both women and men and from the different ethnicities and ages that make up the Muslim <i>ummah</i>.
-              <br><br>
-              <form id='demographics-form' >
-                Help us assess how well we're doing by telling us a little bit about yourself...
+          <div class="content">
+            <div class="info" id="thank-you">
+              {%if ask_for_demographics%}
+                <h3> Thank you! <span id="one-more">One more thing... </span></h3>
+              {%else%}
+                <h3 style="text-align: center">Edit Your Data</h3>
+              {%endif%}
+              <div id='demographics-form-div'>
+                With your help, we have reached a total of <strong>{{recording_count}}</strong> recordings. That's great, but at Tarteel, we're also committed to making sure that our recordings reflect recitations by both women and men and from the different ethnicities and ages that make up the Muslim <i>ummah</i>.
                 <br><br>
+                <form id='demographics-form' >
+                  Help us assess how well we're doing by telling us a little bit about yourself...
+                  <br><br>
 
-                <div style="text-align:center; margin: 0 -40px;">
-        <span class="dropdown-container">
-              <div class="dropdown" style="width:80px">
-                <div class="select">
-                  <span>Gender</span>
-                  <i class="fa fa-chevron-left"></i>
+                  <div style="text-align:center; margin: 0 -40px;">
+                    <span class="dropdown-container">
+                      <div class="dropdown" style="width:80px">
+                        <div class="select">
+                          <span>Gender</span>
+                          <i class="fa fa-chevron-left"></i>
+                        </div>
+                        <input type="hidden" name="gender">
+                        <ul class="dropdown-menu">
+                          <li id="male">Male</li>
+                          <li id="female">Female</li>
+                          <li id="other">Other</li>
+                        </ul>
+                      </div>
+
+                      <span class="msg"></span>
+                    </span>
+
+                    <span class="dropdown-container">
+                <div class="dropdown" style="width:80px">
+                  <div class="select">
+                    <span>Age</span>
+                    <i class="fa fa-chevron-left"></i>
+                  </div>
+                  <input type="hidden" name="age">
+                  <ul class="dropdown-menu">
+                    <li id="13">13-18</li>
+                    <li id="19">19-25</li>
+                    <li id="26">26-35</li>
+                    <li id="36">36-45</li>
+                    <li id="46">46-55</li>
+                    <li id="56">56+</li>
+                  </ul>
                 </div>
-                <input type="hidden" name="gender">
-                <ul class="dropdown-menu">
-                  <li id="male">Male</li>
-                  <li id="female">Female</li>
-                  <li id="other">Other</li>
-                </ul>
+            <span class="msg"></span>
+          </span>
+
+                    <span class="dropdown-container">
+                <div class="dropdown" style="width:100px">
+                  <div class="select">
+                    <span>Heritage</span>
+                    <i class="fa fa-chevron-left"></i>
+                  </div>
+                  <input type="hidden" name="ethnicity">
+                  <ul class="dropdown-menu">
+                    <li id="AF">Afghanistan</li>
+                    <li id="AX">Åland Islands</li>
+                    <li id="AL">Albania</li>
+                    <li id="DZ">Algeria</li>
+                    <li id="AS">American Samoa</li>
+                    <li id="AD">Andorra</li>
+                    <li id="AO">Angola</li>
+                    <li id="AI">Anguilla</li>
+                    <li id="AQ">Antarctica</li>
+                    <li id="AG">Antigua and Barbuda</li>
+                    <li id="AR">Argentina</li>
+                    <li id="AM">Armenia</li>
+                    <li id="AW">Aruba</li>
+                    <li id="AU">Australia</li>
+                    <li id="AT">Austria</li>
+                    <li id="AZ">Azerbaijan</li>
+                    <li id="BS">Bahamas</li>
+                    <li id="BH">Bahrain</li>
+                    <li id="BD">Bangladesh</li>
+                    <li id="BB">Barbados</li>
+                    <li id="BY">Belarus</li>
+                    <li id="BE">Belgium</li>
+                    <li id="BZ">Belize</li>
+                    <li id="BJ">Benin</li>
+                    <li id="BM">Bermuda</li>
+                    <li id="BT">Bhutan</li>
+                    <li id="BO">Bolivia</li>
+                    <li id="BA">Bosnia and Herzegovina</li>
+                    <li id="BW">Botswana</li>
+                    <li id="BV">Bouvet Island</li>
+                    <li id="BR">Brazil</li>
+                    <li id="BN">Brunei Darussalam</li>
+                    <li id="BG">Bulgaria</li>
+                    <li id="BF">Burkina Faso</li>
+                    <li id="BI">Burundi</li>
+                    <li id="KH">Cambodia</li>
+                    <li id="CM">Cameroon</li>
+                    <li id="CA">Canada</li>
+                    <li id="CV">Cape Verde</li>
+                    <li id="KY">Cayman Islands</li>
+                    <li id="CF">Central African Republic</li>
+                    <li id="TD">Chad</li>
+                    <li id="CL">Chile</li>
+                    <li id="CN">China</li>
+                    <li id="CX">Christmas Island</li>
+                    <li id="CO">Colombia</li>
+                    <li id="KM">Comoros</li>
+                    <li id="CG">Congo</li>
+                    <li id="CD">Congo</li>
+                    <li id="CK">Cook Islands</li>
+                    <li id="CR">Costa Rica</li>
+                    <li id="CI">Ivory Coast</li>
+                    <li id="HR">Croatia</li>
+                    <li id="CU">Cuba</li>
+                    <li id="CW">Curaçao</li>
+                    <li id="CY">Cyprus</li>
+                    <li id="CZ">Czech Republic</li>
+                    <li id="DK">Denmark</li>
+                    <li id="DJ">Djibouti</li>
+                    <li id="DM">Dominica</li>
+                    <li id="DO">Dominican Republic</li>
+                    <li id="EC">Ecuador</li>
+                    <li id="EG">Egypt</li>
+                    <li id="SV">El Salvador</li>
+                    <li id="GQ">Equatorial Guinea</li>
+                    <li id="ER">Eritrea</li>
+                    <li id="EE">Estonia</li>
+                    <li id="ET">Ethiopia</li>
+                    <li id="FK">Falkland Islands</li>
+                    <li id="FO">Faroe Islands</li>
+                    <li id="FJ">Fiji</li>
+                    <li id="FI">Finland</li>
+                    <li id="FR">France</li>
+                    <li id="GF">French Guiana</li>
+                    <li id="PF">French Polynesia</li>
+                    <li id="GA">Gabon</li>
+                    <li id="GM">Gambia</li>
+                    <li id="GE">Georgia</li>
+                    <li id="DE">Germany</li>
+                    <li id="GH">Ghana</li>
+                    <li id="GI">Gibraltar</li>
+                    <li id="GR">Greece</li>
+                    <li id="GL">Greenland</li>
+                    <li id="GD">Grenada</li>
+                    <li id="GP">Guadeloupe</li>
+                    <li id="GU">Guam</li>
+                    <li id="GT">Guatemala</li>
+                    <li id="GG">Guernsey</li>
+                    <li id="GN">Guinea</li>
+                    <li id="GW">Guinea-Bissau</li>
+                    <li id="GY">Guyana</li>
+                    <li id="HT">Haiti</li>
+                    <li id="HN">Honduras</li>
+                    <li id="HK">Hong Kong</li>
+                    <li id="HU">Hungary</li>
+                    <li id="IS">Iceland</li>
+                    <li id="IN">India</li>
+                    <li id="ID">Indonesia</li>
+                    <li id="IR">Iran</li>
+                    <li id="IQ">Iraq</li>
+                    <li id="IE">Ireland</li>
+                    <li id="IM">Isle of Man</li>
+                    <li id="IL">Israel</li>
+                    <li id="IT">Italy</li>
+                    <li id="JM">Jamaica</li>
+                    <li id="JP">Japan</li>
+                    <li id="JE">Jersey</li>
+                    <li id="JO">Jordan</li>
+                    <li id="KZ">Kazakhstan</li>
+                    <li id="KE">Kenya</li>
+                    <li id="KI">Kiribati</li>
+                    <li id="KR">Korea</li>
+                    <li id="KW">Kuwait</li>
+                    <li id="KG">Kyrgyzstan</li>
+                    <li id="LV">Latvia</li>
+                    <li id="LB">Lebanon</li>
+                    <li id="LS">Lesotho</li>
+                    <li id="LR">Liberia</li>
+                    <li id="LY">Libya</li>
+                    <li id="LI">Liechtenstein</li>
+                    <li id="LT">Lithuania</li>
+                    <li id="LU">Luxembourg</li>
+                    <li id="MO">Macao</li>
+                    <li id="MK">Macedonia</li>
+                    <li id="MG">Madagascar</li>
+                    <li id="MW">Malawi</li>
+                    <li id="MY">Malaysia</li>
+                    <li id="MV">Maldives</li>
+                    <li id="ML">Mali</li>
+                    <li id="MT">Malta</li>
+                    <li id="MH">Marshall Islands</li>
+                    <li id="MQ">Martinique</li>
+                    <li id="MR">Mauritania</li>
+                    <li id="MU">Mauritius</li>
+                    <li id="YT">Mayotte</li>
+                    <li id="MX">Mexico</li>
+                    <li id="FM">Micronesia</li>
+                    <li id="MD">Moldova</li>
+                    <li id="MC">Monaco</li>
+                    <li id="MN">Mongolia</li>
+                    <li id="ME">Montenegro</li>
+                    <li id="MS">Montserrat</li>
+                    <li id="MA">Morocco</li>
+                    <li id="MZ">Mozambique</li>
+                    <li id="MM">Myanmar</li>
+                    <li id="NA">Namibia</li>
+                    <li id="NR">Nauru</li>
+                    <li id="NP">Nepal</li>
+                    <li id="NL">Netherlands</li>
+                    <li id="NC">New Caledonia</li>
+                    <li id="NZ">New Zealand</li>
+                    <li id="NI">Nicaragua</li>
+                    <li id="NE">Niger</li>
+                    <li id="NG">Nigeria</li>
+                    <li id="NU">Niue</li>
+                    <li id="NF">Norfolk Island</li>
+                    <li id="MP">Northern Mariana Islands</li>
+                    <li id="NO">Norway</li>
+                    <li id="OM">Oman</li>
+                    <li id="PK">Pakistan</li>
+                    <li id="PW">Palau</li>
+                    <li id="PS">Palestine</li>
+                    <li id="PA">Panama</li>
+                    <li id="PG">Papua New Guinea</li>
+                    <li id="PY">Paraguay</li>
+                    <li id="PE">Peru</li>
+                    <li id="PH">Philippines</li>
+                    <li id="PN">Pitcairn</li>
+                    <li id="PL">Poland</li>
+                    <li id="PT">Portugal</li>
+                    <li id="PR">Puerto Rico</li>
+                    <li id="QA">Qatar</li>
+                    <li id="RE">Réunion</li>
+                    <li id="RO">Romania</li>
+                    <li id="RU">Russia</li>
+                    <li id="RW">Rwanda</li>
+                    <li id="BL">Saint Barthélemy</li>
+                    <li id="LC">Saint Lucia</li>
+                    <li id="WS">Samoa</li>
+                    <li id="SM">San Marino</li>
+                    <li id="SA">Saudi Arabia</li>
+                    <li id="SN">Senegal</li>
+                    <li id="RS">Serbia</li>
+                    <li id="SC">Seychelles</li>
+                    <li id="SL">Sierra Leone</li>
+                    <li id="SG">Singapore</li>
+                    <li id="SX">Sint Maarten</li>
+                    <li id="SK">Slovakia</li>
+                    <li id="SI">Slovenia</li>
+                    <li id="SB">Solomon Islands</li>
+                    <li id="SO">Somalia</li>
+                    <li id="ZA">South Africa</li>
+                    <li id="SS">South Sudan</li>
+                    <li id="ES">Spain</li>
+                    <li id="LK">Sri Lanka</li>
+                    <li id="SD">Sudan</li>
+                    <li id="SR">Suriname</li>
+                    <li id="SZ">Swaziland</li>
+                    <li id="SE">Sweden</li>
+                    <li id="CH">Switzerland</li>
+                    <li id="SY">Syria</li>
+                    <li id="TW">Taiwan</li>
+                    <li id="TJ">Tajikistan</li>
+                    <li id="TH">Thailand</li>
+                    <li id="TL">Timor-Leste</li>
+                    <li id="TG">Togo</li>
+                    <li id="TK">Tokelau</li>
+                    <li id="TO">Tonga</li>
+                    <li id="TN">Tunisia</li>
+                    <li id="TR">Turkey</li>
+                    <li id="TM">Turkmenistan</li>
+                    <li id="TV">Tuvalu</li>
+                    <li id="UG">Uganda</li>
+                    <li id="UA">Ukraine</li>
+                    <li id="AE">UAE</li>
+                    <li id="GB">United Kingdom</li>
+                    <li id="US">United States</li>
+                    <li id="UY">Uruguay</li>
+                    <li id="UZ">Uzbekistan</li>
+                    <li id="VU">Vanuatu</li>
+                    <li id="VE">Venezuela</li>
+                    <li id="VN">Viet Nam</li>
+                    <li id="VI">Virgin Islands</li>
+                    <li id="WF">Wallis and Futuna</li>
+                    <li id="EH">Western Sahara</li>
+                    <li id="YE">Yemen</li>
+                    <li id="ZM">Zambia</li>
+                    <li id="ZW">Zimbabwe</li>
+                    <li id="Other">Other</li>
+                  </ul>
+                </div>
+            <span class="msg"></span>
+          </span>
+                  </div>
+                  <br>
+                  <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+                  <style type="text/css">
+                    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+                    /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+                       We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                  </style>
+                  <div id="mc_embed_signup" style="text-align:center">
+                    <div class="clear"><input type="submit" value="That's Me!" id="submit-demographic" class="button"></div></div>
+                </form>
               </div>
-
-          <span class="msg"></span>
-        </span>
-
-                  <span class="dropdown-container">
-              <div class="dropdown" style="width:80px">
-                <div class="select">
-                  <span>Age</span>
-                  <i class="fa fa-chevron-left"></i>
-                </div>
-                <input type="hidden" name="age">
-                <ul class="dropdown-menu">
-                  <li id="13">13-18</li>
-                  <li id="19">19-25</li>
-                  <li id="26">26-35</li>
-                  <li id="36">36-45</li>
-                  <li id="46">46-55</li>
-                  <li id="56">56+</li>
-                </ul>
-              </div>
-          <span class="msg"></span>
-        </span>
-
-                  <span class="dropdown-container">
-              <div class="dropdown" style="width:100px">
-                <div class="select">
-                  <span>Heritage</span>
-                  <i class="fa fa-chevron-left"></i>
-                </div>
-                <input type="hidden" name="ethnicity">
-                <ul class="dropdown-menu">
-                  <li id="AF">Afghanistan</li>
-                  <li id="AX">Åland Islands</li>
-                  <li id="AL">Albania</li>
-                  <li id="DZ">Algeria</li>
-                  <li id="AS">American Samoa</li>
-                  <li id="AD">Andorra</li>
-                  <li id="AO">Angola</li>
-                  <li id="AI">Anguilla</li>
-                  <li id="AQ">Antarctica</li>
-                  <li id="AG">Antigua and Barbuda</li>
-                  <li id="AR">Argentina</li>
-                  <li id="AM">Armenia</li>
-                  <li id="AW">Aruba</li>
-                  <li id="AU">Australia</li>
-                  <li id="AT">Austria</li>
-                  <li id="AZ">Azerbaijan</li>
-                  <li id="BS">Bahamas</li>
-                  <li id="BH">Bahrain</li>
-                  <li id="BD">Bangladesh</li>
-                  <li id="BB">Barbados</li>
-                  <li id="BY">Belarus</li>
-                  <li id="BE">Belgium</li>
-                  <li id="BZ">Belize</li>
-                  <li id="BJ">Benin</li>
-                  <li id="BM">Bermuda</li>
-                  <li id="BT">Bhutan</li>
-                  <li id="BO">Bolivia</li>
-                  <li id="BA">Bosnia and Herzegovina</li>
-                  <li id="BW">Botswana</li>
-                  <li id="BV">Bouvet Island</li>
-                  <li id="BR">Brazil</li>
-                  <li id="BN">Brunei Darussalam</li>
-                  <li id="BG">Bulgaria</li>
-                  <li id="BF">Burkina Faso</li>
-                  <li id="BI">Burundi</li>
-                  <li id="KH">Cambodia</li>
-                  <li id="CM">Cameroon</li>
-                  <li id="CA">Canada</li>
-                  <li id="CV">Cape Verde</li>
-                  <li id="KY">Cayman Islands</li>
-                  <li id="CF">Central African Republic</li>
-                  <li id="TD">Chad</li>
-                  <li id="CL">Chile</li>
-                  <li id="CN">China</li>
-                  <li id="CX">Christmas Island</li>
-                  <li id="CO">Colombia</li>
-                  <li id="KM">Comoros</li>
-                  <li id="CG">Congo</li>
-                  <li id="CD">Congo</li>
-                  <li id="CK">Cook Islands</li>
-                  <li id="CR">Costa Rica</li>
-                  <li id="CI">Ivory Coast</li>
-                  <li id="HR">Croatia</li>
-                  <li id="CU">Cuba</li>
-                  <li id="CW">Curaçao</li>
-                  <li id="CY">Cyprus</li>
-                  <li id="CZ">Czech Republic</li>
-                  <li id="DK">Denmark</li>
-                  <li id="DJ">Djibouti</li>
-                  <li id="DM">Dominica</li>
-                  <li id="DO">Dominican Republic</li>
-                  <li id="EC">Ecuador</li>
-                  <li id="EG">Egypt</li>
-                  <li id="SV">El Salvador</li>
-                  <li id="GQ">Equatorial Guinea</li>
-                  <li id="ER">Eritrea</li>
-                  <li id="EE">Estonia</li>
-                  <li id="ET">Ethiopia</li>
-                  <li id="FK">Falkland Islands</li>
-                  <li id="FO">Faroe Islands</li>
-                  <li id="FJ">Fiji</li>
-                  <li id="FI">Finland</li>
-                  <li id="FR">France</li>
-                  <li id="GF">French Guiana</li>
-                  <li id="PF">French Polynesia</li>
-                  <li id="GA">Gabon</li>
-                  <li id="GM">Gambia</li>
-                  <li id="GE">Georgia</li>
-                  <li id="DE">Germany</li>
-                  <li id="GH">Ghana</li>
-                  <li id="GI">Gibraltar</li>
-                  <li id="GR">Greece</li>
-                  <li id="GL">Greenland</li>
-                  <li id="GD">Grenada</li>
-                  <li id="GP">Guadeloupe</li>
-                  <li id="GU">Guam</li>
-                  <li id="GT">Guatemala</li>
-                  <li id="GG">Guernsey</li>
-                  <li id="GN">Guinea</li>
-                  <li id="GW">Guinea-Bissau</li>
-                  <li id="GY">Guyana</li>
-                  <li id="HT">Haiti</li>
-                  <li id="HN">Honduras</li>
-                  <li id="HK">Hong Kong</li>
-                  <li id="HU">Hungary</li>
-                  <li id="IS">Iceland</li>
-                  <li id="IN">India</li>
-                  <li id="ID">Indonesia</li>
-                  <li id="IR">Iran</li>
-                  <li id="IQ">Iraq</li>
-                  <li id="IE">Ireland</li>
-                  <li id="IM">Isle of Man</li>
-                  <li id="IL">Israel</li>
-                  <li id="IT">Italy</li>
-                  <li id="JM">Jamaica</li>
-                  <li id="JP">Japan</li>
-                  <li id="JE">Jersey</li>
-                  <li id="JO">Jordan</li>
-                  <li id="KZ">Kazakhstan</li>
-                  <li id="KE">Kenya</li>
-                  <li id="KI">Kiribati</li>
-                  <li id="KR">Korea</li>
-                  <li id="KW">Kuwait</li>
-                  <li id="KG">Kyrgyzstan</li>
-                  <li id="LV">Latvia</li>
-                  <li id="LB">Lebanon</li>
-                  <li id="LS">Lesotho</li>
-                  <li id="LR">Liberia</li>
-                  <li id="LY">Libya</li>
-                  <li id="LI">Liechtenstein</li>
-                  <li id="LT">Lithuania</li>
-                  <li id="LU">Luxembourg</li>
-                  <li id="MO">Macao</li>
-                  <li id="MK">Macedonia</li>
-                  <li id="MG">Madagascar</li>
-                  <li id="MW">Malawi</li>
-                  <li id="MY">Malaysia</li>
-                  <li id="MV">Maldives</li>
-                  <li id="ML">Mali</li>
-                  <li id="MT">Malta</li>
-                  <li id="MH">Marshall Islands</li>
-                  <li id="MQ">Martinique</li>
-                  <li id="MR">Mauritania</li>
-                  <li id="MU">Mauritius</li>
-                  <li id="YT">Mayotte</li>
-                  <li id="MX">Mexico</li>
-                  <li id="FM">Micronesia</li>
-                  <li id="MD">Moldova</li>
-                  <li id="MC">Monaco</li>
-                  <li id="MN">Mongolia</li>
-                  <li id="ME">Montenegro</li>
-                  <li id="MS">Montserrat</li>
-                  <li id="MA">Morocco</li>
-                  <li id="MZ">Mozambique</li>
-                  <li id="MM">Myanmar</li>
-                  <li id="NA">Namibia</li>
-                  <li id="NR">Nauru</li>
-                  <li id="NP">Nepal</li>
-                  <li id="NL">Netherlands</li>
-                  <li id="NC">New Caledonia</li>
-                  <li id="NZ">New Zealand</li>
-                  <li id="NI">Nicaragua</li>
-                  <li id="NE">Niger</li>
-                  <li id="NG">Nigeria</li>
-                  <li id="NU">Niue</li>
-                  <li id="NF">Norfolk Island</li>
-                  <li id="MP">Northern Mariana Islands</li>
-                  <li id="NO">Norway</li>
-                  <li id="OM">Oman</li>
-                  <li id="PK">Pakistan</li>
-                  <li id="PW">Palau</li>
-                  <li id="PS">Palestine</li>
-                  <li id="PA">Panama</li>
-                  <li id="PG">Papua New Guinea</li>
-                  <li id="PY">Paraguay</li>
-                  <li id="PE">Peru</li>
-                  <li id="PH">Philippines</li>
-                  <li id="PN">Pitcairn</li>
-                  <li id="PL">Poland</li>
-                  <li id="PT">Portugal</li>
-                  <li id="PR">Puerto Rico</li>
-                  <li id="QA">Qatar</li>
-                  <li id="RE">Réunion</li>
-                  <li id="RO">Romania</li>
-                  <li id="RU">Russia</li>
-                  <li id="RW">Rwanda</li>
-                  <li id="BL">Saint Barthélemy</li>
-                  <li id="LC">Saint Lucia</li>
-                  <li id="WS">Samoa</li>
-                  <li id="SM">San Marino</li>
-                  <li id="SA">Saudi Arabia</li>
-                  <li id="SN">Senegal</li>
-                  <li id="RS">Serbia</li>
-                  <li id="SC">Seychelles</li>
-                  <li id="SL">Sierra Leone</li>
-                  <li id="SG">Singapore</li>
-                  <li id="SX">Sint Maarten</li>
-                  <li id="SK">Slovakia</li>
-                  <li id="SI">Slovenia</li>
-                  <li id="SB">Solomon Islands</li>
-                  <li id="SO">Somalia</li>
-                  <li id="ZA">South Africa</li>
-                  <li id="SS">South Sudan</li>
-                  <li id="ES">Spain</li>
-                  <li id="LK">Sri Lanka</li>
-                  <li id="SD">Sudan</li>
-                  <li id="SR">Suriname</li>
-                  <li id="SZ">Swaziland</li>
-                  <li id="SE">Sweden</li>
-                  <li id="CH">Switzerland</li>
-                  <li id="SY">Syria</li>
-                  <li id="TW">Taiwan</li>
-                  <li id="TJ">Tajikistan</li>
-                  <li id="TH">Thailand</li>
-                  <li id="TL">Timor-Leste</li>
-                  <li id="TG">Togo</li>
-                  <li id="TK">Tokelau</li>
-                  <li id="TO">Tonga</li>
-                  <li id="TN">Tunisia</li>
-                  <li id="TR">Turkey</li>
-                  <li id="TM">Turkmenistan</li>
-                  <li id="TV">Tuvalu</li>
-                  <li id="UG">Uganda</li>
-                  <li id="UA">Ukraine</li>
-                  <li id="AE">UAE</li>
-                  <li id="GB">United Kingdom</li>
-                  <li id="US">United States</li>
-                  <li id="UY">Uruguay</li>
-                  <li id="UZ">Uzbekistan</li>
-                  <li id="VU">Vanuatu</li>
-                  <li id="VE">Venezuela</li>
-                  <li id="VN">Viet Nam</li>
-                  <li id="VI">Virgin Islands</li>
-                  <li id="WF">Wallis and Futuna</li>
-                  <li id="EH">Western Sahara</li>
-                  <li id="YE">Yemen</li>
-                  <li id="ZM">Zambia</li>
-                  <li id="ZW">Zimbabwe</li>
-                  <li id="Other">Other</li>
-                </ul>
-              </div>
-          <span class="msg"></span>
-        </span>
-
-                </div>
-
-
-
-                <br>
-                <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-                <style type="text/css">
-                  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-                  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-                     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                </style>
-                <div id="mc_embed_signup" style="text-align:center">
-                  <div class="clear"><input type="submit" value="That's Me!" id="submit-demographic" class="button"></div></div>
-              </form>
             </div>
-
-            {%else%}
-            <h3 style="text-align: center; font-size: 2em"> Thank you! </h3>
-            <i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.
-            {%endif%}
-
-            <!-- Begin MailChimp Signup Form -->
-            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-            <style type="text/css">
-              #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-              /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-                 We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-            </style>
-            <div id="mc_embed_signup">
-              <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                <div id="mc_embed_signup_scroll">
-                  <label for="mce-EMAIL">Subscribe if you want updates on Tarteel!</label>
-                  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                  <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                  <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab8add36046818c66a55a4f9c_4015afc1f5" tabindex="-1" value=""></div>
-                  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                </div>
-              </form>
-            </div>
-            <!--End mc_embed_signup-->
-
-            <br>
-            <p style="text-align: center">Continue recording by clicking START below!</p>
-
-            <!--         You can also help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br>
-                    <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-                      <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
-                        </div>
-                      </div>
-                    </a>
-
-                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-                        </div>
-                      </div>
-                    </a>
-
-                    <a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F&amp;title=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;summary=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;source=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
-                      <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
-                        </div>
-                      </div>
-                    </a>
-             -->
           </div>
-          <footer>
-            <div class="footer-btn btn" id="start" >
-              <span>Start</span>
+        </div>
+      <div class="screen4">
+        <h3 style="text-align: center; font-size: 2em"> Thank you! </h3>
+        <i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.
+        <!-- Begin MailChimp Signup Form -->
+        <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+          #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+          /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+             We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+        </style>
+        <div id="mc_embed_signup">
+          <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+              <label for="mce-EMAIL">Subscribe if you want updates on Tarteel!</label>
+              <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab8add36046818c66a55a4f9c_4015afc1f5" tabindex="-1" value=""></div>
+              <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
             </div>
-          </footer>
+          </form>
+        </div>
+        <!--End mc_embed_signup-->
+
+        <br>
+        <p style="text-align: center">Continue recording by clicking START below!</p>
+
+        <!--         You can also help us reach our goal by sharing the Tarteel 10,000 challenge (<a href="http://bit.do/tarteel">http://bit.do/tarteel</a>) with your friends and family!  <br>
+                <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/></svg>
+                    </div>
+                  </div>
+                </a>
+
+                <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                    </div>
+                  </div>
+                </a>
+
+                <a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Ftarteel.tarjim.ly%2F&amp;title=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;summary=The%20%23Tarteel10k%20Challenge%3A%20Help%20build%20the%20world&#x27;s%20first%20public%2C%20open-source%20dataset%20of%20Quran%20recitations%20by%20ordinary%20people.%20An%20initiative%20to%20encourage%20machine%20learning%20applications%20based%20on%20recitations%20of%20the%20Quran.&amp;source=http%3A%2F%2Ftarteel.tarjim.ly%2F" target="_blank" aria-label="">
+                  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.5 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"/></svg>
+                    </div>
+                  </div>
+                </a>
+         -->
+        <footer>
+          <div class="footer-btn btn" id="start" onclick="continueReading()">
+            <span>Continue Reading</span>
+          </div>
+        </footer>
+      </div>
+      <div class="screen5">
+        <div class="content">
+          <div class="title">
+            <h3>Pick a Surah</h3>
+          </div>
+          <form>
+           <div class="input-wrapper">
+             <!--<i></i>-->
+             <input type="text" name="search" placeholder="Search">
+           </div>
+          </form>
+          <ul>
+            <!--JS will inject Surahs here-->
+          </ul>
+        </div>
+      </div>
+      <div class="screen6">
+        <div class="content">
+          <div class="back">
+            <button onclick="window.mySwipe.prev()">
+              Back
+            </button>
+          </div>
+          <div class="title">
+            <h3>Pick an Ayah</h3>
+          </div>
+          <form>
+            <div class="input-wrapper">
+              <!--<i></i>-->
+              <input type="text" name="search" placeholder="Search">
+            </div>
+          </form>
+          <ul>
+            <!--JS will inject Surahs here-->
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-
+    </div>
     <div class="mobile-app">
       <span class="close" onclick="this.parentNode.remove()">&#10006;</span>
       <p>Get a better experience on mobile!</p>
@@ -457,6 +508,8 @@
     <script src="{% static 'js/volume-meter.js' %}"></script>
     <script src="{% static 'js/swipe.js' %}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
+    <script src="{% static 'js/surahs.js' %}"></script>
+    <script src="{% static 'js/data.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

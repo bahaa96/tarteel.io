@@ -4,7 +4,7 @@ import quickstart.views
 
 from django.conf.urls import url
 from django.contrib import admin
-from audio.views import get_ayah, index, privacy, about
+from audio.views import get_ayah, index, privacy, about, mobile_app
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^api/demographics/', DemographicInformationViewList.as_view(), name='demographic'),
     url(r'^get_total_count/', RecordingsCount.as_view(), name='recordingscount'),
     url(r'^privacy/', privacy),
+    url(r'^mobile_app/', mobile_app),
     url(r'^about/', about),
 ]
 
