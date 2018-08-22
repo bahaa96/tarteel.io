@@ -4,6 +4,25 @@ var api = {
       callback.call(this, data);
     })
   },
+  get_specific_ayah: function(surah, ayah, callback) {
+    $.ajax(
+      {
+        type: "POST",
+        url: "/get_ayah/",
+        data: { surah, ayah },
+        dataType: "json",
+        success: function (data) {
+          try {
+            localStorage.setItem("lastAyah", JSON.stringify(data))
+            callback.call(this, data);
+          } catch (e) {
+            console.log(e.message)
+          }
+        }
+      }
+    );
+    return false;
+  },
 
   send_recording: function(audio, surah_num, ayah_num, hash_string) {
     var fd = new FormData();

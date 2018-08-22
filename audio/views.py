@@ -46,7 +46,7 @@ def index(request):
         request.session.create()
     session_key = request.session.session_key
 
-    recording_count = AnnotatedRecording.objects.exclude(file__isnull=True).count()
+    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     
     if DemographicInformation.objects.filter(session_id=session_key).exists():
@@ -61,7 +61,11 @@ def index(request):
         'daily_count':daily_count, 'ask_for_demographics':ask_for_demographics})
 
 def about(request):
-    return render(request, 'audio/about.html', {})
+    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    return render(request, 'audio/about.html', {'recording_count': recording_count})
 
 def privacy(request):
     return render(request, 'audio/privacy.html', {})
+
+def mobile_app(request):
+    return render(request, 'audio/mobile_app.html', {})
