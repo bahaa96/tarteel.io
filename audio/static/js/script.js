@@ -47,7 +47,6 @@ function load_ayah_callback(data) {
   if(passedOnBoarding) {
     $(".note-buttons .previous").show()
     $(".note-buttons .next").show()
-    $(".note-buttons .previous-ayah").hide()
   }
   session_id = data.hash;
   for (let i=0; i < session_count % AYAHS_PER_SUBISSION + 2; i++) {
@@ -114,7 +113,7 @@ $("footer .btn").click(function(evt) {
         state = StateEnum.THANK_YOU;
         window.mySwipe.next()
         $("#ayah").hide();
-        $("#thank-you").show();
+        $("#thank-you").show();``
         try {
           localStorage.setItem("passedOnBoarding", String(true))
         }
@@ -125,11 +124,7 @@ $("footer .btn").click(function(evt) {
       } else {
         $(".review").hide();
         $("#mic").show()
-        if(passedOnBoarding)  {
           setNextAyah()
-        } else {
-          api.get_ayah(load_ayah_callback);
-        }
       }
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
@@ -139,7 +134,6 @@ $("footer .btn").click(function(evt) {
     $("#mic").show();
     $("#mic").addClass("recording");
     if(passedOnBoarding) {
-      $(".note-buttons .previous-ayah").hide()
       $(".note-buttons .next").hide()
       $(".note-buttons .previous").hide()
     }
@@ -160,9 +154,8 @@ $("footer .btn").click(function(evt) {
     $("#mic").removeClass("recording");
     $("#mic").hide();
     if(passedOnBoarding) {
-      $(".note-buttons .previous").hide()
+      $(".note-buttons .previous").css({ display: "block", margin: 0 })
       $(".note-buttons .next").hide()
-      $(".note-buttons .previous-ayah").show()
     }
   }
 });
@@ -211,9 +204,9 @@ $(".screen5 .content form .input-wrapper input").keyup(e => {
   const output = {}
   const out = Object.keys(surahs).filter((elm) => {
     return (
-      surahs[elm].arabic.includes(value.toLowerCase()) ||
-      surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase())  ||
-      surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase())
+      surahs[elm].arabic.includes(value.toLowerCase().trim()) ||
+      surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())  ||
+      surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())
     )
   }).forEach(elm => output[elm] = surahs[elm])
 
@@ -300,8 +293,26 @@ const goToSubscribe = () => {
 }
 
 const continueReading = () => {
-  window.mySwipe.slide(4)
-  setTimeout(() => stopRecording(), 250)
+  window.mySwipe.slide(1)
+}
+
+const submitDemographics = () => {
+  $("#demographics-form").submit()
+}
+
+const skipDemographic = () => {
+  $(".review").hide()
+  $("#mic").show()
+  $("#ayah").show();
+  $("#progress").hide()
+  $(".navbar").css("display", "flex")
+  window.mySwipe.slide(1)
+}
+
+const toggleNavbarMenu = () => {
+  const hamburger = document.querySelector(".hamburger svg")
+  hamburger.classList.toggle('active')
+  $(".navbar ul").toggle()
 }
 
 const isMobile = new MobileDetect(window.navigator.userAgent);
