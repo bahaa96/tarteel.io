@@ -350,12 +350,21 @@ body {
   padding: 0 1em;
   line-height: 35px;
 }
-.screen5 .content ul li:hover, .screen6 .content ul li:hover {
+.screen5 .content ul li:hover,
+.screen6 .content ul li:hover,
+.screen5 .content ul li.active,
+.screen6 .content ul li.active
+{
   background: #F1F1F1;
 }
-.screen5 .content ul li:hover p, .screen6 .content ul li:hover p {
+.screen5 .content ul li:hover p,
+.screen6 .content ul li:hover p,
+.screen5 .content ul li.active p,
+.screen6 .content ul li.active p
+{
   color: #5FC49E;
 }
+
 .screen5 .content ul li .number, .screen6 .content ul li .number {
   color: #848484;
 }
@@ -387,6 +396,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #5FC49E;
 }
+.content .back {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+.content .back button {
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  height: 18px;
+  width: 25px;
+  padding: 0;
+}
+.content .back button img {
+  height: 100%;
+  width: 100%;
+}
 .screen6 .content ul li {
   color: #485364;
   font-size: 16pt;
@@ -405,12 +431,6 @@ body {
 }
 .screen6 .content ul li p.text{
   flex: 1;
-}
-.screen6 .back button{
-  background: transparent;
-  border: 0;
-  padding: 1em;
-  color: #5FC49E;
 }
 
 footer {

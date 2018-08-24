@@ -176,11 +176,12 @@ $('.dropdown').click(function () {
 
 
 const renderSurahs = (surahs) => {
-  $(".screen5 .content ul").html("")
+  const surahsList = $(".screen5 .content ul")
+  surahsList.html("")
   for (let surahKey in surahs) {
     surah = surahs[surahKey]
-    $(".screen5 .content ul").append(`
-    <li onclick="getSurah(${surahKey})">
+    surahsList.append(`
+    <li onclick="getSurah(${surahKey})" data-key="${surahKey}" class=${ ayah_data.surah === surahKey ? "active": "" }>
       <p class="number">${ surahKey }</p>
       <div class="text">
         <p>
@@ -191,6 +192,8 @@ const renderSurahs = (surahs) => {
     </li>
   `)
   }
+  const activeOne = document.querySelector(".screen5 .content ul li.active")
+  surahsList.scrollTop(Number(activeOne.getAttribute("data-key")) * 75 - ( 3 * 75))
 }
 
 renderSurahs(surahs)
@@ -214,6 +217,7 @@ $(".screen5 .content form .input-wrapper input").keyup(e => {
 })
 $(".screen6 .content form .input-wrapper input").keyup(e => {
   const value = e.target.value
+  currentSurah = currentSurah || ayah_data.surah
   const ayahs = ayahsDict[currentSurah]
   if(!value)
     renderAyahs(currentSurah, ayahs)
@@ -232,15 +236,21 @@ const renderAyahs = (surahKey, ayahs) => {
   $ayahsList.html("")
   for(let ayahKey in ayahs) {
     $ayahsList.append(`
-    <li onclick="setAyah(${surahKey}, ${ayahKey})">
+    <li onclick="setAyah(${surahKey}, ${ayahKey})" data-key="${ayahKey}" class=${ ayah_data.ayah === ayahKey && surahKey === ayah_data.surah ? "active": "" }>
       <p class="number">
         ${ ayahKey }
       </p>
       <p class="text">
-        ${ ayahs[ayahKey].displayText.trunc(100) }
+        ${ ayahs[ayahKey].displayText.trunc(95) }
       </p>
     </li>
   `)
+  }
+  const activeOne = document.querySelector(".screen6 .content ul li.active")
+  if (activeOne) {
+    $ayahsList.scrollTop(Number(activeOne.getAttribute("data-key")) * 78 - (3 * 78))
+  }else {
+    $ayahsList.scrollTop(0)
   }
 }
 
@@ -313,6 +323,12 @@ const toggleNavbarMenu = () => {
   const hamburger = document.querySelector(".hamburger svg")
   hamburger.classList.toggle('active')
   $(".navbar ul").toggle()
+}
+
+const navigateToChangeAyah = (surahKey = ayah_data.surah) => {
+  window.mySwipe.slide(5)
+  renderAyahs(surahKey, ayahsDict[surahKey])
+  renderSurahs(surahs)
 }
 
 const isMobile = new MobileDetect(window.navigator.userAgent);

@@ -82,7 +82,7 @@
           </div>
           <div class="ayah-container">
             <span id="ayah-text"></span>
-            <div class="change-ayah-container" onclick="window.mySwipe.slide(4)">
+            <div class="change-ayah-container" onclick="navigateToChangeAyah()">
               <div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
               <span class="change-ayah" >Click here to change Ayah</span>
             </div>
@@ -476,6 +476,11 @@
       </div>
       <div class="screen5">
         <div class="content">
+          <div class="back">
+            <button onclick="window.mySwipe.slide(1)">
+              <img src="../../static/img/left-arrow.png" alt="">
+            </button>
+          </div>
           <div class="title">
             <h3>Pick a Surah</h3>
           </div>
@@ -493,8 +498,8 @@
       <div class="screen6">
         <div class="content">
           <div class="back">
-            <button onclick="window.mySwipe.prev()">
-              Back
+            <button onclick="window.mySwipe.slide(4)">
+              <img src="../../static/img/left-arrow.png" alt="">
             </button>
           </div>
           <div class="title">
