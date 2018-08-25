@@ -14,6 +14,8 @@ var recording_data = new Array(AYAHS_PER_SUBISSION);
 let passedOnBoarding;
 let currentSurah;
 let ayahsRecited;
+let continuous = false
+let preloadedAyahs = {}
 
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"))
@@ -50,6 +52,10 @@ function load_ayah_callback(data) {
   for (let i=0; i < session_count % AYAHS_PER_SUBISSION + 2; i++) {
     $(".progress-bubble:nth-of-type("+i+")").addClass("complete");
   }
+  if(continuous && passedOnBoarding)
+    $("#mic").trigger("click")
+  loadNextAyah()
+  loadPreviousAyah()
 }
 
 // Ayah here is the last Ayah which retrieved from localstorage
@@ -103,7 +109,8 @@ $("footer .btn").click(function(evt) {
       } else {
         $(".review").hide();
         $("#mic").show()
-          setNextAyah()
+        setNextAyah()
+
       }
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
@@ -250,6 +257,10 @@ const setAyah = (surahKey, ayah) => {
 
 }
 const setPreviousAyah = () => {
+  if(preloadedAyahs.prevAyah) {
+    load_ayah_callback(preloadedAyahs.prevAyah)
+    return false
+  }
   const { ayah, surah } = ayah_data
   const prevAyah = Number(ayah) - 1
   if(ayah == 1) {
@@ -261,6 +272,10 @@ const setPreviousAyah = () => {
 }
 
 const setNextAyah = () => {
+  if(preloadedAyahs.nextAyah) {
+    load_ayah_callback(preloadedAyahs.nextAyah)
+    return false
+  }
   const { ayah, surah } = ayah_data
   const nextAyah = Number(ayah) + 1
   if(surahs[surah]["ayah"] == nextAyah - 1) {
@@ -271,7 +286,45 @@ const setNextAyah = () => {
     setAyah(surah, String(nextAyah))
 }
 
-$(".navbar .counter").html(`10k/${ayahsRecited}`)
+function loadNextAyah() {
+  let callback = (data) => {
+    preloadedAyahs.nextAyah = data
+    console.log("Next Ayah", data)
+  }
+  const { ayah, surah } = ayah_data
+  const nextAyah = Number(ayah) + 1
+  if(surahs[surah]["ayah"] == nextAyah - 1) {
+    const nextSurah = Number(surah) + 1
+    api.get_specific_ayah(String(nextSurah), String(1), callback)
+  }
+  else {
+    api.get_specific_ayah(surah, String(nextAyah), callback)
+  }
+}
+
+function loadPreviousAyah() {
+  let callback = (data) => {
+    preloadedAyahs.prevAyah = data
+    console.log("prevAyah Ayah", data)
+  }
+    const { ayah, surah } = ayah_data
+    const prevAyah = Number(ayah) - 1
+    if(ayah == 1) {
+      const prevSurah = Number(surah) - 1
+      api.get_specific_ayah(String(prevSurah), surahs[prevSurah].ayah, callback)
+    }
+    else {
+      api.get_specific_ayah(surah, String(prevAyah), callback)
+    }
+}
+
+function renderCounter() {
+  const counter = $(".navbar .counter")
+  const currentContent = kFormatter(Number(counter.html()))
+  counter.html(`${currentContent}`)
+}
+renderCounter()
+
 
 const goToDemographics = () => {
   window.mySwipe.slide(2)
@@ -322,6 +375,10 @@ const navigateToChangeAyah = (surahKey = ayah_data.surah) => {
   window.mySwipe.slide(5)
   renderAyahs(surahKey, ayahsDict[surahKey])
   renderSurahs(surahs)
+}
+
+function kFormatter(num) {
+  return (num/1000).toFixed(1) + 'k'
 }
 
 const isMobile = new MobileDetect(window.navigator.userAgent);

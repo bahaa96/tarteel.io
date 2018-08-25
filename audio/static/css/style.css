@@ -113,6 +113,8 @@ body {
   text-align: center;
   padding: 10px;
   margin-top: 50px;
+  z-index: 5;
+  position: relative;
 }
 .change-ayah-container {
   cursor: pointer;
@@ -199,19 +201,17 @@ body {
 }
 .navbar .counter {
   position: absolute;
-  left: 50px;
+  left: 30px;
   top: 15px;
-  background-color: #5FC49E;
+  color: #5FC49E;
   font-size: 14pt;
   font-weight: 600;
   font-family: monospace;
-  color: #fff;
   border-radius: 23px;
   height: 25px;
   line-height: 25px;
   width: 75px;
   text-align: center;
-  display: none;
 }
 @media screen and (max-width: 650px) {
   .navbar .hamburger {
