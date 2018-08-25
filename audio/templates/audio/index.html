@@ -66,11 +66,26 @@
               <li><a href="/mobile_app">Mobile App</a></li>
               <li><a onclick="goToDemographics()">Demographic Info</a></li>
             </ul>
+            <button class="hamburger" onclick="toggleNavbarMenu()">
+              <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="50" >
+                <path
+                  class="line top"
+                  d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20" />
+                <path
+                  class="line middle"
+                  d="m 70,50 h -40" />
+                <path
+                  class="line bottom"
+                  d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20" />
+              </svg>
+            </button class="hamburger">
           </div>
           <div class="ayah-container">
             <span id="ayah-text"></span>
-            <br><div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
-            <span class="change-ayah" onclick="window.mySwipe.slide(4)">Click here to change Ayah</span>
+            <div class="change-ayah-container" onclick="navigateToChangeAyah()">
+              <div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
+              <span class="change-ayah" >Click here to change Ayah</span>
+            </div>
           </div>
         </div>
         <footer>
@@ -86,9 +101,8 @@
             </div>
           </div>
           <div class="note-buttons">
-            <button class="previous-ayah" onclick="setPreviousAyah()">Previous Ayah</button>
-            <button class="previous" onclick="setPreviousAyah()">Previous</button>
-            <button class="next" onclick="setNextAyah()">Next</button>
+            <button class="previous" onclick="setPreviousAyah()">Previous Ayah</button>
+            <button class="next" onclick="setNextAyah()">Next Ayah</button>
           </div>
         </footer>
       </div>
@@ -393,8 +407,14 @@
                     /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
                        We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
                   </style>
-                  <div id="mc_embed_signup" style="text-align:center">
-                    <div class="clear"><input type="submit" value="That's Me!" id="submit-demographic" class="button"></div></div>
+                  <div style="text-align:center">
+                    <div class="footer-btn" onclick="submitDemographics()">
+                      <span>That's Me!</span>
+                    </div>
+                    <div class="note-buttons">
+                      <button onclick="skipDemographic()">Skip</button>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
@@ -402,7 +422,7 @@
         </div>
       <div class="screen4">
         <h3 style="text-align: center; font-size: 2em"> Thank you! </h3>
-        <i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.
+        <p class="text"><i>Alhamdulillah</i>, with your help, we have reached a total of <strong>{{recording_count}}</strong> recordings</i>.</p>
         <!-- Begin MailChimp Signup Form -->
         <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
         <style type="text/css">
@@ -449,13 +469,18 @@
                 </a>
          -->
         <footer>
-          <div class="footer-btn btn" id="start" onclick="continueReading()">
+          <div class="footer-btn" onclick="continueReading()" >
             <span>Continue Reading</span>
           </div>
         </footer>
       </div>
       <div class="screen5">
         <div class="content">
+          <div class="back">
+            <button onclick="window.mySwipe.slide(1)">
+              <img src="../../static/img/left-arrow.png" alt="">
+            </button>
+          </div>
           <div class="title">
             <h3>Pick a Surah</h3>
           </div>
@@ -473,8 +498,8 @@
       <div class="screen6">
         <div class="content">
           <div class="back">
-            <button onclick="window.mySwipe.prev()">
-              Back
+            <button onclick="window.mySwipe.slide(4)">
+              <img src="../../static/img/left-arrow.png" alt="">
             </button>
           </div>
           <div class="title">
