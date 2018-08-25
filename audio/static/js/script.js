@@ -44,35 +44,18 @@ function load_ayah_callback(data) {
   $("#ayah-text").text(data.line);
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
-  if(passedOnBoarding) {
-    $(".note-buttons .previous").show()
-    $(".note-buttons .next").show()
-  }
+  $(".note-buttons .previous").show()
+  $(".note-buttons .next").show()
   session_id = data.hash;
   for (let i=0; i < session_count % AYAHS_PER_SUBISSION + 2; i++) {
     $(".progress-bubble:nth-of-type("+i+")").addClass("complete");
   }
 }
 
+// Ayah here is the last Ayah which retrieved from localstorage
 if(ayah_data)
   load_ayah_callback(ayah_data)
 
-$("#demographics-form").submit(
-  function() {
-    $.ajax(
-      {
-        type: "POST",
-        url: "/api/demographics/",
-        data: $("#demographics-form").serialize(),
-        dataType: "json",
-        success: (data) => {
-            window.mySwipe.slide(3)
-        }
-      }
-    );
-    return false;
-  }
-)
 
 function targetHasId(target, id) {
   if ($(target).parents("#"+id).length || $(target).attr('id') == id) {
@@ -84,20 +67,14 @@ function targetHasId(target, id) {
 $("footer .btn").click(function(evt) {
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
     recording_data = new Array(AYAHS_PER_SUBISSION);
-    passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"))
-    if(passedOnBoarding){
-      window.mySwipe.slide(4)
       $(".note-buttons .previous").show()
       $(".note-buttons .next").show()
-    }
-    else {
       window.mySwipe.slide(1)
       $(".complete").removeClass("complete");
       $("#ayah").show();
       $("#mic").show();
       if(!ayah_data)
         api.get_ayah(load_ayah_callback);
-    }
   } else if (targetHasId(evt.target, "submit")) {
       const record = recording_data[session_count];
       if (record) {
@@ -111,11 +88,13 @@ $("footer .btn").click(function(evt) {
       }
       if (session_count % AYAHS_PER_SUBISSION == 0 && !passedOnBoarding) {
         state = StateEnum.THANK_YOU;
+        console.log(passedOnBoarding)
         window.mySwipe.next()
         $("#ayah").hide();
         $("#thank-you").show();``
         try {
           localStorage.setItem("passedOnBoarding", String(true))
+          passedOnBoarding = true
         }
         catch (e) {
           console.log(e.message)
@@ -133,10 +112,8 @@ $("footer .btn").click(function(evt) {
     $(".review").hide();
     $("#mic").show();
     $("#mic").addClass("recording");
-    if(passedOnBoarding) {
-      $(".note-buttons .next").hide()
-      $(".note-buttons .previous").hide()
-    }
+    $(".note-buttons .next").hide()
+    $(".note-buttons .previous").hide()
   } else if (state == StateEnum.RECORDING) {
     if (recorder) {
       recorder.exportWAV(function(blob) {
@@ -153,10 +130,8 @@ $("footer .btn").click(function(evt) {
     $(".review").css("display", "flex");
     $("#mic").removeClass("recording");
     $("#mic").hide();
-    if(passedOnBoarding) {
-      $(".note-buttons .previous").css({ display: "block", margin: 0 })
-      $(".note-buttons .next").hide()
-    }
+    $(".note-buttons .previous").css({ display: "block", margin: 0 })
+    $(".note-buttons .next").hide()
   }
 });
 
@@ -196,10 +171,11 @@ const renderSurahs = (surahs) => {
   surahsList.scrollTop(Number(activeOne.getAttribute("data-key")) * 75 - ( 3 * 75))
 }
 
-renderSurahs(surahs)
-
 $(".screen5 .content form").submit((e) => e.preventDefault())
 $(".screen6 .content form").submit((e) => e.preventDefault())
+$("#demographics-form").submit((e) => e.preventDefault())
+
+
 $(".screen5 .content form .input-wrapper input").keyup(e => {
   const value = e.target.value
   if(!value)
@@ -270,9 +246,10 @@ const setAyah = (surahKey, ayah) => {
   }
   $("#ayah").show()
   $("#mic").show()
+  $(".review").hide()
 
 }
-setPreviousAyah = () => {
+const setPreviousAyah = () => {
   const { ayah, surah } = ayah_data
   const prevAyah = Number(ayah) - 1
   if(ayah == 1) {
@@ -283,7 +260,7 @@ setPreviousAyah = () => {
     setAyah(surah, String(prevAyah))
 }
 
-setNextAyah = () => {
+const setNextAyah = () => {
   const { ayah, surah } = ayah_data
   const nextAyah = Number(ayah) + 1
   if(surahs[surah]["ayah"] == nextAyah - 1) {
@@ -294,6 +271,8 @@ setNextAyah = () => {
     setAyah(surah, String(nextAyah))
 }
 
+$(".navbar .counter").html(`10k/${ayahsRecited}`)
+
 const goToDemographics = () => {
   window.mySwipe.slide(2)
 }
@@ -302,12 +281,25 @@ const goToSubscribe = () => {
   window.mySwipe.slide(3)
 }
 
-const continueReading = () => {
-  window.mySwipe.slide(1)
-}
 
 const submitDemographics = () => {
-  $("#demographics-form").submit()
+  const serializedForm = $("#demographics-form").serializeArray()
+  const gender = serializedForm[0].value
+  const age = serializedForm[1].value
+  const ethnicity = serializedForm[2].value
+  if(gender && age && ethnicity) {
+    $.ajax(
+      {
+        type: "POST",
+        url: "/api/demographics/",
+        data: $("#demographics-form").serialize(),
+        dataType: "json",
+        success: (data) => {
+        }
+      }
+    );
+    window.mySwipe.next()
+  }
 }
 
 const skipDemographic = () => {
@@ -316,6 +308,7 @@ const skipDemographic = () => {
   $("#ayah").show();
   $("#progress").hide()
   $(".navbar").css("display", "flex")
+  setNextAyah()
   window.mySwipe.slide(1)
 }
 
