@@ -17,6 +17,8 @@ let ayahsRecited;
 let continuous = false
 let preloadedAyahs = {}
 
+const isMobile = new MobileDetect(window.navigator.userAgent);
+
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"))
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"))
@@ -44,7 +46,7 @@ function load_ayah_callback(data) {
   ayah_data = data;
   $("#mic").removeClass("recording");
   // images are not rendered well in mobile.
-  isMobile.os() {
+  if (isMobile.os()) {
     $("#ayah-text").text(data.line);
   } else {
     $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")    
@@ -363,13 +365,14 @@ const submitDemographics = () => {
 }
 
 const skipDemographic = () => {
-  $(".review").hide()
-  $("#mic").show()
-  $("#ayah").show();
-  $("#progress").hide()
-  $(".navbar").css("display", "flex")
-  setNextAyah()
-  window.mySwipe.slide(1)
+  window.mySwipe.next()
+  // $(".review").hide()
+  // $("#mic").show()
+  // $("#ayah").show();
+  // $("#progress").hide()
+  // $(".navbar").css("display", "flex")
+  // setNextAyah()
+  // window.mySwipe.slide(1)
 }
 
 const toggleNavbarMenu = () => {
@@ -388,5 +391,5 @@ function kFormatter(num) {
   return (num/1000).toFixed(1) + 'k'
 }
 
-const isMobile = new MobileDetect(window.navigator.userAgent);
+
 if(isMobile.os()) $(".mobile-app").show()
