@@ -253,8 +253,12 @@ body {
   text-align: center;
 }
 .logo-img {
-  height: 10em;
-  width: 10em;
+  height: 6em;
+  width: 6em;
+  margin-bottom:-2em;
+}
+.ayah-image{
+  width:100%;
 }
 .info {
   margin-top: 10px;
@@ -508,7 +512,7 @@ footer {
 }
 .note-buttons {
   position: absolute;
-  bottom: 2em;
+  bottom: 3em;
   display: flex;
   justify-content: center;
 }
@@ -519,6 +523,9 @@ footer {
   cursor: pointer;
   display: none;
   margin: 0 2em;
+}
+.note-buttons button:hover {
+  color: #5EC49E;
 }
 .note-buttons button.previous {
   margin-right: 5em;
@@ -543,10 +550,10 @@ footer {
   text-align: center;
   padding: 1em 0;
   color: #fff;
-  background: #0F2027;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin: 10px 10px 20px 10px;
+  background: #5fc49e;  /* fallback for old browsers */
   display: none;
+  border-radius: 15px;
 }
 .mobile-app .close {
   position: absolute;
