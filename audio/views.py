@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 import random
 import datetime
-from django.http import HttpResponse, JsonResponse
-from quickstart.models import AnnotatedRecording, DemographicInformation
-from django.shortcuts import render
 import io
 import json
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from quickstart.models import AnnotatedRecording, DemographicInformation
 from rest_framework.decorators import api_view
 
 END_OF_FILE = 6236
@@ -26,14 +27,19 @@ def get_ayah(request, line_length=200):
         f.close()
 
     # Parse line and add hash
-    surah = request.data['surah'] if request.method == 'POST' else str(random.randint(1, 114))
-    ayah = request.data['ayah'] if request.method == 'POST' else str(random.randint(1, len(lines[surah].keys())))
+    surah = request.data['surah'] if request.method == 'POST' else str(
+        random.randint(1, 114))
+    ayah = request.data['ayah'] if request.method == 'POST' else str(
+        random.randint(1, len(lines[surah].keys())))
     line = lines[surah][ayah]
+    image_url = static('img/ayah_images/'+str(surah)+"_"+str(ayah)+'.png')
     hash = random.getrandbits(32)
 
     # Format as json, and save row in DB
-    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash, "session_id": session_key}
-    row = AnnotatedRecording(surah_num=surah, ayah_num=ayah, hash_string=hash, session_id=session_key)
+    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash, 
+              "session_id": session_key, "image_url": image_url}
+    row = AnnotatedRecording(surah_num=surah, ayah_num=ayah, hash_string=hash, 
+        session_id=session_key)
     row.save()
 
     return JsonResponse(result)
