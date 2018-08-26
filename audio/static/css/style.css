@@ -258,7 +258,7 @@ body {
   margin-bottom:-2em;
 }
 .ayah-image{
-  width:100%;
+  max-width:100%;
 }
 .info {
   margin-top: 10px;
