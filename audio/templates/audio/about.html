@@ -12,17 +12,25 @@
     <div class="mobile-app-banner">
       <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
     </div>
-    <div class="about_us_page_ayah_count">
+    <!-- <div class="about_us_page_ayah_count">
       <h3>
         {{ recording_count }}
       </h3>
       <p>
         Ayahs Recorded
       </p>
-    </div>
+    </div> --><!-- 
     <div class="about_us_page_recited">
       Ayahs recited:
-    </div>
+    </div> -->
+
+    <div align="center"><link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+    <div id="counter"></div></div>
+
+    <div align="center" class="info" id="about_us_page_ayah_count"><b>{{ recording_count }}</b> Ayahs Recorded!</div>
+
+    <div align="center" class ="info" id="about_us_page_recited">You have recited: <b></b></div>
+
     <div id="core-text" class="about-page">
       <div class="info" id="start-text" align="left">
 
@@ -63,18 +71,54 @@
       </div>
     </div>
   </body>
+<script src="{% static 'js/progressbar.min.js' %}"></script>
 <script>
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  const h3 = document.querySelector(".about_us_page_ayah_count h3")
-  h3.innerHTML = numberWithCommas(h3.innerHTML)
+  const h3 = document.querySelector("#about_us_page_ayah_count h3")
+  //h3.innerHTML = numberWithCommas(h3.innerHTML)
   try {
     const ayahsRecited = Number(localStorage.getItem("ayahsRecited")) || 0
-    const ayahNode = document.querySelector(".about_us_page_recited")
+    const ayahNode = document.querySelector("#about_us_page_recited")
     ayahNode.innerHTML += ayahsRecited
   } catch (e) {
     console.log(e.message)
   }
+
+// progressbar.js@1.0.0 version is used
+// Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+
+var bar = new ProgressBar.Circle(counter, {
+  color: '#aaa',
+  // This has to be the same size as the maximum width to
+  // prevent clipping
+  strokeWidth: 4,
+  trailWidth: 1,
+  easing: 'easeInOut',
+  duration: 1400,
+  text: {
+    autoStyleContainer: false
+  },
+  from: { color: '#5ec49e', width: 1 },
+  to: { color: '#5ec49e', width: 4 },
+  // Set default step function for all animate calls
+  step: function(state, circle) {
+    circle.path.setAttribute('stroke', state.color);
+    circle.path.setAttribute('stroke-width', state.width);
+    //var value = Math.round(circle.value() * 10000);
+    var value = Math.round(circle.value() * {{ recording_count }} *10000/{{ recording_count }});
+    if (value === 0) {
+      circle.setText('');
+    } else {
+      circle.setText(value);
+    };
+  }
+});
+bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+bar.text.style.fontSize = '2rem';
+value = {{ recording_count }};
+animate_value = value/10000;
+bar.animate(animate_value);  // Number from 0.0 to 1.0
 </script>
 </html>
