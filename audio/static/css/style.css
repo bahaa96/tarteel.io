@@ -115,7 +115,9 @@ body {
 .change-ayah-container {
   cursor: pointer;
 }
-.change-ayah-container:hover .change-ayah {
+.change-ayah-container:hover .change-ayah,
+.change-ayah-container:hover #ayah-loc
+{
   color: #5ec49e;
 }
 #ayah-text {
@@ -240,6 +242,7 @@ body {
   margin-top: 14px;
   color: #9fa1a8;
   font-size: 18px;
+  transition: 0.2s;
 }
 .ayah-container .change-ayah {
   color: #9fa1a8;
@@ -335,6 +338,32 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+}
+.screen2 footer .buttons-wrapper {
+  margin-bottom: 1em;
+}
+.screen2 footer .buttons-wrapper .mic-wrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+}
+.screen2 footer .buttons-wrapper .mic-wrapper .previous {
+  position: absolute;
+  top: 50%;
+  left: -125px;
+  margin: 0;
+  transform: translateY(-50%);
+}
+.screen2 footer .buttons-wrapper .mic-wrapper .next {
+  position: absolute;
+  top: 50%;
+  right: -100px;
+  margin: 0;
+  transform: translateY(-50%);
 }
 .screen3 {
   height: 100%;
@@ -347,9 +376,18 @@ body {
   flex-flow: column;
   min-height: 100%;
 }
+.screen1 .content,
+.screen3 .content,
+.screen4 .content,
+.screen5 .content,
+.screen6 .content {
+  max-width: 600px;
+  margin: auto;
+}
 .screen5 .content,
 .screen6 .content {
   text-align: center;
+  position: relative;
 }
 .screen5 .content .title h3,
 .screen6 .content .title h3 {
@@ -486,7 +524,6 @@ footer {
 .review {
   display: flex;
   flex-flow: column-reverse;
-  height: 100%;
   justify-content: center;
   align-items: center;
 }
@@ -531,13 +568,7 @@ footer {
 #retry {
   background-color: #19213b;
 }
-.note-buttons {
-  position: absolute;
-  bottom: 3em;
-  display: flex;
-  justify-content: center;
-}
-.note-buttons button {
+.note-button {
   color: #a5aab2;
   background-color: transparent;
   border: 0;
@@ -545,19 +576,22 @@ footer {
   display: none;
   margin: 0 2em;
 }
-.note-buttons button:hover {
+.note-button:hover {
   color: #5EC49E;
 }
-.note-buttons button.previous {
+.note-button.previous {
   margin-right: 5em;
 }
-.screen3 .note-buttons {
+.note-button.previous-ayah {
+  margin: 10px 0;
+}
+.screen3 .note-button {
   top: 25px;
   position: relative;
   bottom: 0;
   margin-bottom: 50px;
 }
-.screen3 .note-buttons button {
+.screen3 .note-button {
   display: inline-block;
 }
 
@@ -935,4 +969,98 @@ select > option {
 }
 .ham4.active .bottom {
   stroke-dashoffset: -68px;
+}
+
+/*Toggle Button Styles*/
+.tgl {
+  display: none;
+}
+.tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+  box-sizing: border-box;
+}
+.tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+  background: none;
+}
+.tgl + .tgl-btn {
+  outline: 0;
+  display: block;
+  width: 40px;
+  height: 15px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 20px;
+  height: 20px;
+}
+.tgl + .tgl-btn:after {
+  left: -2px;
+  top: -5px;
+}
+.tgl + .tgl-btn:before {
+  display: none;
+}
+.tgl:checked + .tgl-btn:after {
+  left: 50%;
+}
+
+.tgl-ios + .tgl-btn {
+  background: #d5d5d5;
+  border-radius: 2em;
+  padding: 2px;
+  transition: all 0.4s ease;
+}
+.tgl-ios + .tgl-btn:after {
+  border-radius: 2em;
+  background: #fbfbfb;
+  transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.tgl-ios + .tgl-btn:hover:after {
+  will-change: padding;
+}
+.tgl-ios + .tgl-btn:active {
+  box-shadow: inset 0 0 0 2em #e8eae9;
+}
+.tgl-ios + .tgl-btn:active:after {
+  padding-right: 0.8em;
+}
+.tgl-ios:checked + .tgl-btn {
+  background: #5EC49E;
+}
+.tgl-ios:checked + .tgl-btn:active {
+  box-shadow: none;
+}
+.tgl-ios:checked + .tgl-btn:active:after {
+  margin-left: -0.8em;
+}
+.tg-list-item {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.tg-list-item span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 5;
+}
+.tg-list-item h4 {
+  font-size: 12px;
+  color: #a5aab2;
+  margin: 1em 0;
+}
+.buttons-wrapper h4 {
+  font-size: 12px;
+  color: #a5aab2;
+  display: none;
 }

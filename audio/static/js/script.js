@@ -14,18 +14,22 @@ var recording_data = new Array(AYAHS_PER_SUBISSION);
 let passedOnBoarding;
 let currentSurah;
 let ayahsRecited;
-let continuous = false
-let preloadedAyahs = {}
+let continuous = false;
+let preloadedAyahs = {};
 
 const isMobile = new MobileDetect(window.navigator.userAgent);
 
 try {
-  passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"))
-  ayah_data = JSON.parse(localStorage.getItem("lastAyah"))
-  ayahsRecited = Number(localStorage.getItem("ayahsRecited"))
+  passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"));
+  ayah_data = JSON.parse(localStorage.getItem("lastAyah"));
+  ayahsRecited = Number(localStorage.getItem("ayahsRecited"));
+  continuous = Boolean(localStorage.getItem("continuous"))
+  $('#continuous').prop('checked', continuous);
   if(passedOnBoarding) {
     $("#progress").hide();
-    $(".navbar").css("display", "flex")
+    $(".navbar").css("display", "flex");
+    $(".tg-list-item span").css("display", "none");
+
   }
 } catch (e) {
   console.log(e.message);
@@ -51,23 +55,26 @@ function load_ayah_callback(data) {
   } else {
     $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")    
   }
+  setLastAyah(data)
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
-  $(".note-buttons .previous").show()
-  $(".note-buttons .next").show()
+  $(".note-button.previous").show();
+  $(".note-button.next").show();
+  $(".tg-list-item").show();
   session_id = data.hash;
   for (let i=0; i < session_count % AYAHS_PER_SUBISSION + 2; i++) {
     $(".progress-bubble:nth-of-type("+i+")").addClass("complete");
   }
-  if(continuous && passedOnBoarding)
-    $("#mic").trigger("click")
-  loadNextAyah()
+  // if(continuous && passedOnBoarding){
+  //   $("#mic").trigger("click");
+  // }
+  loadNextAyah();
   loadPreviousAyah()
 }
 
 // Ayah here is the last Ayah which retrieved from localstorage
 if(ayah_data)
-  load_ayah_callback(ayah_data)
+  load_ayah_callback(ayah_data);
 
 
 function targetHasId(target, id) {
@@ -80,15 +87,29 @@ function targetHasId(target, id) {
 $("footer .btn").click(function(evt) {
   if (state == StateEnum.INTRO || state == StateEnum.THANK_YOU) {
     recording_data = new Array(AYAHS_PER_SUBISSION);
-      $(".note-buttons .previous").show()
-      $(".note-buttons .next").show()
-      window.mySwipe.slide(1)
+      $(".note-button.previous").show();
+      $(".note-button.next").show();
+      $(".tg-list-item").show();
+    window.mySwipe.slide(1)
       $(".complete").removeClass("complete");
       $("#ayah").show();
       $("#mic").show();
       if(!ayah_data)
-        api.get_ayah(load_ayah_callback);
+        getRandomAyah()
   } else if (targetHasId(evt.target, "submit")) {
+      if(continuous) {
+        if (recorder) {
+          recorder.exportWAV(function(blob) {
+            recording_data[session_count % AYAHS_PER_SUBISSION] = {
+              surah_num: ayah_data.surah,
+              ayah_num: ayah_data.ayah,
+              hash_string: session_id,
+              audio: blob
+            }
+          })
+          stopRecording()
+        }
+      }
       const record = recording_data[session_count];
       if (record) {
         api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
@@ -99,12 +120,13 @@ $("footer .btn").click(function(evt) {
           console.log(e.message)
         }
       }
+      renderCounter()
       if (session_count % AYAHS_PER_SUBISSION == 0 && !passedOnBoarding) {
         state = StateEnum.THANK_YOU;
-        console.log(passedOnBoarding)
-        window.mySwipe.next()
+        window.mySwipe.next();
         $("#ayah").hide();
-        $("#thank-you").show();``
+        $("#thank-you").show();
+        $(".tg-list-item span").css("display", "none");
         try {
           localStorage.setItem("passedOnBoarding", String(true))
           passedOnBoarding = true
@@ -115,6 +137,7 @@ $("footer .btn").click(function(evt) {
         $(".review").hide()
       } else {
         $(".review").hide();
+        $(".note-button.previous-ayah").hide()
         $("#mic").show()
         setNextAyah()
 
@@ -126,8 +149,18 @@ $("footer .btn").click(function(evt) {
     $(".review").hide();
     $("#mic").show();
     $("#mic").addClass("recording");
-    $(".note-buttons .next").hide()
-    $(".note-buttons .previous").hide()
+    if(continuous) {
+      $(".review").css("display", "flex");
+      $("#retry").hide();
+      $(".recording-note").show()
+      $(".review #submit").css("margin-top", "10px")
+    } else  {
+      $("#mic").css("margin-bottom", "3.5em")
+    }
+    $(".tg-list-item").hide();
+    $(".note-button.next").hide();
+    $(".note-button.previous").hide();
+    $(".note-button.previous-ayah").hide();
   } else if (state == StateEnum.RECORDING) {
     if (recorder) {
       recorder.exportWAV(function(blob) {
@@ -140,12 +173,26 @@ $("footer .btn").click(function(evt) {
       })
       stopRecording()
     }
-    state = StateEnum.COMMIT_DECISION;
-    $(".review").css("display", "flex");
-    $("#mic").removeClass("recording");
-    $("#mic").hide();
-    $(".note-buttons .previous").css({ display: "block", margin: 0 })
-    $(".note-buttons .next").hide()
+    if(continuous) {
+      state = StateEnum.AYAH_LOADED;
+      $("#mic").removeClass("recording");
+      $(".review #submit").css("margin-top", "35px")
+      $(".note-button.next").show();
+      $(".note-button.previous").show();
+      $(".tg-list-item").show();
+      $("#retry").show()
+      $(".review").hide()
+      $(".recording-note").hide()
+    } else {
+      state = StateEnum.COMMIT_DECISION;
+      $("#mic").css("margin-bottom", "0")
+      $(".review").css("display", "flex");
+      $("#mic").removeClass("recording");
+      $("#mic").hide();
+      $(".note-button.previous-ayah").show();
+      $(".note-button.next").hide();
+      $(".note-button.previous").hide();
+    }
   }
 });
 
@@ -165,10 +212,10 @@ $('.dropdown').click(function () {
 
 
 const renderSurahs = (surahs) => {
-  const surahsList = $(".screen5 .content ul")
-  surahsList.html("")
+  const surahsList = $(".screen5 .content ul");
+  surahsList.html("");
   for (let surahKey in surahs) {
-    surah = surahs[surahKey]
+    surah = surahs[surahKey];
     surahsList.append(`
     <li onclick="getSurah(${surahKey})" data-key="${surahKey}" class=${ ayah_data.surah === surahKey ? "active": "" }>
       <p class="number">${ surahKey }</p>
@@ -179,32 +226,32 @@ const renderSurahs = (surahs) => {
         <p  class="arabic" data-number=${surahKey}/>
       </div>
     </li>
-  `)
+  `);
   }
-  const activeOne = document.querySelector(".screen5 .content ul li.active")
-  surahsList.scrollTop(Number(activeOne.getAttribute("data-key")) * 75 - ( 3 * 75))
+  const activeOne = document.querySelector(".screen5 .content ul li.active");
+  surahsList.scrollTop(Number(activeOne.getAttribute("data-key")) * 75 - ( 3 * 75));
 }
 
-$(".screen5 .content form").submit((e) => e.preventDefault())
-$(".screen6 .content form").submit((e) => e.preventDefault())
-$("#demographics-form").submit((e) => e.preventDefault())
+$(".screen5 .content form").submit((e) => e.preventDefault());
+$(".screen6 .content form").submit((e) => e.preventDefault());
+$("#demographics-form").submit((e) => e.preventDefault());
 
 
 $(".screen5 .content form .input-wrapper input").keyup(e => {
-  const value = e.target.value
+  const value = e.target.value;
   if(!value)
-    renderSurahs(surahs)
-  const output = {}
+    renderSurahs(surahs);
+  const output = {};
   const out = Object.keys(surahs).filter((elm) => {
     return (
       surahs[elm].arabic.includes(value.toLowerCase().trim()) ||
       surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())  ||
       surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())
-    )
-  }).forEach(elm => output[elm] = surahs[elm])
+    );
+  }).forEach(elm => output[elm] = surahs[elm]);
 
   renderSurahs(output)
-})
+});
 $(".screen6 .content form .input-wrapper input").keyup(e => {
   const value = e.target.value
   currentSurah = currentSurah || ayah_data.surah
@@ -219,11 +266,11 @@ $(".screen6 .content form .input-wrapper input").keyup(e => {
   }).forEach(elm => output[elm] = ayahs[elm])
 
   renderAyahs(currentSurah, output)
-})
+});
 
 const renderAyahs = (surahKey, ayahs) => {
-  const $ayahsList = $(".screen6 .content ul")
-  $ayahsList.html("")
+  const $ayahsList = $(".screen6 .content ul");
+  $ayahsList.html("");
   for(let ayahKey in ayahs) {
     $ayahsList.append(`
     <li onclick="setAyah(${surahKey}, ${ayahKey})" data-key="${ayahKey}" class=${ ayah_data.ayah === ayahKey && surahKey === ayah_data.surah ? "active": "" }>
@@ -231,7 +278,7 @@ const renderAyahs = (surahKey, ayahs) => {
         ${ ayahKey }
       </p>
       <p class="text">
-        ${ ayahs[ayahKey].displayText.trunc(95) }
+        ${ ayahs[ayahKey].displayText.trunc(isMobile.os() ? 60 : 95) }
       </p>
     </li>
   `)
@@ -242,52 +289,72 @@ const renderAyahs = (surahKey, ayahs) => {
   }else {
     $ayahsList.scrollTop(0)
   }
-}
+};
 
 const getSurah = (surahKey) => {
-  renderAyahs(surahKey, ayahsDict[surahKey])
-  currentSurah = surahKey
-  $(".screen5 .content .title h3").text(surahs[surahKey].arabic)
-  window.mySwipe.slide(5)
+  renderAyahs(surahKey, ayahsDict[surahKey]);
+  currentSurah = surahKey;
+  $(".screen6 .content .title h3").text(surahs[surahKey].arabic);
+  window.mySwipe.slide(5);
+};
+
+function setLastAyah(ayah) {
+  try {
+    localStorage.setItem("lastAyah", JSON.stringify(ayah))
+  } catch (e) {
+    console.log(e.message)
+  }
 }
 
 const setAyah = (surahKey, ayah) => {
   api.get_specific_ayah(surahKey, ayah, load_ayah_callback);
-  window.mySwipe.slide(1)
+  window.mySwipe.slide(1);
   if(passedOnBoarding) {
     $("#progress").hide();
-    $(".navbar").css("display", "flex")
+    $(".navbar").css("display", "flex");
   }
-  $("#ayah").show()
-  $("#mic").show()
-  $(".review").hide()
+  $("#ayah").show();
+  $("#mic").show();
+  $(".review").hide();
 
 }
 const setPreviousAyah = () => {
   if(preloadedAyahs.prevAyah) {
-    load_ayah_callback(preloadedAyahs.prevAyah)
-    return false
+    load_ayah_callback(preloadedAyahs.prevAyah);
+    setLastAyah(preloadedAyahs.prevAyah)
+    return false;
   }
-  const { ayah, surah } = ayah_data
-  const prevAyah = Number(ayah) - 1
+  const { ayah, surah } = ayah_data;
+  const prevAyah = Number(ayah) - 1;
   if(ayah == 1) {
-    const prevSurah = Number(surah) - 1
-    setAyah(prevSurah, surahs[prevSurah].ayah)
+    if(surah == 1) {
+      setAyah(114, 6)
+    } else {
+      const prevSurah = Number(surah) - 1;
+      setAyah(prevSurah, surahs[prevSurah].ayah)
+    }
   }
   else
     setAyah(surah, String(prevAyah))
-}
+};
 
-const setNextAyah = () => {
+const setNextAyah = (dontstart) => {
   if(preloadedAyahs.nextAyah) {
     load_ayah_callback(preloadedAyahs.nextAyah)
+    setLastAyah(preloadedAyahs.nextAyah)
+    if(!dontstart && continuous && passedOnBoarding)
+      $("#mic").trigger("click");
     return false
   }
   const { ayah, surah } = ayah_data
   const nextAyah = Number(ayah) + 1
   if(surahs[surah]["ayah"] == nextAyah - 1) {
-    const nextSurah = Number(surah) + 1
-    setAyah(nextSurah, 1)
+    if(surah == "114" && ayah == "6") {
+      setAyah("1", "1")
+    } else {
+      const nextSurah = Number(surah) + 1;
+      setAyah(nextSurah, 1)
+    }
   }
   else
     setAyah(surah, String(nextAyah))
@@ -295,15 +362,20 @@ const setNextAyah = () => {
 
 function loadNextAyah() {
   let callback = (data) => {
-    preloadedAyahs.nextAyah = data
-    console.log("Next Ayah", data)
+    preloadedAyahs.nextAyah = data;
+    console.log("Next Ayah", data);
     $('<img/>')[0].src = data.image_url;
   }
-  const { ayah, surah } = ayah_data
-  const nextAyah = Number(ayah) + 1
+  const { ayah, surah } = ayah_data;
+  const nextAyah = Number(ayah) + 1;
   if(surahs[surah]["ayah"] == nextAyah - 1) {
-    const nextSurah = Number(surah) + 1
-    api.get_specific_ayah(String(nextSurah), String(1), callback)
+    if(surah == "114" && ayah == "6") {
+      api.get_specific_ayah(String(1), String(1), callback)
+    } else {
+      const nextSurah = Number(surah) + 1;
+      api.get_specific_ayah(String(nextSurah), String(1), callback)
+    }
+
   }
   else {
     api.get_specific_ayah(surah, String(nextAyah), callback)
@@ -312,15 +384,20 @@ function loadNextAyah() {
 
 function loadPreviousAyah() {
   let callback = (data) => {
-    preloadedAyahs.prevAyah = data
-    console.log("prevAyah Ayah", data)
+    preloadedAyahs.prevAyah = data;
+    console.log("prevAyah Ayah", data);
     $('<img/>')[0].src = data.image_url;
   }
-    const { ayah, surah } = ayah_data
-    const prevAyah = Number(ayah) - 1
+    const { ayah, surah } = ayah_data;
+    const prevAyah = Number(ayah) - 1;
     if(ayah == 1) {
-      const prevSurah = Number(surah) - 1
-      api.get_specific_ayah(String(prevSurah), surahs[prevSurah].ayah, callback)
+      if(surah == 1) {
+        api.get_specific_ayah(String(114), surahs[114].ayah, callback)
+      } else {
+        const prevSurah = Number(surah) - 1;
+        api.get_specific_ayah(String(prevSurah), surahs[prevSurah].ayah, callback)
+      }
+
     }
     else {
       api.get_specific_ayah(surah, String(prevAyah), callback)
@@ -328,12 +405,12 @@ function loadPreviousAyah() {
 }
 
 function renderCounter() {
-  const counter = $(".navbar .counter")
-  const currentContent = kFormatter(Number(counter.html()))
+  const counter = $(".navbar .counter");
+  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + session_count) : Number(counter.html()) + session_count
+  const currentContent = kFormatter(newCount);
   counter.html(`${currentContent}`)
 }
-renderCounter()
-
+renderCounter();
 
 const goToDemographics = () => {
   window.mySwipe.slide(2)
@@ -345,10 +422,10 @@ const goToSubscribe = () => {
 
 
 const submitDemographics = () => {
-  const serializedForm = $("#demographics-form").serializeArray()
-  const gender = serializedForm[0].value
-  const age = serializedForm[1].value
-  const ethnicity = serializedForm[2].value
+  const serializedForm = $("#demographics-form").serializeArray();
+  const gender = serializedForm[0].value;
+  const age = serializedForm[1].value;
+  const ethnicity = serializedForm[2].value;
   if(gender && age && ethnicity) {
     $.ajax(
       {
@@ -362,34 +439,60 @@ const submitDemographics = () => {
     );
     window.mySwipe.next()
   }
-}
+};
 
 const skipDemographic = () => {
-  window.mySwipe.next()
-  // $(".review").hide()
-  // $("#mic").show()
-  // $("#ayah").show();
-  // $("#progress").hide()
-  // $(".navbar").css("display", "flex")
-  // setNextAyah()
-  // window.mySwipe.slide(1)
+  $(".review").hide();
+  $("#mic").show();
+  $("#ayah").show();
+  $("#progress").hide();
+  $(".navbar").css("display", "flex");
+  $(".note-button.previous-ayah").hide();
+  setNextAyah(true)
+  window.mySwipe.slide(1)
 }
 
 const toggleNavbarMenu = () => {
-  const hamburger = document.querySelector(".hamburger svg")
-  hamburger.classList.toggle('active')
+  const hamburger = document.querySelector(".hamburger svg");
+  hamburger.classList.toggle('active');
   $(".navbar ul").toggle()
 }
 
 const navigateToChangeAyah = (surahKey = ayah_data.surah) => {
   window.mySwipe.slide(5)
-  renderAyahs(surahKey, ayahsDict[surahKey])
+  renderAyahs(surahKey, ayahsDict[surahKey]);
   renderSurahs(surahs)
 }
 
 function kFormatter(num) {
-  return (num/1000).toFixed(1) + 'k'
+  return num > 999 ? (num/1000).toFixed(1) + 'k' : num
 }
 
+$("#continuous").click(() => {
+  continuous = $("#continuous").is(":checked")
+  if(continuous === false)
+    setContinuousChecked("")
+  else
+    setContinuousChecked(continuous)
+})
 
-if(isMobile.os()) $(".mobile-app").show()
+function setContinuousChecked(value) {
+  try {
+    localStorage.setItem("continuous", String(value))
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
+function handleReviewPreviousAyah() {
+  $(".review").hide();
+  $("#mic").show();
+  $(".note-button.previous-ayah").hide();
+  setPreviousAyah();
+}
+
+function getRandomAyah() {
+  api.get_ayah(load_ayah_callback);
+}
+
+if(isMobile.os()) $(".mobile-app").show();

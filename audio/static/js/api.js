@@ -12,12 +12,7 @@ var api = {
         data: { surah, ayah },
         dataType: "json",
         success: function (data) {
-          try {
-            localStorage.setItem("lastAyah", JSON.stringify(data))
-            callback.call(this, data);
-          } catch (e) {
-            console.log(e.message)
-          }
+          callback.call(this, data);
         }
       }
     );
