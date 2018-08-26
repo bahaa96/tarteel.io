@@ -43,8 +43,12 @@ function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
   $("#mic").removeClass("recording");
-  // $("#ayah-text").text(data.line);
-  $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
+  // images are not rendered well in mobile.
+  isMobile.os() {
+    $("#ayah-text").text(data.line);
+  } else {
+    $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")    
+  }
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
   $(".note-buttons .previous").show()

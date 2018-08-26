@@ -112,7 +112,6 @@ body {
 .ayah-container {
   text-align: center;
   padding: 10px;
-  margin-top: 50px;
   z-index: 5;
   position: relative;
 }
@@ -123,6 +122,7 @@ body {
   color: #5EC49E;
 }
 #ayah-text {
+  margin-top: 50px;
   font-family: GeezaPro;
   color: #393e4e;
 }
