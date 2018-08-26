@@ -13,18 +13,22 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123499302-1"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag("js", new Date());
 
-      gtag('config', 'UA-123499302-1');
-    </script>
+gtag("config", "UA-123499302-1");
+</script>
 
   </head>
   <body style="max-width: 600px; margin: auto">
   <div id='slider' class='swipe'>
     <div class='swipe-wrap'>
       <div class="screen1">
+        <div class="content">
+
         <div class="banner">
           <img src="../../static/img/Logo3x.png" alt="Tarteel-logo" class="logo-img">
         </div>
@@ -45,6 +49,7 @@
           </div>
         </footer>
       </div>
+      </div>
       <div class="screen2">
         <div id="ayah">
           <div id="progress">
@@ -58,9 +63,9 @@
             <div class="logo" >
               <a href="/about">
                 <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
+                <span class="counter">{{recording_count}}</span>
               </a>
             </div>
-            <span class="counter">{{recording_count}}</span>
             <ul>
               <li><a href="/about">About</a></li>
               <li><a onclick="goToSubscribe()">Subscribe</a></li>
@@ -122,7 +127,7 @@
                   Help us assess how well we're doing by telling us a little bit about yourself...
                   <br><br>
 
-                  <div style="text-align:center; margin: 0 -40px;">
+                  <div style="text-align:center; margin: 0 -40px; margin-top: 20px;">
                     <span class="dropdown-container">
                       <div class="dropdown" style="width:80px">
                         <div class="select">
@@ -408,7 +413,7 @@
                     /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
                        We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
                   </style>
-                  <div style="text-align:center">
+                  <div style="text-align:center; margin-top: 50px;">
                     <div class="footer-btn" onclick="submitDemographics()">
                       <span>That's Me!</span>
                     </div>
