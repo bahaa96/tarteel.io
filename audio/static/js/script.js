@@ -43,7 +43,8 @@ function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
   $("#mic").removeClass("recording");
-  $("#ayah-text").text(data.line);
+  // $("#ayah-text").text(data.line);
+  $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
   $(".note-buttons .previous").show()
@@ -290,6 +291,7 @@ function loadNextAyah() {
   let callback = (data) => {
     preloadedAyahs.nextAyah = data
     console.log("Next Ayah", data)
+    $('<img/>')[0].src = data.image_url;
   }
   const { ayah, surah } = ayah_data
   const nextAyah = Number(ayah) + 1
@@ -306,6 +308,7 @@ function loadPreviousAyah() {
   let callback = (data) => {
     preloadedAyahs.prevAyah = data
     console.log("prevAyah Ayah", data)
+    $('<img/>')[0].src = data.image_url;
   }
     const { ayah, surah } = ayah_data
     const prevAyah = Number(ayah) - 1
