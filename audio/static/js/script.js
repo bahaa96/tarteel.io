@@ -17,6 +17,8 @@ let ayahsRecited;
 let continuous = false
 let preloadedAyahs = {}
 
+const isMobile = new MobileDetect(window.navigator.userAgent);
+
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"))
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"))
@@ -43,7 +45,12 @@ function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
   $("#mic").removeClass("recording");
-  $("#ayah-text").text(data.line);
+  // images are not rendered well in mobile.
+  if (isMobile.os()) {
+    $("#ayah-text").text(data.line);
+  } else {
+    $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")    
+  }
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
   $(".note-buttons .previous").show()
@@ -290,6 +297,7 @@ function loadNextAyah() {
   let callback = (data) => {
     preloadedAyahs.nextAyah = data
     console.log("Next Ayah", data)
+    $('<img/>')[0].src = data.image_url;
   }
   const { ayah, surah } = ayah_data
   const nextAyah = Number(ayah) + 1
@@ -306,6 +314,7 @@ function loadPreviousAyah() {
   let callback = (data) => {
     preloadedAyahs.prevAyah = data
     console.log("prevAyah Ayah", data)
+    $('<img/>')[0].src = data.image_url;
   }
     const { ayah, surah } = ayah_data
     const prevAyah = Number(ayah) - 1
@@ -356,13 +365,14 @@ const submitDemographics = () => {
 }
 
 const skipDemographic = () => {
-  $(".review").hide()
-  $("#mic").show()
-  $("#ayah").show();
-  $("#progress").hide()
-  $(".navbar").css("display", "flex")
-  setNextAyah()
-  window.mySwipe.slide(1)
+  window.mySwipe.next()
+  // $(".review").hide()
+  // $("#mic").show()
+  // $("#ayah").show();
+  // $("#progress").hide()
+  // $(".navbar").css("display", "flex")
+  // setNextAyah()
+  // window.mySwipe.slide(1)
 }
 
 const toggleNavbarMenu = () => {
@@ -381,5 +391,5 @@ function kFormatter(num) {
   return (num/1000).toFixed(1) + 'k'
 }
 
-const isMobile = new MobileDetect(window.navigator.userAgent);
+
 if(isMobile.os()) $(".mobile-app").show()
