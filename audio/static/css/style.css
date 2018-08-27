@@ -32,6 +32,7 @@
   text-align: left;
 }
 .dropdown .select {
+  text-align: center;
   cursor: pointer;
   display: block;
   padding: 10px;
@@ -77,6 +78,7 @@
   padding: 10px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  text-align: center;
 }
 .dropdown .dropdown-menu {
   padding: 0;
@@ -626,13 +628,18 @@ footer {
   margin: 0 5px;
 }
 .mobile-app-banner {
-  height: 15em;
-  width: 15em;
-  margin: auto;
-}
-.mobile-app-banner img {
-  height: 100%;
   width: 100%;
+  position:relative;
+}
+#background-logo{
+  position:absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  opacity: 0.07;
+
 }
 .mobile-page-text {
   text-align: center;
@@ -970,6 +977,11 @@ select > option {
 .ham4.active .bottom {
   stroke-dashoffset: -68px;
 }
+#counter {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
 
 /*Toggle Button Styles*/
 .tgl {
