@@ -938,3 +938,9 @@ select > option {
 .ham4.active .bottom {
   stroke-dashoffset: -68px;
 }
+#counter {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
