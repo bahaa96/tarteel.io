@@ -32,6 +32,7 @@
   text-align: left;
 }
 .dropdown .select {
+  text-align: center;
   cursor: pointer;
   display: block;
   padding: 10px;
@@ -77,6 +78,7 @@
   padding: 10px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  text-align: center;
 }
 .dropdown .dropdown-menu {
   padding: 0;
