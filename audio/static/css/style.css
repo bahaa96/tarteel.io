@@ -121,7 +121,7 @@ body {
   color: #5ec49e;
 }
 #ayah-text {
-  margin-top: 50px;
+  margin-top: 20px;
   font-family: GeezaPro;
   color: #393e4e;
 }
@@ -176,19 +176,22 @@ body {
   padding: 0;
   height: 100%;
   position: relative;
+  line-height: 50px;
 }
 .navbar ul li {
   display: inline-block;
   font-size: 14px;
   color: #393e4e;
   height: 100%;
-  padding: 15px 5px;
+  padding: 0 5px;
   box-sizing: border-box;
   cursor: pointer;
 }
 .navbar a {
   text-decoration: none;
   transition: 0.25s;
+  display: inline-block;
+  height: 100%;
 }
 .navbar ul li a:hover {
   color: #5fc49e;
@@ -341,6 +344,7 @@ body {
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
+  z-index: 10;
 }
 .screen2 footer .buttons-wrapper {
   margin-bottom: 1em;
