@@ -594,13 +594,18 @@ footer {
   margin: 0 5px;
 }
 .mobile-app-banner {
-  height: 15em;
-  width: 15em;
-  margin: auto;
-}
-.mobile-app-banner img {
-  height: 100%;
   width: 100%;
+  position:relative;
+}
+#background-logo{
+  position:absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  opacity: 0.07;
+
 }
 .mobile-page-text {
   text-align: center;
