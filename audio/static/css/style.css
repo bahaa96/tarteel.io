@@ -126,6 +126,7 @@ body {
   margin-top: 20px;
   font-family: GeezaPro;
   color: #393e4e;
+  min-height: 180px;
 }
 /* Add some padding inside the card container */
 .container {
@@ -339,7 +340,7 @@ body {
   height: 100%;
 }
 .screen2 footer {
-  height: 250px;
+  height: 150px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -509,6 +510,16 @@ body {
 }
 .screen6 .content ul li p.text {
   flex: 1;
+}
+
+@media screen and (max-width: 650px){
+  .screen6 .content ul li {
+    font-size: 14pt;
+  }
+  .screen6 .content ul li p.text {
+    text-align: right;
+    margin-right: 1em;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -931,20 +942,7 @@ select > option {
   background: grey;
 }
 
-*::-webkit-scrollbar {
-  width: 8px;
-}
 
-*::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 23px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #5ec49e;
-  outline: 1px solid slategrey;
-  border-radius: 23px;
-}
 
 /*Hamburger Icon styles*/
 .ham {
@@ -986,6 +984,7 @@ select > option {
   width: 200px;
   height: 200px;
   position: relative;
+}
 
 /*Toggle Button Styles*/
 .tgl {
@@ -1070,13 +1069,15 @@ select > option {
   background-color: #fff;
   z-index: 5;
 }
-.tg-list-item h4 {
-  font-size: 12px;
+.tg-list-item p {
   color: #a5aab2;
   margin: 1em 0;
+  font-weight: 500;
+  font-size: 14px;
 }
-.buttons-wrapper h4 {
-  font-size: 12px;
+.buttons-wrapper .recording-note {
   color: #a5aab2;
   display: none;
+  font-weight: 500;
+  font-size: 14px;
 }

@@ -154,6 +154,7 @@ $("footer .btn").click(function(evt) {
       $("#retry").hide();
       $(".recording-note").show()
       $(".review #submit").css("margin-top", "10px")
+      $("#mic").css("border-radius", "15%")
     } else  {
       $("#mic").css("margin-bottom", "3.5em")
     }
@@ -182,6 +183,7 @@ $("footer .btn").click(function(evt) {
       $(".tg-list-item").show();
       $("#retry").show()
       $(".review").hide()
+      $("#mic").css("border-radius", "50%")
       $(".recording-note").hide()
     } else {
       state = StateEnum.COMMIT_DECISION;
@@ -406,7 +408,7 @@ function loadPreviousAyah() {
 
 function renderCounter() {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + session_count) : Number(counter.html()) + session_count
+  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + 1) : Number(counter.html()) + 1
   const currentContent = kFormatter(newCount);
   counter.html(`${currentContent}`)
 }
@@ -495,4 +497,26 @@ function getRandomAyah() {
   api.get_ayah(load_ayah_callback);
 }
 
-if(isMobile.os()) $(".mobile-app").show();
+if(isMobile.os()) {
+  $(".mobile-app").show();
+}
+else {
+  const sheet = document.createElement("style")
+  sheet.append(`
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 23px;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #5ec49e;
+    outline: 1px solid slategrey;
+    border-radius: 23px;
+  }
+`);
+  document.head.appendChild(sheet)
+}
