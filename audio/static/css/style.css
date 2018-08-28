@@ -116,6 +116,7 @@ body {
 }
 .change-ayah-container {
   cursor: pointer;
+  display: inline-block;
 }
 .change-ayah-container:hover .change-ayah,
 .change-ayah-container:hover #ayah-loc
@@ -1000,7 +1001,7 @@ select > option {
   outline: 0;
   display: block;
   width: 40px;
-  height: 15px;
+  height: 14px;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -1059,6 +1060,7 @@ select > option {
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-top: 1em;
 }
 .tg-list-item span {
   position: absolute;
@@ -1069,11 +1071,13 @@ select > option {
   background-color: #fff;
   z-index: 5;
 }
-.tg-list-item p {
-  color: #a5aab2;
+.tg-list-item .tgl-text {
   margin: 1em 0;
   font-weight: 500;
   font-size: 14px;
+  color: #a5aab2;
+  background-color: transparent;
+  border: 0;
 }
 .buttons-wrapper .recording-note {
   color: #a5aab2;
