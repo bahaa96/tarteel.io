@@ -36,11 +36,8 @@ def get_ayah(request, line_length=200):
     hash = random.getrandbits(32)
 
     # Format as json, and save row in DB
-    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash, 
+    result = {"surah": surah, "ayah": ayah, "line": line, "hash": hash,
               "session_id": session_key, "image_url": image_url}
-    row = AnnotatedRecording(surah_num=surah, ayah_num=ayah, hash_string=hash, 
-        session_id=session_key)
-    row.save()
 
     return JsonResponse(result)
 
