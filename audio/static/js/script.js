@@ -175,6 +175,17 @@ $("footer .btn").click(function(evt) {
       stopRecording()
     }
     if(continuous) {
+      const record = recording_data[session_count];
+      if (record) {
+        api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+        session_count += 1;
+        try {
+          localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
+        } catch (e) {
+          console.log(e.message)
+        }
+      }
+      renderCounter()
       state = StateEnum.AYAH_LOADED;
       $("#mic").removeClass("recording");
       $(".review #submit").css("margin-top", "35px")

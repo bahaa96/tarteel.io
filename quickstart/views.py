@@ -25,13 +25,16 @@ class AnnotatedRecordingList(APIView):
     if not(new_recording.is_valid()):
       raise ValueError("Invalid serializer data")
     try:
-      existing_recording = AnnotatedRecording.objects.get(
-        hash_string=new_recording.data['hash_string'],
-        ayah_num=new_recording.data['ayah_num'],
-        surah_num=new_recording.data['surah_num'])
-      existing_recording.file = request.data['file']
-      existing_recording.session_id = session_key
-      existing_recording.save()
+        # existing_recording = AnnotatedRecording.objects.get(
+        #   hash_string=new_recording.data['hash_string'],
+        #   ayah_num=new_recording.data['ayah_num'],
+        #   surah_num=new_recording.data['surah_num'])
+        # existing_recording.file = request.data['file']
+        # existing_recording.session_id = session_key
+        # existing_recording.save()
+        new_recording.file = request.data['file']
+        new_recording.session_id = session_key
+        new_recording.save()
     except:
       return Response("Invalid hash or timed out request", status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_201_CREATED)
