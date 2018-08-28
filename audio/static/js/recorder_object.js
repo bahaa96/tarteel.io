@@ -37,6 +37,8 @@ function startRecording() {
   }
 
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+    if(e.message === "Permission denied")
+      alert("Permission denied")
     console.log('No live audio input: ' + e);
   });
 };

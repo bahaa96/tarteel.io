@@ -116,6 +116,7 @@ body {
 }
 .change-ayah-container {
   cursor: pointer;
+  display: inline-block;
 }
 .change-ayah-container:hover .change-ayah,
 .change-ayah-container:hover #ayah-loc
@@ -123,9 +124,10 @@ body {
   color: #5ec49e;
 }
 #ayah-text {
-  margin-top: 50px;
+  margin-top: 20px;
   font-family: GeezaPro;
   color: #393e4e;
+  min-height: 180px;
 }
 /* Add some padding inside the card container */
 .container {
@@ -178,19 +180,22 @@ body {
   padding: 0;
   height: 100%;
   position: relative;
+  line-height: 50px;
 }
 .navbar ul li {
   display: inline-block;
   font-size: 14px;
   color: #393e4e;
   height: 100%;
-  padding: 15px 5px;
+  padding: 0 5px;
   box-sizing: border-box;
   cursor: pointer;
 }
 .navbar a {
   text-decoration: none;
   transition: 0.25s;
+  display: inline-block;
+  height: 100%;
 }
 .navbar ul li a:hover {
   color: #5fc49e;
@@ -336,13 +341,14 @@ body {
   height: 100%;
 }
 .screen2 footer {
-  height: 250px;
+  height: 150px;
   position: absolute;
   bottom: 0;
   left: 0;
   display: flex;
   flex-flow: column;
   justify-content: flex-end;
+  z-index: 10;
 }
 .screen2 footer .buttons-wrapper {
   margin-bottom: 1em;
@@ -505,6 +511,16 @@ body {
 }
 .screen6 .content ul li p.text {
   flex: 1;
+}
+
+@media screen and (max-width: 650px){
+  .screen6 .content ul li {
+    font-size: 14pt;
+  }
+  .screen6 .content ul li p.text {
+    text-align: right;
+    margin-right: 1em;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -927,20 +943,7 @@ select > option {
   background: grey;
 }
 
-*::-webkit-scrollbar {
-  width: 8px;
-}
 
-*::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 23px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #5ec49e;
-  outline: 1px solid slategrey;
-  border-radius: 23px;
-}
 
 /*Hamburger Icon styles*/
 .ham {
@@ -982,6 +985,7 @@ select > option {
   width: 200px;
   height: 200px;
   position: relative;
+}
 
 /*Toggle Button Styles*/
 .tgl {
@@ -997,7 +1001,7 @@ select > option {
   outline: 0;
   display: block;
   width: 40px;
-  height: 15px;
+  height: 14px;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -1056,6 +1060,7 @@ select > option {
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-top: 1em;
 }
 .tg-list-item span {
   position: absolute;
@@ -1066,13 +1071,17 @@ select > option {
   background-color: #fff;
   z-index: 5;
 }
-.tg-list-item h4 {
-  font-size: 12px;
-  color: #a5aab2;
+.tg-list-item .tgl-text {
   margin: 1em 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #a5aab2;
+  background-color: transparent;
+  border: 0;
 }
-.buttons-wrapper h4 {
-  font-size: 12px;
+.buttons-wrapper .recording-note {
   color: #a5aab2;
   display: none;
+  font-weight: 500;
+  font-size: 14px;
 }

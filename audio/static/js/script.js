@@ -154,8 +154,9 @@ $("footer .btn").click(function(evt) {
       $("#retry").hide();
       $(".recording-note").show()
       $(".review #submit").css("margin-top", "10px")
+      $("#mic").html(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34" style="left: -1px"><rect xmlns="http://www.w3.org/2000/svg" rx="3" id="svg_1" height="20" width="21" y="2.5" x="2.5" stroke-width="0" stroke="#fff" fill="#fff"/></svg>`)
     } else  {
-      $("#mic").css("margin-bottom", "3.5em")
+      $("#mic").css("margin-bottom", "77px")
     }
     $(".tg-list-item").hide();
     $(".note-button.next").hide();
@@ -182,6 +183,9 @@ $("footer .btn").click(function(evt) {
       $(".tg-list-item").show();
       $("#retry").show()
       $(".review").hide()
+      $("#mic").html(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+      `)
       $(".recording-note").hide()
     } else {
       state = StateEnum.COMMIT_DECISION;
@@ -406,7 +410,7 @@ function loadPreviousAyah() {
 
 function renderCounter() {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + session_count) : Number(counter.html()) + session_count
+  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + 1) : Number(counter.html()) + 1
   const currentContent = kFormatter(newCount);
   counter.html(`${currentContent}`)
 }
@@ -495,4 +499,26 @@ function getRandomAyah() {
   api.get_ayah(load_ayah_callback);
 }
 
-if(isMobile.os()) $(".mobile-app").show();
+if(isMobile.os()) {
+  $(".mobile-app").show();
+}
+else {
+  const sheet = document.createElement("style")
+  sheet.append(`
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 23px;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #5ec49e;
+    outline: 1px solid slategrey;
+    border-radius: 23px;
+  }
+`);
+  document.head.appendChild(sheet)
+}

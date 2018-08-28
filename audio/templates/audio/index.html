@@ -94,42 +94,44 @@ gtag("config", "UA-123499302-1");
               </svg>
             </button class="hamburger">
           </div>
+        </div>
+        <div class="content">
           <div class="ayah-container">
+            <div id="ayah-text"></div>
             <div class="change-ayah-container" onclick="navigateToChangeAyah()">
               <div id="ayah-loc">(<span id="surah-num"></span> : <span id="ayah-num"></span>)</div>
               <span class="change-ayah" >Click here to change Ayah</span>
             </div>
-            <div id="ayah-text"></div>
           </div>
-        </div>
-        <footer>
-          <div class="buttons-wrapper">
-            <div class="mic-wrapper">
-              <div class="recording-btn btn" id="mic">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          <footer>
+            <div class="buttons-wrapper">
+              <div class="mic-wrapper">
+                <div class="recording-btn btn" id="mic">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                </div>
+                <button class="previous note-button" onclick="setPreviousAyah()">Previous Ayah</button>
+                <button class="next note-button" onclick="setNextAyah(true)">Next Ayah</button>
               </div>
-              <button class="previous note-button" onclick="setPreviousAyah()">Previous Ayah</button>
-              <button class="next note-button" onclick="setNextAyah()">Next Ayah</button>
-            </div>
-            <h4 class="recording-note">continuous recording </h4>
-            <div class="review">
-              <div class="footer-btn btn" id="submit">
-                <span>Next</span>
+              <p class="recording-note">continuous recording </p>
+              <div class="review">
+                <div class="footer-btn btn" id="submit">
+                  <span>Next</span>
+                </div>
+                <div class="recording-btn btn" id="retry">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
+                </div>
               </div>
-              <div class="recording-btn btn" id="retry">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
-              </div>
-            </div>
               <button class="previous-ayah note-button" onclick="handleReviewPreviousAyah()">Previous Ayah</button>
 
-          </div>
-          <div class="tg-list-item">
-            <span></span>
-            <input type="checkbox" id="continuous" class="tgl tgl-ios">
-            <label for="continuous" class="tgl-btn"></label>
-            <h4>continuous recording </h4>
-          </div>
-        </footer>
+            </div>
+            <div class="tg-list-item">
+              <span></span>
+              <input type="checkbox" id="continuous" class="tgl tgl-ios">
+              <label for="continuous" class="tgl-btn"></label>
+              <button class="tgl-text">continuous recording </button>
+            </div>
+          </footer>
+        </div>
       </div>
       <div class="screen3">
           <div class="content">
