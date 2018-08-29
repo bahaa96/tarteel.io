@@ -228,19 +228,24 @@ $("footer .btn").click(function(evt) {
   }
 });
 
-$('.dropdown').click(function () {
-        $(this).attr('tabindex', 1).focus();
-        $(this).toggleClass('active');
-        $(this).find('.dropdown-menu').slideToggle(300);
-    });
-    $('.dropdown').focusout(function () {
-        $(this).removeClass('active');
-        $(this).find('.dropdown-menu').slideUp(300);
-    });
-    $('.dropdown .dropdown-menu li').click(function () {
-        $(this).parents('.dropdown').find('span').text($(this).text());
-        $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
-    });
+$('.dropdown .select').click(function () {
+  $(this).parent().attr('tabindex', 1).focus();
+  $(this).parent().toggleClass('active');
+  $(this).parent().find('.dropdown-menu').slideToggle(300);
+});
+$('.dropdown .select').focusout(function () {
+    $(this).parent().removeClass('active');
+    $(this).parent().find('.dropdown-menu').slideUp(300);
+});
+$('.dropdown .dropdown-menu ul li').click(handleHeritageListItemClick);
+
+function handleHeritageListItemClick() {
+  const parent = $(this).parents('.dropdown')
+  parent.find('span').text($(this).text());
+  parent.find('input[type="hidden"]').attr('value', $(this).attr('id'));
+  parent.removeClass('active');
+  parent.find('.dropdown-menu').slideUp(300);
+}
 
 
 const renderSurahs = (surahs) => {
@@ -299,6 +304,8 @@ $(".screen6 .content form .input-wrapper input").keyup(e => {
 
   renderAyahs(currentSurah, output)
 });
+
+$(".dropdown-menu .search input[type='text']").keyup(handleHeritageSearch)
 
 const renderAyahs = (surahKey, ayahs) => {
   const $ayahsList = $(".screen6 .content ul");
@@ -461,6 +468,7 @@ const submitDemographics = () => {
   const gender = serializedForm[0].value;
   const age = serializedForm[1].value;
   const ethnicity = serializedForm[2].value;
+  console.log(gender, age, ethnicity)
   if(gender && age && ethnicity) {
     $.ajax(
       {
@@ -538,6 +546,31 @@ function handleReviewPreviousAyah() {
 
 function getRandomAyah() {
   api.get_ayah(load_ayah_callback);
+}
+
+function handleHeritageSearch(e) {
+  e.preventDefault()
+  const value = e.currentTarget.value.trim().toLowerCase()
+  const searchList = $(".dropdown-menu ul.search")
+  const mainList = $(".dropdown-menu ul.main")
+
+  if (value) {
+    filterHeritageListItems(value)
+  } else {
+    mainList.show()
+    searchList.hide()
+  }
+
+  function filterHeritageListItems (value) {
+    searchList.show()
+    mainList.hide()
+    searchList.html($(".dropdown-menu ul.main li").clone().filter(function () {
+      const status = $(this).html().toLowerCase().includes(value)
+      if(status)
+        $(this).click(handleHeritageListItemClick);
+      return status
+    }))
+  }
 }
 
 if(isMobile.os()) {
