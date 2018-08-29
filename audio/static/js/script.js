@@ -53,7 +53,7 @@ function load_ayah_callback(data) {
   if (isMobile.os()) {
     $("#ayah-text").text(data.line);
   } else {
-    $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")    
+    $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
   }
   setLastAyah(data)
   $("#surah-num").text(data.surah);
@@ -156,7 +156,7 @@ $("footer .btn").click(function(evt) {
       $(".review #submit").css("margin-top", "10px")
       $("#mic").html(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34" style="left: -1px"><rect xmlns="http://www.w3.org/2000/svg" rx="3" id="svg_1" height="20" width="21" y="2.5" x="2.5" stroke-width="0" stroke="#fff" fill="#fff"/></svg>`)
     } else  {
-      $("#mic").css("margin-bottom", "77px")
+      $("#mic").css("margin-bottom", "60px")
     }
     $(".tg-list-item").hide();
     $(".note-button.next").hide();
@@ -519,12 +519,12 @@ else {
   *::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   *::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 23px;
   }
-  
+
   *::-webkit-scrollbar-thumb {
     background-color: #5ec49e;
     outline: 1px solid slategrey;

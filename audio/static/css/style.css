@@ -625,7 +625,7 @@ footer {
   padding: 1em 0;
   color: #fff;
   margin: 10px 10px 20px 10px;
-  background: #5fc49e; 
+  background: #5fc49e;
   display: none;
   border-radius: 15px;
 }
@@ -1060,7 +1060,7 @@ select > option {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 1em;
+  margin-top: 8px;
 }
 .tg-list-item span {
   position: absolute;
@@ -1073,8 +1073,7 @@ select > option {
 }
 .tg-list-item .tgl-text {
   margin: 1em 0;
-  font-weight: 500;
-  font-size: 14px;
+  font-size: 11px;
   color: #a5aab2;
   background-color: transparent;
   border: 0;
