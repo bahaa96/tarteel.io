@@ -499,6 +499,12 @@ const navigateToChangeAyah = (surahKey = ayah_data.surah) => {
   renderSurahs(surahs)
 }
 
+function incrementCount(num){
+  const counter = $(".navbar .counter");
+  const newCount = Number(counter.html().replace(",", "")) + 1
+  return newCount
+}
+
 function commaFormatter(num){
   return Number(num).toLocaleString()
 }
