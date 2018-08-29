@@ -38,7 +38,7 @@ function startRecording() {
 
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
     if(e.message === "Permission denied")
-      alert("Permission denied")
+      alert("Please enable microphone access or use a different browser")
     console.log('No live audio input: ' + e);
   });
 };
