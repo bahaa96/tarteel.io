@@ -178,53 +178,7 @@ $("footer .btn").click(function(evt) {
     $(".note-button.previous").hide();
     $(".note-button.previous-ayah").hide();
   } else if (state == StateEnum.RECORDING) {
-    if (recorder) {
-      recorder.exportWAV(function(blob) {
-        recording_data[session_count % AYAHS_PER_SUBISSION] = {
-          surah_num: ayah_data.surah,
-          ayah_num: ayah_data.ayah,
-          hash_string: session_id,
-          audio: blob
-        }
-        stopRecording()
-        if(continuous) {
-          const record = recording_data[session_count % recording_data.length];
-          if (record) {
-            api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
-            session_count += 1;
-            setNextAyah(true)
-            try {
-              localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
-            } catch (e) {
-              console.log(e.message)
-            }
-          }
-          renderCounter(1)
-          state = StateEnum.AYAH_LOADED;
-          $("#mic").removeClass("recording");
-          $(".review #submit").css("margin-top", "35px")
-          $(".note-button.next").show();
-          $(".note-button.previous").show();
-          $(".tg-list-item").show();
-          $("#retry").show()
-          $(".review").hide()
-          $("#mic").html(`
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-          `)
-          $(".recording-note").hide()
-        }
-      })
-    }
-    if(!continuous) {
-      state = StateEnum.COMMIT_DECISION;
-      $("#mic").css("margin-bottom", "0")
-      $(".review").css("display", "flex");
-      $("#mic").removeClass("recording");
-      $("#mic").hide();
-      $(".note-button.previous-ayah").show();
-      $(".note-button.next").hide();
-      $(".note-button.previous").hide();
-    }
+    handleStopButton()
   }
 });
 
@@ -346,6 +300,10 @@ function setLastAyah(ayah) {
 }
 
 const setAyah = (surahKey, ayah) => {
+  if(state == StateEnum.RECORDING) {
+    handleStopButton(true)
+    $(".note-button.previous-ayah").hide();
+  }
   api.get_specific_ayah(surahKey, ayah, load_ayah_callback);
   window.mySwipe.slide(1);
   if(passedOnBoarding) {
@@ -355,7 +313,6 @@ const setAyah = (surahKey, ayah) => {
   $("#ayah").show();
   $("#mic").show();
   $(".review").hide();
-
 }
 const setPreviousAyah = () => {
   if(preloadedAyahs.prevAyah) {
@@ -462,6 +419,56 @@ const goToSubscribe = () => {
   window.mySwipe.slide(3)
 }
 
+const handleStopButton = (dontGetNext) => {
+  if (recorder) {
+    recorder.exportWAV(function(blob) {
+      recording_data[session_count % AYAHS_PER_SUBISSION] = {
+        surah_num: ayah_data.surah,
+        ayah_num: ayah_data.ayah,
+        hash_string: session_id,
+        audio: blob
+      }
+      stopRecording()
+      if(continuous) {
+        const record = recording_data[session_count % recording_data.length];
+        if (record) {
+          api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+          session_count += 1;
+          if(!dontGetNext)
+            setNextAyah(true)
+          try {
+            localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
+          } catch (e) {
+            console.log(e.message)
+          }
+        }
+        renderCounter(1)
+        state = StateEnum.AYAH_LOADED;
+        $("#mic").removeClass("recording");
+        $(".review #submit").css("margin-top", "35px")
+        $(".note-button.next").show();
+        $(".note-button.previous").show();
+        $(".tg-list-item").show();
+        $("#retry").show()
+        $(".review").hide()
+        $("#mic").html(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          `)
+        $(".recording-note").hide()
+      }
+    })
+  }
+  if(!continuous) {
+    state = StateEnum.COMMIT_DECISION;
+    $("#mic").css("margin-bottom", "0")
+    $(".review").css("display", "flex");
+    $("#mic").removeClass("recording");
+    $("#mic").hide();
+    $(".note-button.previous-ayah").show();
+    $(".note-button.next").hide();
+    $(".note-button.previous").hide();
+  }
+}
 
 const submitDemographics = () => {
   const serializedForm = $("#demographics-form").serializeArray();
