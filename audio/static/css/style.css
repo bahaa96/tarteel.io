@@ -207,7 +207,7 @@ body {
 }
 .navbar .counter {
   position: absolute;
-  left: 27px;
+  left: 56px;
   top: 7px;
   color: #5fc49e;
   font-size: 13pt;
@@ -217,7 +217,7 @@ body {
   height: 25px;
   line-height: 25px;
   width: 75px;
-  text-align: center;
+  text-align: left;
 }
 @media screen and (max-width: 650px) {
   .navbar .hamburger {

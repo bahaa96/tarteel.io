@@ -26,9 +26,7 @@
     <div align="center"><link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
     <div id="counter"></div></div>
 
-    <div align="center" class="info" id="about_us_page_ayah_count"><b>{{ recording_count }}</b> Ayahs Recorded!</div>
-
-    <div align="center" class ="info" id="about_us_page_recited">You have recited: <b></b></div>
+    <div align="center" class ="info" id="about_us_page_recited">By the way, you have recited: <span id="user-recording-count" style="font-weight: bold"></span> ayahs, helping us reach a total of <span style="font-weight: bold">{{ recording_count }}</span> ayahs so far!</div>
 
     <div id="core-text" class="about-page">
       <div class="info" id="start-text" align="left">
@@ -81,7 +79,7 @@
   //h3.innerHTML = numberWithCommas(h3.innerHTML)
   try {
     const ayahsRecited = Number(localStorage.getItem("ayahsRecited")) || 0
-    const ayahNode = document.querySelector("#about_us_page_recited")
+    const ayahNode = document.querySelector("#user-recording-count")
     ayahNode.innerHTML += ayahsRecited
   } catch (e) {
     console.log(e.message)
