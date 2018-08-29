@@ -236,7 +236,7 @@ const renderSurahs = (surahs) => {
       <p class="number">${ surahKey }</p>
       <div class="text">
         <p>
-          ${ surah.latin }
+          ${ surah.latin } (${surah.english})
         </p>
         <p  class="arabic" data-number=${surahKey}/>
       </div>
