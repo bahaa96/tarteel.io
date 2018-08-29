@@ -421,9 +421,9 @@ function loadPreviousAyah() {
 
 function renderCounter() {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + 1) : Number(counter.html()) + 1
-  const currentContent = commaFormatter(newCount);
-  counter.html(`${currentContent}`)
+  var newCount = incrementCount();
+  newCount = commaFormatter(newCount);
+  counter.html(`${newCount}`)
 }
 renderCounter();
 
@@ -477,6 +477,12 @@ const navigateToChangeAyah = (surahKey = ayah_data.surah) => {
   window.mySwipe.slide(5)
   renderAyahs(surahKey, ayahsDict[surahKey]);
   renderSurahs(surahs)
+}
+
+function incrementCount(num){
+  const counter = $(".navbar .counter");
+  const newCount = Number(counter.html().replace(",", "")) + 1
+  return newCount
 }
 
 function commaFormatter(num){
