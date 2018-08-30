@@ -64,7 +64,7 @@ def index(request):
         'daily_count':daily_count, 'ask_for_demographics':ask_for_demographics})
 
 def about(request):
-    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count() - 1000
     return render(request, 'audio/about.html', {'recording_count': recording_count})
 
 def privacy(request):
