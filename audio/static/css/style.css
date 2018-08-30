@@ -74,15 +74,28 @@
   overflow-y: auto;
   z-index: 9;
 }
+.dropdown .dropdown-menu .search {
+  text-align: center;
+  padding-top: 10px;
+}
+.dropdown .dropdown-menu .search input[type='text'] {
+  border-radius: 23px;
+  border: 1px solid darkgray;
+  padding: 5px 0;
+  text-align: center;
+}
 .dropdown .dropdown-menu li {
   padding: 10px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   text-align: center;
 }
-.dropdown .dropdown-menu {
+.dropdown .dropdown-menu ul {
   padding: 0;
   list-style: none;
+}
+.dropdown .dropdown-menu ul.search {
+  display: none;
 }
 .dropdown .dropdown-menu li:hover {
   background-color: #f2f2f2;

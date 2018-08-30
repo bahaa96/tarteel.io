@@ -65,9 +65,6 @@ function load_ayah_callback(data) {
   for (let i=0; i < session_count % AYAHS_PER_SUBISSION + 2; i++) {
     $(".progress-bubble:nth-of-type("+i+")").addClass("complete");
   }
-  // if(continuous && passedOnBoarding){
-  //   $("#mic").trigger("click");
-  // }
   loadNextAyah();
   loadPreviousAyah()
 }
@@ -97,20 +94,35 @@ $("footer .btn").click(function(evt) {
       if(!ayah_data)
         getRandomAyah()
   } else if (targetHasId(evt.target, "submit")) {
-      if(continuous) {
-        if (recorder) {
-          recorder.exportWAV(function(blob) {
-            recording_data[session_count % AYAHS_PER_SUBISSION] = {
-              surah_num: ayah_data.surah,
-              ayah_num: ayah_data.ayah,
-              hash_string: session_id,
-              audio: blob
-            }
-          })
+    if(continuous) {
+      if (recorder) {
+        recorder.exportWAV(function(blob) {
+          recording_data[session_count % AYAHS_PER_SUBISSION] = {
+            surah_num: ayah_data.surah,
+            ayah_num: ayah_data.ayah,
+            hash_string: session_id,
+            audio: blob
+          }
           stopRecording()
-        }
+          const record = recording_data[session_count % AYAHS_PER_SUBISSION];
+          if (record) {
+            api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+            session_count += 1;
+            try {
+              localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
+            } catch (e) {
+              console.log(e.message)
+            }
+          }
+          renderCounter(1)
+          $(".review").hide();
+          $(".note-button.previous-ayah").hide()
+          $("#mic").show()
+          setNextAyah()
+        })
       }
-      const record = recording_data[session_count];
+    } else {
+      const record = recording_data[session_count % AYAHS_PER_SUBISSION];
       if (record) {
         api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
         session_count += 1;
@@ -120,7 +132,7 @@ $("footer .btn").click(function(evt) {
           console.log(e.message)
         }
       }
-      renderCounter()
+      renderCounter(1)
       if (session_count % AYAHS_PER_SUBISSION == 0 && !passedOnBoarding) {
         state = StateEnum.THANK_YOU;
         window.mySwipe.next();
@@ -142,6 +154,9 @@ $("footer .btn").click(function(evt) {
         setNextAyah()
 
       }
+    }
+
+
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
     startRecording()
@@ -163,67 +178,28 @@ $("footer .btn").click(function(evt) {
     $(".note-button.previous").hide();
     $(".note-button.previous-ayah").hide();
   } else if (state == StateEnum.RECORDING) {
-    if (recorder) {
-      recorder.exportWAV(function(blob) {
-        recording_data[session_count % AYAHS_PER_SUBISSION] = {
-          surah_num: ayah_data.surah,
-          ayah_num: ayah_data.ayah,
-          hash_string: session_id,
-          audio: blob
-        }
-      })
-      stopRecording()
-    }
-    if(continuous) {
-      const record = recording_data[session_count];
-      if (record) {
-        api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
-        session_count += 1;
-        try {
-          localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
-        } catch (e) {
-          console.log(e.message)
-        }
-      }
-      renderCounter()
-      state = StateEnum.AYAH_LOADED;
-      $("#mic").removeClass("recording");
-      $(".review #submit").css("margin-top", "35px")
-      $(".note-button.next").show();
-      $(".note-button.previous").show();
-      $(".tg-list-item").show();
-      $("#retry").show()
-      $(".review").hide()
-      $("#mic").html(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-      `)
-      $(".recording-note").hide()
-    } else {
-      state = StateEnum.COMMIT_DECISION;
-      $("#mic").css("margin-bottom", "0")
-      $(".review").css("display", "flex");
-      $("#mic").removeClass("recording");
-      $("#mic").hide();
-      $(".note-button.previous-ayah").show();
-      $(".note-button.next").hide();
-      $(".note-button.previous").hide();
-    }
+    handleStopButton()
   }
 });
 
-$('.dropdown').click(function () {
-        $(this).attr('tabindex', 1).focus();
-        $(this).toggleClass('active');
-        $(this).find('.dropdown-menu').slideToggle(300);
-    });
-    $('.dropdown').focusout(function () {
-        $(this).removeClass('active');
-        $(this).find('.dropdown-menu').slideUp(300);
-    });
-    $('.dropdown .dropdown-menu li').click(function () {
-        $(this).parents('.dropdown').find('span').text($(this).text());
-        $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
-    });
+$('.dropdown .select').click(function () {
+  $(this).parent().attr('tabindex', 1).focus();
+  $(this).parent().toggleClass('active');
+  $(this).parent().find('.dropdown-menu').slideToggle(300);
+});
+$('.dropdown .select').focusout(function () {
+    $(this).parent().removeClass('active');
+    $(this).parent().find('.dropdown-menu').slideUp(300);
+});
+$('.dropdown .dropdown-menu ul li').click(handleHeritageListItemClick);
+
+function handleHeritageListItemClick() {
+  const parent = $(this).parents('.dropdown')
+  parent.find('span').text($(this).text());
+  parent.find('input[type="hidden"]').attr('value', $(this).attr('id'));
+  parent.removeClass('active');
+  parent.find('.dropdown-menu').slideUp(300);
+}
 
 
 const renderSurahs = (surahs) => {
@@ -261,7 +237,7 @@ $(".screen5 .content form .input-wrapper input").keyup(e => {
     return (
       surahs[elm].arabic.includes(value.toLowerCase().trim()) ||
       surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())  ||
-      surahs[elm].english.toLocaleLowerCase().includes(value.toLowerCase().trim())
+      surahs[elm].latin.toLocaleLowerCase().includes(value.toLowerCase().trim())
     );
   }).forEach(elm => output[elm] = surahs[elm]);
 
@@ -282,6 +258,8 @@ $(".screen6 .content form .input-wrapper input").keyup(e => {
 
   renderAyahs(currentSurah, output)
 });
+
+$(".dropdown-menu .search input[type='text']").keyup(handleHeritageSearch)
 
 const renderAyahs = (surahKey, ayahs) => {
   const $ayahsList = $(".screen6 .content ul");
@@ -322,6 +300,10 @@ function setLastAyah(ayah) {
 }
 
 const setAyah = (surahKey, ayah) => {
+  if(state == StateEnum.RECORDING) {
+    handleStopButton(true)
+    $(".note-button.previous-ayah").hide();
+  }
   api.get_specific_ayah(surahKey, ayah, load_ayah_callback);
   window.mySwipe.slide(1);
   if(passedOnBoarding) {
@@ -331,7 +313,6 @@ const setAyah = (surahKey, ayah) => {
   $("#ayah").show();
   $("#mic").show();
   $(".review").hide();
-
 }
 const setPreviousAyah = () => {
   if(preloadedAyahs.prevAyah) {
@@ -378,7 +359,6 @@ const setNextAyah = (dontstart) => {
 function loadNextAyah() {
   let callback = (data) => {
     preloadedAyahs.nextAyah = data;
-    console.log("Next Ayah", data);
     $('<img/>')[0].src = data.image_url;
   }
   const { ayah, surah } = ayah_data;
@@ -400,7 +380,6 @@ function loadNextAyah() {
 function loadPreviousAyah() {
   let callback = (data) => {
     preloadedAyahs.prevAyah = data;
-    console.log("prevAyah Ayah", data);
     $('<img/>')[0].src = data.image_url;
   }
     const { ayah, surah } = ayah_data;
@@ -419,13 +398,18 @@ function loadPreviousAyah() {
     }
 }
 
-function renderCounter() {
+function renderCounter(n) {
   const counter = $(".navbar .counter");
-  var newCount = incrementCount();
-  newCount = commaFormatter(newCount);
-  counter.html(`${newCount}`)
+  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
+  const currentContent = kFormatter(newCount);
+  counter.html(`${currentContent}`)
+  renderSubscribeCounter(newCount)
 }
-renderCounter();
+renderCounter(0);
+
+function renderSubscribeCounter(count) {
+  $(".screen4 .content .text strong").html(count)
+}
 
 const goToDemographics = () => {
   window.mySwipe.slide(2)
@@ -435,12 +419,63 @@ const goToSubscribe = () => {
   window.mySwipe.slide(3)
 }
 
+const handleStopButton = (dontGetNext) => {
+  if (recorder) {
+    recorder.exportWAV(function(blob) {
+      recording_data[session_count % AYAHS_PER_SUBISSION] = {
+        surah_num: ayah_data.surah,
+        ayah_num: ayah_data.ayah,
+        hash_string: session_id,
+        audio: blob
+      }
+      stopRecording()
+      if(continuous) {
+        const record = recording_data[session_count % recording_data.length];
+        if (record) {
+          api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+          session_count += 1;
+          if(!dontGetNext)
+            setNextAyah(true)
+          try {
+            localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
+          } catch (e) {
+            console.log(e.message)
+          }
+        }
+        renderCounter(1)
+        state = StateEnum.AYAH_LOADED;
+        $("#mic").removeClass("recording");
+        $(".review #submit").css("margin-top", "35px")
+        $(".note-button.next").show();
+        $(".note-button.previous").show();
+        $(".tg-list-item").show();
+        $("#retry").show()
+        $(".review").hide()
+        $("#mic").html(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+          `)
+        $(".recording-note").hide()
+      }
+    })
+  }
+  if(!continuous) {
+    state = StateEnum.COMMIT_DECISION;
+    $("#mic").css("margin-bottom", "0")
+    $(".review").css("display", "flex");
+    $("#mic").removeClass("recording");
+    $("#mic").hide();
+    $(".note-button.previous-ayah").show();
+    $(".note-button.next").hide();
+    $(".note-button.previous").hide();
+  }
+}
 
 const submitDemographics = () => {
   const serializedForm = $("#demographics-form").serializeArray();
   const gender = serializedForm[0].value;
   const age = serializedForm[1].value;
   const ethnicity = serializedForm[2].value;
+  console.log(gender, age, ethnicity)
   if(gender && age && ethnicity) {
     $.ajax(
       {
@@ -486,7 +521,7 @@ function incrementCount(num){
 }
 
 function commaFormatter(num){
-  return Number(num).toLocaleString() 
+  return Number(num).toLocaleString()
 }
 
 function kFormatter(num) {
@@ -518,6 +553,31 @@ function handleReviewPreviousAyah() {
 
 function getRandomAyah() {
   api.get_ayah(load_ayah_callback);
+}
+
+function handleHeritageSearch(e) {
+  e.preventDefault()
+  const value = e.currentTarget.value.trim().toLowerCase()
+  const searchList = $(".dropdown-menu ul.search")
+  const mainList = $(".dropdown-menu ul.main")
+
+  if (value) {
+    filterHeritageListItems(value)
+  } else {
+    mainList.show()
+    searchList.hide()
+  }
+
+  function filterHeritageListItems (value) {
+    searchList.show()
+    mainList.hide()
+    searchList.html($(".dropdown-menu ul.main li").clone().filter(function () {
+      const status = $(this).html().toLowerCase().includes(value)
+      if(status)
+        $(this).click(handleHeritageListItemClick);
+      return status
+    }))
+  }
 }
 
 if(isMobile.os()) {
