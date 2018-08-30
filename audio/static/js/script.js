@@ -159,24 +159,34 @@ $("footer .btn").click(function(evt) {
 
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
-    startRecording()
-    state = StateEnum.RECORDING;
-    $(".review").hide();
-    $("#mic").show();
-    $("#mic").addClass("recording");
-    if(continuous) {
+    if(!continuous) {
+      startRecording(() => {
+        state = StateEnum.RECORDING;
+        $(".review").hide();
+        $("#mic").show();
+        $("#mic").addClass("recording");
+        $("#mic").css("margin-bottom", "60px")
+        $(".tg-list-item").hide();
+        $(".note-button.next").hide();
+        $(".note-button.previous").hide();
+        $(".note-button.previous-ayah").hide();
+      })
+    } else if (continuous) {
+      startRecording()
+      state = StateEnum.RECORDING;
+      $(".review").hide();
+      $("#mic").show();
+      $("#mic").addClass("recording");
       $(".review").css("display", "flex");
       $("#retry").hide();
       $(".recording-note").show()
       $(".review #submit").css("margin-top", "10px")
       $("#mic").html(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34" style="left: -1px"><rect xmlns="http://www.w3.org/2000/svg" rx="3" id="svg_1" height="20" width="21" y="2.5" x="2.5" stroke-width="0" stroke="#fff" fill="#fff"/></svg>`)
-    } else  {
-      $("#mic").css("margin-bottom", "60px")
+      $(".tg-list-item").hide();
+      $(".note-button.next").hide();
+      $(".note-button.previous").hide();
+      $(".note-button.previous-ayah").hide();
     }
-    $(".tg-list-item").hide();
-    $(".note-button.next").hide();
-    $(".note-button.previous").hide();
-    $(".note-button.previous-ayah").hide();
   } else if (state == StateEnum.RECORDING) {
     handleStopButton()
   }
