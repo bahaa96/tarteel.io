@@ -49,7 +49,7 @@ def index(request):
         request.session.create()
     session_key = request.session.session_key
 
-    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count() - 1000
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     
     if DemographicInformation.objects.filter(session_id=session_key).exists():
