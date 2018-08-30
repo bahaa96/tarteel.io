@@ -400,9 +400,10 @@ function loadPreviousAyah() {
 
 function renderCounter(n) {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
-  const currentContent = kFormatter(newCount);
-  counter.html(`${currentContent}`)
+  // const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
+  var newCount = incrementCount() 
+  newCount = commaFormatter(newCount);
+  counter.html(`${newCount}`)
   renderSubscribeCounter(newCount)
 }
 renderCounter(0);
