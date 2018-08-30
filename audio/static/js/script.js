@@ -50,11 +50,11 @@ function load_ayah_callback(data) {
   ayah_data = data;
   $("#mic").removeClass("recording");
   // images are not rendered well in mobile.
-  if (isMobile.os()) {
-    $("#ayah-text").text(data.line);
-  } else {
+  // if (isMobile.os()) {
+    // $("#ayah-text").text(data.line);
+  // } else {
     $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
-  }
+  // }
   setLastAyah(data)
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
