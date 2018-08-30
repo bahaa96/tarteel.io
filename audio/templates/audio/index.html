@@ -569,21 +569,26 @@ gtag("config", "UA-123499302-1");
       </div>
     </div>
     </div>
-<!--     <div class="mobile-app">
-      <span class="close" onclick="this.parentNode.remove()">&#10006;</span>
-      <p>Get a better experience on mobile!</p>
+    <div class="mic-permissions-blocked" style="padding:10px">
+      <span class="close" onclick="this.parentNode.style.display='none'">&#10006;</span>
+      <p>To upload recordings, please enable microphone access, or use a different browser.</p>
+    </div>
+
+    <div class="mobile-app" style="padding:10px">
+      <span class="close" onclick="this.parentNode.style.display='none'">&#10006;</span>
+      <p>It doesn't look like you have microphone permissions enabled. Get a better experience on mobile!</p>
       <a href="http://bit.ly/2Owlhio">Android</a>
       <a href="https://apple.co/2KWJ74U">iOS</a>
     </div>
- -->
+
     <script src="{% static 'js/jquery-1.8.1.js' %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder_object.js' %}"></script>
     <script src="{% static 'js/api.js' %}"></script>
     <script src="{% static 'js/volume-meter.js' %}"></script>
     <script src="{% static 'js/swipe.js' %}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
     <script src="{% static 'js/surahs.js' %}"></script>
     <script src="{% static 'js/data.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>

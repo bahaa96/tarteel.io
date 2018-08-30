@@ -4,6 +4,8 @@ var audioStream;
 let meter;
 let ifPermissions;
 
+const isMobile = new MobileDetect(window.navigator.userAgent);
+
 function drawLoop(time) {
   $("#mic").css("transform", `scale(${ 1 + Number(parseFloat(meter.volume).toFixed(2)) })`)
   rafID = window.requestAnimationFrame( drawLoop );
@@ -41,7 +43,11 @@ function startRecording(cb) {
 
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
     if(e.message === "Permission denied"){
-      alert("Please enable microphone access or use a different browser")
+      if (isMobile.os()) {
+        $(".mobile-app").show();
+      } else {
+        $(".mic-permissions-blocked").show();
+      }
       if(continuous) {
         revertContinuous()
       }

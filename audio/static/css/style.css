@@ -631,7 +631,7 @@ footer {
 #mc_embed_signup .button {
   background-color: #5ec49e !important;
 }
-.mobile-app {
+.mobile-app, .mic-permissions-blocked {
   position: absolute;
   top: 0;
   left: 0;
@@ -645,6 +645,11 @@ footer {
   border-radius: 15px;
 }
 .mobile-app .close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+.mic-permissions-blocked .close {
   position: absolute;
   right: 10px;
   top: 5px;

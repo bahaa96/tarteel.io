@@ -17,8 +17,6 @@ let ayahsRecited;
 let continuous = false;
 let preloadedAyahs = {};
 
-const isMobile = new MobileDetect(window.navigator.userAgent);
-
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"));
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"));
@@ -592,7 +590,7 @@ function handleHeritageSearch(e) {
 }
 
 if(isMobile.os()) {
-  $(".mobile-app").show();
+  // $(".mobile-app").show();
 }
 else {
   const sheet = document.createElement("style")
