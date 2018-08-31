@@ -22,6 +22,7 @@ class AnnotatedRecordingList(APIView):
 
   def post(self, request, *args, **kwargs):
     session_key = request.session.session_key or request.data["session_id"]
+    print("request.data", request.data)
     new_recording = AnnotatedRecordingSerializerPost(data=request.data)
     if not(new_recording.is_valid()):
       raise ValueError("Invalid serializer data")
