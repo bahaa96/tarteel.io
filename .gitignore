@@ -1,5 +1,6 @@
 hifz_django/settings.py
 settings.py
+media
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
