@@ -41,19 +41,21 @@ function startRecording(cb) {
     console.log('No web audio support in this browser!');
   }
 
-  navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-    if(e.message === "Permission denied"){
-      if (isMobile.os()) {
-        $(".mobile-app").show();
-      } else {
-        $(".mic-permissions-blocked").show();
+  navigator.mediaDevices.getUserMedia({audio: true})
+    .then(startUserMedia)
+    .catch((e) => {
+      if(e.message === "Permission denied"){
+        if (isMobile.os()) {
+          $(".mobile-app").show();
+        } else {
+          $(".mic-permissions-blocked").show();
+        }
+        if(continuous) {
+          revertContinuous()
+        }
       }
-      if(continuous) {
-        revertContinuous()
-      }
-    }
-    console.log('No live audio input: ' + e);
-  });
+      console.log('No live audio input: ' + e);
+    });
 };
 
 function revertContinuous() {
