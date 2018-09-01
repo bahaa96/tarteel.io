@@ -17,8 +17,6 @@ let ayahsRecited;
 let continuous = false;
 let preloadedAyahs = {};
 
-const isMobile = new MobileDetect(window.navigator.userAgent);
-
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"));
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"));
@@ -50,11 +48,11 @@ function load_ayah_callback(data) {
   ayah_data = data;
   $("#mic").removeClass("recording");
   // images are not rendered well in mobile.
-  if (isMobile.os()) {
-    $("#ayah-text").text(data.line);
-  } else {
+  // if (isMobile.os()) {
+    // $("#ayah-text").text(data.line);
+  // } else {
     $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
-  }
+  // }
   setLastAyah(data)
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
@@ -159,24 +157,34 @@ $("footer .btn").click(function(evt) {
 
   } else if (state == StateEnum.AYAH_LOADED ||
       (state == StateEnum.COMMIT_DECISION && targetHasId(evt.target, "retry"))) {
-    startRecording()
-    state = StateEnum.RECORDING;
-    $(".review").hide();
-    $("#mic").show();
-    $("#mic").addClass("recording");
-    if(continuous) {
+    if(!continuous) {
+      startRecording(() => {
+        state = StateEnum.RECORDING;
+        $(".review").hide();
+        $("#mic").show();
+        $("#mic").addClass("recording");
+        $("#mic").css("margin-bottom", "60px")
+        $(".tg-list-item").hide();
+        $(".note-button.next").hide();
+        $(".note-button.previous").hide();
+        $(".note-button.previous-ayah").hide();
+      })
+    } else if (continuous) {
+      startRecording()
+      state = StateEnum.RECORDING;
+      $(".review").hide();
+      $("#mic").show();
+      $("#mic").addClass("recording");
       $(".review").css("display", "flex");
       $("#retry").hide();
       $(".recording-note").show()
       $(".review #submit").css("margin-top", "10px")
       $("#mic").html(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34" style="left: -1px"><rect xmlns="http://www.w3.org/2000/svg" rx="3" id="svg_1" height="20" width="21" y="2.5" x="2.5" stroke-width="0" stroke="#fff" fill="#fff"/></svg>`)
-    } else  {
-      $("#mic").css("margin-bottom", "60px")
+      $(".tg-list-item").hide();
+      $(".note-button.next").hide();
+      $(".note-button.previous").hide();
+      $(".note-button.previous-ayah").hide();
     }
-    $(".tg-list-item").hide();
-    $(".note-button.next").hide();
-    $(".note-button.previous").hide();
-    $(".note-button.previous-ayah").hide();
   } else if (state == StateEnum.RECORDING) {
     handleStopButton()
   }
@@ -400,9 +408,10 @@ function loadPreviousAyah() {
 
 function renderCounter(n) {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
-  const currentContent = kFormatter(newCount);
-  counter.html(`${currentContent}`)
+  // const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
+  var newCount = incrementCount() 
+  newCount = commaFormatter(newCount);
+  counter.html(`${newCount}`)
   renderSubscribeCounter(newCount)
 }
 renderCounter(0);
@@ -581,7 +590,7 @@ function handleHeritageSearch(e) {
 }
 
 if(isMobile.os()) {
-  $(".mobile-app").show();
+  // $(".mobile-app").show();
 }
 else {
   const sheet = document.createElement("style")

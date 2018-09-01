@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="shortcut icon" href="{% static 'img/Logo3x.png' %}"/>
 
-    <title>Tarteel - 10,000 Ayas Challenge</title>
+    <title>Tarteel - 10,000 Ayahs Challenge</title>
     <meta name="description" content="Tarteel is an open-source project designed to help build digital tools to analyze the recitation of the Quran. Given the important place of reciting the Quran in the lives of Muslims, it is important to build software tools that can help ordinary Muslims recite the Quran with greater accuracy and appreciation.">
     <meta property="og:title" content="Tarteel - 10,000 Ayahs Challenge" />
     <meta property="og:description" content="The world's first crowdsourced database of Quran recitations for machine learning applications." />
@@ -21,7 +21,7 @@
     <meta name="twitter:creator" content="@si3luwa">
     <meta name="twitter:title" content="Tarteel - 10,000 Ayahs Challenge">
     <meta name="twitter:description" content="The world's first crowdsourced database of Quran recitations for machine learning applications.">
-    <meta name="twitter:image" content="{% static 'img/tarteel_share_photo.png' %}">
+    <meta name="twitter:image" content="https://tarteel.io/static/img/tarteel_share_photo.png">
   </head>
   <body style="max-width: 750px; margin: auto">
   <div id='slider' class='swipe'>
@@ -556,21 +556,26 @@
       </div>
     </div>
     </div>
-    <div class="mobile-app">
-      <span class="close" onclick="this.parentNode.remove()">&#10006;</span>
-      <p>Get a better experience on mobile!</p>
+    <div class="mic-permissions-blocked" style="padding:10px">
+      <span class="close" onclick="this.parentNode.style.display='none'">&#10006;</span>
+      <p>To upload recordings, please enable microphone access, or use a different browser.</p>
+    </div>
+
+    <div class="mobile-app" style="padding:10px">
+      <span class="close" onclick="this.parentNode.style.display='none'">&#10006;</span>
+      <p>It doesn't look like you have microphone permissions enabled. Get a better experience on mobile!</p>
       <a href="http://bit.ly/2Owlhio">Android</a>
       <a href="https://apple.co/2KWJ74U">iOS</a>
     </div>
 
     <script src="{% static 'js/jquery-1.8.1.js' %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder.js' %}"></script>
     <script src="{% static 'js/recorder_object.js' %}"></script>
     <script src="{% static 'js/api.js' %}"></script>
     <script src="{% static 'js/volume-meter.js' %}"></script>
     <script src="{% static 'js/swipe.js' %}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.2/mobile-detect.min.js"></script>
     <script src="{% static 'js/surahs.js' %}"></script>
     <script src="{% static 'js/data.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>

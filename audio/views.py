@@ -50,6 +50,8 @@ def index(request):
     session_key = request.session.session_key
 
     recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    if recording_count > 1000:
+       recording_count -= 1000  # because roughly our first 1,000 were test recordings
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     
     if DemographicInformation.objects.filter(session_id=session_key).exists():
@@ -65,6 +67,8 @@ def index(request):
 
 def about(request):
     recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    if recording_count > 1000:
+       recording_count -= 1000  # because roughly our first 1,000 were test recordings
     return render(request, 'audio/about.html', {'recording_count': recording_count})
 
 def privacy(request):

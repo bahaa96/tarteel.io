@@ -76,6 +76,7 @@
     </div>
     </div>
   </body>
+<script src="{% static 'js/jquery-1.8.1.js' %}"></script>
 <script src="{% static 'js/progressbar.min.js' %}"></script>
 <script>
   const numberWithCommas = (x) => {
@@ -85,8 +86,12 @@
   //h3.innerHTML = numberWithCommas(h3.innerHTML)
   try {
     const ayahsRecited = Number(localStorage.getItem("ayahsRecited")) || 0
-    const ayahNode = document.querySelector("#user-recording-count")
-    ayahNode.innerHTML += ayahsRecited
+    if (ayahsRecited < 5) {
+      $("#about_us_page_recited").css("display", "none")
+    } else {
+      const ayahNode = document.querySelector("#user-recording-count")
+      ayahNode.innerHTML += ayahsRecited
+    }
   } catch (e) {
     console.log(e.message)
   }
