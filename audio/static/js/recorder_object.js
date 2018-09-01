@@ -39,15 +39,17 @@ function startRecording(cb) {
     console.log('No web audio support in this browser!');
   }
 
-  navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-    if(e.message === "Permission denied"){
-      alert("Please enable microphone access or use a different browser")
-      if(continuous) {
-        revertContinuous()
+  navigator.mediaDevices.getUserMedia({audio: true})
+    .then(startUserMedia)
+    .catch((e) => {
+      if(e.message === "Permission denied"){
+        alert("Please enable microphone access or use a different browser")
+        if(continuous) {
+          revertContinuous()
+        }
       }
-    }
-    console.log('No live audio input: ' + e);
-  });
+      console.log('No live audio input: ' + e);
+    });
 };
 
 function revertContinuous() {

@@ -45,6 +45,11 @@ String.prototype.trunc =
     return this.substr(0,n-1)+(this.length>n?'&hellip;':'');
   };
 
+function preloadImage(url) {
+  const img = new Image()
+  img.src = url
+}
+
 function load_ayah_callback(data) {
   state = StateEnum.AYAH_LOADED;
   ayah_data = data;
