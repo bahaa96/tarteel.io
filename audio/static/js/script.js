@@ -17,8 +17,6 @@ let ayahsRecited;
 let continuous = false;
 let preloadedAyahs = {};
 
-const isMobile = new MobileDetect(window.navigator.userAgent);
-
 try {
   passedOnBoarding = Boolean(localStorage.getItem("passedOnBoarding"));
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"));
@@ -55,11 +53,11 @@ function load_ayah_callback(data) {
   ayah_data = data;
   $("#mic").removeClass("recording");
   // images are not rendered well in mobile.
-  if (isMobile.os()) {
-    $("#ayah-text").text(data.line);
-  } else {
+  // if (isMobile.os()) {
+    // $("#ayah-text").text(data.line);
+  // } else {
     $("#ayah-text").html("<img src='"+data.image_url+"' class='ayah-image'>")
-  }
+  // }
   setLastAyah(data)
   $("#surah-num").text(data.surah);
   $("#ayah-num").text(data.ayah);
@@ -415,9 +413,10 @@ function loadPreviousAyah() {
 
 function renderCounter(n) {
   const counter = $(".navbar .counter");
-  const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
-  const currentContent = kFormatter(newCount);
-  counter.html(`${currentContent}`)
+  // const newCount = counter.html().includes("k") ? (Number(counter.html().replace("k", "")) * 1000 + n) : Number(counter.html()) + n
+  var newCount = incrementCount() 
+  newCount = commaFormatter(newCount);
+  counter.html(`${newCount}`)
   renderSubscribeCounter(newCount)
 }
 renderCounter(0);
@@ -596,7 +595,7 @@ function handleHeritageSearch(e) {
 }
 
 if(isMobile.os()) {
-  $(".mobile-app").show();
+  // $(".mobile-app").show();
 }
 else {
   const sheet = document.createElement("style")
