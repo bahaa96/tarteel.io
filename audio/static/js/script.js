@@ -109,7 +109,7 @@ $("footer .btn").click(function(evt) {
           stopRecording()
           const record = recording_data[session_count % AYAHS_PER_SUBISSION];
           if (record) {
-            api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+            api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string, continuous);
             session_count += 1;
             try {
               localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
@@ -127,7 +127,7 @@ $("footer .btn").click(function(evt) {
     } else {
       const record = recording_data[session_count % AYAHS_PER_SUBISSION];
       if (record) {
-        api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+        api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string, continuous);
         session_count += 1;
         try {
           localStorage.setItem("ayahsRecited", String(ayahsRecited + session_count))
@@ -446,7 +446,7 @@ const handleStopButton = (dontGetNext) => {
       if(continuous) {
         const record = recording_data[session_count % recording_data.length];
         if (record) {
-          api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string);
+          api.send_recording(record.audio, record.surah_num, record.ayah_num, record.hash_string, continuous);
           session_count += 1;
           if(!dontGetNext)
             setNextAyah(true)
@@ -488,9 +488,9 @@ const submitDemographics = () => {
   const serializedForm = $("#demographics-form").serializeArray();
   const gender = serializedForm[0].value;
   const age = serializedForm[1].value;
-  const ethnicity = serializedForm[2].value;
-  console.log(gender, age, ethnicity)
-  if(gender && age && ethnicity) {
+  const qiraah = serializedForm[2].value;
+  const ethnicity = serializedForm[3].value;
+  if(gender && age && ethnicity && qiraah) {
     $.ajax(
       {
         type: "POST",
