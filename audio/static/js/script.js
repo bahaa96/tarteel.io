@@ -13,6 +13,7 @@ var ayah_data;
 var recording_data = new Array(AYAHS_PER_SUBISSION);
 let passedOnBoarding;
 let currentSurah;
+let demographicData;
 let ayahsRecited;
 let continuous = false;
 let preloadedAyahs = {};
@@ -22,6 +23,8 @@ try {
   ayah_data = JSON.parse(localStorage.getItem("lastAyah"));
   ayahsRecited = Number(localStorage.getItem("ayahsRecited"));
   continuous = Boolean(localStorage.getItem("continuous"))
+  demographicData = JSON.parse(localStorage.getItem("demographicData"))
+
   $('#continuous').prop('checked', continuous);
   if(passedOnBoarding) {
     $("#progress").hide();
@@ -90,7 +93,7 @@ $("footer .btn").click(function(evt) {
       $(".note-button.previous").show();
       $(".note-button.next").show();
       $(".tg-list-item").show();
-    window.mySwipe.slide(1)
+      window.mySwipe.slide(1)
       $(".complete").removeClass("complete");
       $("#ayah").show();
       $("#mic").show();
@@ -195,16 +198,25 @@ $("footer .btn").click(function(evt) {
   }
 });
 
-$('.dropdown .select').click(function () {
+$('.dropdown .select').click(function (e) {
+  const activeList = $(".dropdown.active")
+  if(!$(this).parent().hasClass("active")) {
+    activeList.find('.dropdown-menu').slideUp(300);
+    activeList.removeClass('active');
+  }
   $(this).parent().attr('tabindex', 1).focus();
   $(this).parent().toggleClass('active');
   $(this).parent().find('.dropdown-menu').slideToggle(300);
 });
-$('.dropdown .select').focusout(function () {
-    $(this).parent().removeClass('active');
-    $(this).parent().find('.dropdown-menu').slideUp(300);
-});
 $('.dropdown .dropdown-menu ul li').click(handleHeritageListItemClick);
+$(".dropdown").click((e) => {
+  e.stopPropagation();
+})
+$(document).click(function() {
+  const activeList = $(".dropdown.active")
+  activeList.find('.dropdown-menu').slideToggle(300);
+  activeList.removeClass('active');
+});
 
 function handleHeritageListItemClick() {
   const parent = $(this).parents('.dropdown')
@@ -498,6 +510,7 @@ const submitDemographics = () => {
         data: $("#demographics-form").serialize(),
         dataType: "json",
         success: (data) => {
+          setDemographicData({gender, age, qiraah, ethnicity})
         }
       }
     );
@@ -506,6 +519,10 @@ const submitDemographics = () => {
 };
 
 const skipDemographic = () => {
+  if(!passedOnBoarding) {
+    window.mySwipe.slide(0)
+    return false;
+  }
   $(".review").hide();
   $("#mic").show();
   $("#ayah").show();
@@ -598,6 +615,7 @@ if(isMobile.os()) {
   // $(".mobile-app").show();
 }
 else {
+  // Scrollbar Stylying
   const sheet = document.createElement("style")
   sheet.append(`
   *::-webkit-scrollbar {
@@ -616,4 +634,59 @@ else {
   }
 `);
   document.head.appendChild(sheet)
+}
+
+
+
+function setDemographicData(obj) {
+  try {
+    localStorage.setItem("demographicData", JSON.stringify(obj))
+    demographicData = obj
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
+
+
+
+const genderRadio = document.querySelector(".gender-radio ul")
+genderRadio.querySelector("ul > span").style.width = genderRadio.querySelector("li.active").offsetWidth + "px"
+
+genderRadio.querySelectorAll("li").forEach(el => {
+  el.onclick = () => handleGenderRadioChange(el)
+})
+
+function handleGenderRadioChange(el) {
+  genderRadio.querySelector("ul > span").style.left = el.offsetLeft + "px"
+  genderRadio.querySelector("ul > span").style.width = el.offsetWidth + "px"
+  genderRadio.querySelector("li.active").classList.remove("active")
+  el.classList.add("active");
+  genderRadio.parentNode.parentNode.querySelector('input[type="hidden"]').setAttribute('value', el.getAttribute('data-value'));
+}
+
+function setDemographicValues() {
+  const form = $("#demographics-form")
+  const gender = form.find(".form-row .gender-radio")
+  const age = form.find(".form-row .dropdown.age ")
+  const qiraah = form.find(".form-row .dropdown.qiraah ")
+  const heritage = form.find(".form-row .dropdown.heritage ")
+  const ageValue = age.find(".dropdown-menu ul li#" + demographicData.age).text()
+  const qiraahValue = qiraah.find(".dropdown-menu ul li#" + demographicData.qiraah).text()
+  const heritageValue = heritage.find(".dropdown-menu ul.main li#" + demographicData.ethnicity).text()
+  age.find(".select span").text(ageValue)
+  age.find("input[type='hidden']").val(demographicData.age)
+  qiraah.find(".select span").text(qiraahValue)
+  qiraah.find("input[type='hidden']").val(demographicData.qiraah)
+  heritage.find(".select span").text(heritageValue)
+  heritage.find("input[type='hidden']").val(demographicData.ethnicity)
+  gender.parent().find("input[type='hidden']").val(demographicData.gender)
+  const choice = document.querySelector(".form-row .gender-radio ul li:not(.active)")
+  const genderValue = document.querySelector(".form-row .gender-radio ul li.active").getAttribute("data-value")
+  if(genderValue !== demographicData.gender) handleGenderRadioChange(choice)
+
+}
+
+if (demographicData){
+  setDemographicValues()
 }

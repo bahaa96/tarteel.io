@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="{% static 'css/swiper-style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/tooltip.css' %}" rel="stylesheet">
     <link href="{% static 'css/arabic-text.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -40,8 +41,33 @@ gtag("config", "UA-123499302-1");
   <div id='slider' class='swipe'>
     <div class='swipe-wrap'>
       <div class="screen1">
+        <div class="navbar" style="display: flex;">
+          <div class="logo" >
+            <a href="/">
+              <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
+              <button data-balloon="Total Recited Ayahs" data-balloon-pos="down" class="counter">{{recording_count|add:"-1"}}</button>
+            </a>
+          </div>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a onclick="goToSubscribe()">Subscribe</a></li>
+            <li><a href="/mobile_app">Mobile App</a></li>
+          </ul>
+          <button class="hamburger" onclick="toggleNavbarMenu()">
+            <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="50" >
+              <path
+                class="line top"
+                d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20" />
+              <path
+                class="line middle"
+                d="m 70,50 h -40" />
+              <path
+                class="line bottom"
+                d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20" />
+            </svg>
+          </button>
+        </div>
         <div class="content">
-
         <div class="banner">
           <img src="../../static/img/Logo3x.png" alt="Tarteel-logo" class="logo-img">
         </div>
@@ -78,7 +104,7 @@ gtag("config", "UA-123499302-1");
             <div class="logo" >
               <a href="/">
                 <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
-                <span class="counter">{{recording_count|add:"-1"}}</span>
+                <button data-balloon="Total Recited Ayahs" data-balloon-pos="down" class="counter">{{recording_count|add:"-1"}}</button>
               </a>
             </div>
             <ul>
@@ -100,7 +126,7 @@ gtag("config", "UA-123499302-1");
                   class="line bottom"
                   d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20" />
               </svg>
-            </button class="hamburger">
+            </button>
           </div>
         </div>
         <div class="content">
@@ -125,8 +151,9 @@ gtag("config", "UA-123499302-1");
                 <div class="footer-btn btn" id="submit">
                   <span>Next</span>
                 </div>
-                <div class="recording-btn btn" id="retry">
+                <div class="recording-btn btn" id="retry" data-balloon="retry reciting ayah" data-balloon-pos="left">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 33"><path d="M12,6v1.79c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79c0.2-0.2,0.2-0.51,0-0.71l-2.79-2.79C12.54,1.54,12,1.76,12,2.21V4c-4.42,0-8,3.58-8,8c0,1.04,0.2,2.04,0.57,2.95c0.27,0.67,1.13,0.85,1.64,0.34l0,0c0.27-0.27,0.38-0.68,0.23-1.04C6.15,13.56,6,12.79,6,12C6,8.69,8.69,6,12,6z M17.79,8.71L17.79,8.71c-0.27,0.27-0.38,0.69-0.23,1.04C17.84,10.45,18,11.21,18,12c0,3.31-2.69,6-6,6v-1.79c0-0.45-0.54-0.67-0.85-0.35l-2.79,2.79c-0.2,0.2-0.2,0.51,0,0.71l2.79,2.79c0.31,0.31,0.85,0.09,0.85-0.35V20c4.42,0,8-3.58,8-8c0-1.04-0.2-2.04-0.57-2.95C19.16,8.38,18.3,8.2,17.79,8.71z"/></svg>
+                  <p>retry</p>
                 </div>
               </div>
               <button class="previous-ayah note-button" onclick="handleReviewPreviousAyah()">Previous Ayah</button>
@@ -157,323 +184,327 @@ gtag("config", "UA-123499302-1");
                   <br><br>
 
                   <div style="text-align:center; margin: 0 -40px; margin-top: 20px;">
-                    <span class="dropdown-container">
-                      <div class="dropdown" style="width:80px">
-                        <div class="select">
-                          <span>Gender</span>
-                          <i class="fa fa-chevron-left"></i>
-                        </div>
-                        <input type="hidden" name="gender">
-                        <div class="dropdown-menu">
-                          <ul>
-                            <li id="male">Male</li>
-                            <li id="female">Female</li>
-                            <li id="other">Other</li>
-                          </ul>
-                        </div>
+                    <div class="form-row">
+                      <label>Gender</label>
+                      <div class="gender-radio">
+                        <ul>
+                          <span></span>
+                          <li data-value="male" class="active">Male</li>
+                          <li data-value="female">Female</li>
+                        </ul>
                       </div>
-
-                      <span class="msg"></span>
-                    </span>
-
-                    <span class="dropdown-container">
-                <div class="dropdown" style="width:80px">
-                  <div class="select">
-                    <span>Age</span>
-                    <i class="fa fa-chevron-left"></i>
-                  </div>
-                  <input type="hidden" name="age">
-                  <div class="dropdown-menu">
-                    <ul >
-                      <li id="13">13-18</li>
-                      <li id="19">19-25</li>
-                      <li id="26">26-35</li>
-                      <li id="36">36-45</li>
-                      <li id="46">46-55</li>
-                      <li id="56">56+</li>
-                    </ul>
-                  </div>
-
-                </div>
-            <span class="msg"></span>
-          </span>
-                    <span class="dropdown-container">
-                      <div class="dropdown" style="width:80px">
-                        <div class="select">
-                          <span>qira'ah</span>
-                          <i class="fa fa-chevron-left"></i>
-                        </div>
-                        <input type="hidden" name="qiraah">
-                        <div class="dropdown-menu">
-                          <ul>
-                            <li id="Hafs">Hafs</li>
-                            <li id="Shu'bah">Shu'bah</li>
-                            <li id="Khalaf">Khalaf</li>
-                            <li id="Khallad">Khallad</li>
-                            <li id="Al-Layth">Al-Layth</li>
-                            <li id="Al-Duri">Al-Duri</li>
-                            <li id="IbnDhakwan">Ibn Dhakwan</li>
-                            <li id="Hisham">Hisham</li>
-                            <li id="Al-Susi">Al-Susi</li>
-                            <li id="Qunbul">Qunbul</li>
-                            <li id="Al-Bazzi">Al-Bazzi</li>
-                            <li id="Warsh">Warsh</li>
-                            <li id="Qalun">Qalun</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <span class="msg"></span>
-                    </span>
-                    <br>
-
-                    <span class="dropdown-container">
-                <div class="dropdown" style="width:200px">
-                  <div class="select">
-                    <span>Heritage</span>
-                    <i class="fa fa-chevron-left"></i>
-                  </div>
-                  <input type="hidden" name="ethnicity">
-                  <div class="dropdown-menu">
-                    <div class="search">
-                      <input type="text" placeholder="&#128269;Search">
+                      <!--<span class="dropdown-container">-->
+                        <!--<div class="dropdown" style="width:100px">-->
+                          <!--<div class="select">-->
+                            <!--<span>Gender</span>-->
+                            <!--<i class="fa fa-chevron-left"></i>-->
+                          <!--</div>-->
+                          <input type="hidden" name="gender" value="male">
+                          <!--<div class="dropdown-menu">-->
+                            <!--<ul>-->
+                              <!--<li id="male">Male</li>-->
+                              <!--<li id="female">Female</li>-->
+                              <!--<li id="other">Other</li>-->
+                            <!--</ul>-->
+                          <!--</div>-->
+                        <!--</div>-->
+                        <!--<span class="msg"></span>-->
+                      <!--</span>-->
                     </div>
-                    <ul class="search"></ul>
-                    <ul class="main">
-                      <li id="AF">Afghanistan</li>
-                      <li id="AX">Åland Islands</li>
-                      <li id="AL">Albania</li>
-                      <li id="DZ">Algeria</li>
-                      <li id="AS">American Samoa</li>
-                      <li id="AD">Andorra</li>
-                      <li id="AO">Angola</li>
-                      <li id="AI">Anguilla</li>
-                      <li id="AQ">Antarctica</li>
-                      <li id="AG">Antigua and Barbuda</li>
-                      <li id="AR">Argentina</li>
-                      <li id="AM">Armenia</li>
-                      <li id="AW">Aruba</li>
-                      <li id="AU">Australia</li>
-                      <li id="AT">Austria</li>
-                      <li id="AZ">Azerbaijan</li>
-                      <li id="BS">Bahamas</li>
-                      <li id="BH">Bahrain</li>
-                      <li id="BD">Bangladesh</li>
-                      <li id="BB">Barbados</li>
-                      <li id="BY">Belarus</li>
-                      <li id="BE">Belgium</li>
-                      <li id="BZ">Belize</li>
-                      <li id="BJ">Benin</li>
-                      <li id="BM">Bermuda</li>
-                      <li id="BT">Bhutan</li>
-                      <li id="BO">Bolivia</li>
-                      <li id="BA">Bosnia and Herzegovina</li>
-                      <li id="BW">Botswana</li>
-                      <li id="BV">Bouvet Island</li>
-                      <li id="BR">Brazil</li>
-                      <li id="BN">Brunei Darussalam</li>
-                      <li id="BG">Bulgaria</li>
-                      <li id="BF">Burkina Faso</li>
-                      <li id="BI">Burundi</li>
-                      <li id="KH">Cambodia</li>
-                      <li id="CM">Cameroon</li>
-                      <li id="CA">Canada</li>
-                      <li id="CV">Cape Verde</li>
-                      <li id="KY">Cayman Islands</li>
-                      <li id="CF">Central African Republic</li>
-                      <li id="TD">Chad</li>
-                      <li id="CL">Chile</li>
-                      <li id="CN">China</li>
-                      <li id="CX">Christmas Island</li>
-                      <li id="CO">Colombia</li>
-                      <li id="KM">Comoros</li>
-                      <li id="CG">Congo</li>
-                      <li id="CD">Congo</li>
-                      <li id="CK">Cook Islands</li>
-                      <li id="CR">Costa Rica</li>
-                      <li id="CI">Ivory Coast</li>
-                      <li id="HR">Croatia</li>
-                      <li id="CU">Cuba</li>
-                      <li id="CW">Curaçao</li>
-                      <li id="CY">Cyprus</li>
-                      <li id="CZ">Czech Republic</li>
-                      <li id="DK">Denmark</li>
-                      <li id="DJ">Djibouti</li>
-                      <li id="DM">Dominica</li>
-                      <li id="DO">Dominican Republic</li>
-                      <li id="EC">Ecuador</li>
-                      <li id="EG">Egypt</li>
-                      <li id="SV">El Salvador</li>
-                      <li id="GQ">Equatorial Guinea</li>
-                      <li id="ER">Eritrea</li>
-                      <li id="EE">Estonia</li>
-                      <li id="ET">Ethiopia</li>
-                      <li id="FK">Falkland Islands</li>
-                      <li id="FO">Faroe Islands</li>
-                      <li id="FJ">Fiji</li>
-                      <li id="FI">Finland</li>
-                      <li id="FR">France</li>
-                      <li id="GF">French Guiana</li>
-                      <li id="PF">French Polynesia</li>
-                      <li id="GA">Gabon</li>
-                      <li id="GM">Gambia</li>
-                      <li id="GE">Georgia</li>
-                      <li id="DE">Germany</li>
-                      <li id="GH">Ghana</li>
-                      <li id="GI">Gibraltar</li>
-                      <li id="GR">Greece</li>
-                      <li id="GL">Greenland</li>
-                      <li id="GD">Grenada</li>
-                      <li id="GP">Guadeloupe</li>
-                      <li id="GU">Guam</li>
-                      <li id="GT">Guatemala</li>
-                      <li id="GG">Guernsey</li>
-                      <li id="GN">Guinea</li>
-                      <li id="GW">Guinea-Bissau</li>
-                      <li id="GY">Guyana</li>
-                      <li id="HT">Haiti</li>
-                      <li id="HN">Honduras</li>
-                      <li id="HK">Hong Kong</li>
-                      <li id="HU">Hungary</li>
-                      <li id="IS">Iceland</li>
-                      <li id="IN">India</li>
-                      <li id="ID">Indonesia</li>
-                      <li id="IR">Iran</li>
-                      <li id="IQ">Iraq</li>
-                      <li id="IE">Ireland</li>
-                      <li id="IM">Isle of Man</li>
-                      <li id="IL">Israel</li>
-                      <li id="IT">Italy</li>
-                      <li id="JM">Jamaica</li>
-                      <li id="JP">Japan</li>
-                      <li id="JE">Jersey</li>
-                      <li id="JO">Jordan</li>
-                      <li id="KZ">Kazakhstan</li>
-                      <li id="KE">Kenya</li>
-                      <li id="KI">Kiribati</li>
-                      <li id="KR">Korea</li>
-                      <li id="KW">Kuwait</li>
-                      <li id="KG">Kyrgyzstan</li>
-                      <li id="LV">Latvia</li>
-                      <li id="LB">Lebanon</li>
-                      <li id="LS">Lesotho</li>
-                      <li id="LR">Liberia</li>
-                      <li id="LY">Libya</li>
-                      <li id="LI">Liechtenstein</li>
-                      <li id="LT">Lithuania</li>
-                      <li id="LU">Luxembourg</li>
-                      <li id="MO">Macao</li>
-                      <li id="MK">Macedonia</li>
-                      <li id="MG">Madagascar</li>
-                      <li id="MW">Malawi</li>
-                      <li id="MY">Malaysia</li>
-                      <li id="MV">Maldives</li>
-                      <li id="ML">Mali</li>
-                      <li id="MT">Malta</li>
-                      <li id="MH">Marshall Islands</li>
-                      <li id="MQ">Martinique</li>
-                      <li id="MR">Mauritania</li>
-                      <li id="MU">Mauritius</li>
-                      <li id="YT">Mayotte</li>
-                      <li id="MX">Mexico</li>
-                      <li id="FM">Micronesia</li>
-                      <li id="MD">Moldova</li>
-                      <li id="MC">Monaco</li>
-                      <li id="MN">Mongolia</li>
-                      <li id="ME">Montenegro</li>
-                      <li id="MS">Montserrat</li>
-                      <li id="MA">Morocco</li>
-                      <li id="MZ">Mozambique</li>
-                      <li id="MM">Myanmar</li>
-                      <li id="NA">Namibia</li>
-                      <li id="NR">Nauru</li>
-                      <li id="NP">Nepal</li>
-                      <li id="NL">Netherlands</li>
-                      <li id="NC">New Caledonia</li>
-                      <li id="NZ">New Zealand</li>
-                      <li id="NI">Nicaragua</li>
-                      <li id="NE">Niger</li>
-                      <li id="NG">Nigeria</li>
-                      <li id="NU">Niue</li>
-                      <li id="NF">Norfolk Island</li>
-                      <li id="MP">Northern Mariana Islands</li>
-                      <li id="NO">Norway</li>
-                      <li id="OM">Oman</li>
-                      <li id="PK">Pakistan</li>
-                      <li id="PW">Palau</li>
-                      <li id="PS">Palestine</li>
-                      <li id="PA">Panama</li>
-                      <li id="PG">Papua New Guinea</li>
-                      <li id="PY">Paraguay</li>
-                      <li id="PE">Peru</li>
-                      <li id="PH">Philippines</li>
-                      <li id="PN">Pitcairn</li>
-                      <li id="PL">Poland</li>
-                      <li id="PT">Portugal</li>
-                      <li id="PR">Puerto Rico</li>
-                      <li id="QA">Qatar</li>
-                      <li id="RE">Réunion</li>
-                      <li id="RO">Romania</li>
-                      <li id="RU">Russia</li>
-                      <li id="RW">Rwanda</li>
-                      <li id="BL">Saint Barthélemy</li>
-                      <li id="LC">Saint Lucia</li>
-                      <li id="WS">Samoa</li>
-                      <li id="SM">San Marino</li>
-                      <li id="SA">Saudi Arabia</li>
-                      <li id="SN">Senegal</li>
-                      <li id="RS">Serbia</li>
-                      <li id="SC">Seychelles</li>
-                      <li id="SL">Sierra Leone</li>
-                      <li id="SG">Singapore</li>
-                      <li id="SX">Sint Maarten</li>
-                      <li id="SK">Slovakia</li>
-                      <li id="SI">Slovenia</li>
-                      <li id="SB">Solomon Islands</li>
-                      <li id="SO">Somalia</li>
-                      <li id="ZA">South Africa</li>
-                      <li id="SS">South Sudan</li>
-                      <li id="ES">Spain</li>
-                      <li id="LK">Sri Lanka</li>
-                      <li id="SD">Sudan</li>
-                      <li id="SR">Suriname</li>
-                      <li id="SZ">Swaziland</li>
-                      <li id="SE">Sweden</li>
-                      <li id="CH">Switzerland</li>
-                      <li id="SY">Syria</li>
-                      <li id="TW">Taiwan</li>
-                      <li id="TJ">Tajikistan</li>
-                      <li id="TH">Thailand</li>
-                      <li id="TL">Timor-Leste</li>
-                      <li id="TG">Togo</li>
-                      <li id="TK">Tokelau</li>
-                      <li id="TO">Tonga</li>
-                      <li id="TN">Tunisia</li>
-                      <li id="TR">Turkey</li>
-                      <li id="TM">Turkmenistan</li>
-                      <li id="TV">Tuvalu</li>
-                      <li id="UG">Uganda</li>
-                      <li id="UA">Ukraine</li>
-                      <li id="AE">UAE</li>
-                      <li id="GB">United Kingdom</li>
-                      <li id="US">United States</li>
-                      <li id="UY">Uruguay</li>
-                      <li id="UZ">Uzbekistan</li>
-                      <li id="VU">Vanuatu</li>
-                      <li id="VE">Venezuela</li>
-                      <li id="VN">Viet Nam</li>
-                      <li id="VI">Virgin Islands</li>
-                      <li id="WF">Wallis and Futuna</li>
-                      <li id="EH">Western Sahara</li>
-                      <li id="YE">Yemen</li>
-                      <li id="ZM">Zambia</li>
-                      <li id="ZW">Zimbabwe</li>
-                      <li id="Other">Other</li>
-                    </ul>
-                  </div>
-                </div>
-            <span class="msg"></span>
-          </span>
+                    <div class="form-row">
+                      <label>Age</label>
+                      <span class="dropdown-container">
+                        <div class="dropdown age" style="width:100px">
+                          <div class="select">
+                            <span>13-18</span>
+                            <i class="fa fa-chevron-left"></i>
+                          </div>
+                          <input type="hidden" name="age" value="13-18">
+                          <div class="dropdown-menu">
+                            <ul>
+                              <li id="13">13-18</li>
+                              <li id="19">19-25</li>
+                              <li id="26">26-35</li>
+                              <li id="36">36-45</li>
+                              <li id="46">46-55</li>
+                              <li id="56">56+</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <span class="msg"></span>
+                      </span>
+                    </div>
+                    <div class="form-row">
+                      <label>Qira'ah</label>
+                      <span class="dropdown-container">
+                        <div class="dropdown qiraah" style="width:100px">
+                          <div class="select">
+                            <span>Hafs</span>
+                            <i class="fa fa-chevron-left"></i>
+                          </div>
+                          <input type="hidden" name="qiraah" value="Hafs">
+                          <div class="dropdown-menu">
+                            <ul>
+                              <li id="Hafs">Hafs</li>
+                              <li id="Warsh">Warsh</li>
+                              <li id="notsure">not sure</li>
+                              <li id="other">Other</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <span class="msg"></span>
+                      </span>
+                    </div>
+                    <div class="form-row">
+                      <label>Heritage</label>
+                      <span class="dropdown-container">
+                        <div class="dropdown heritage" style="width:200px">
+                          <div class="select">
+                            <span>Heritage</span>
+                            <i class="fa fa-chevron-left"></i>
+                          </div>
+                          <input type="hidden" name="ethnicity">
+                          <div class="dropdown-menu">
+                            <div class="search">
+                              <input type="text" placeholder="&#128269;Search">
+                            </div>
+                            <ul class="search"></ul>
+                            <ul class="main">
+                              <li id="AF">Afghanistan</li>
+                              <li id="AX">Åland Islands</li>
+                              <li id="AL">Albania</li>
+                              <li id="DZ">Algeria</li>
+                              <li id="AS">American Samoa</li>
+                              <li id="AD">Andorra</li>
+                              <li id="AO">Angola</li>
+                              <li id="AI">Anguilla</li>
+                              <li id="AQ">Antarctica</li>
+                              <li id="AG">Antigua and Barbuda</li>
+                              <li id="AR">Argentina</li>
+                              <li id="AM">Armenia</li>
+                              <li id="AW">Aruba</li>
+                              <li id="AU">Australia</li>
+                              <li id="AT">Austria</li>
+                              <li id="AZ">Azerbaijan</li>
+                              <li id="BS">Bahamas</li>
+                              <li id="BH">Bahrain</li>
+                              <li id="BD">Bangladesh</li>
+                              <li id="BB">Barbados</li>
+                              <li id="BY">Belarus</li>
+                              <li id="BE">Belgium</li>
+                              <li id="BZ">Belize</li>
+                              <li id="BJ">Benin</li>
+                              <li id="BM">Bermuda</li>
+                              <li id="BT">Bhutan</li>
+                              <li id="BO">Bolivia</li>
+                              <li id="BA">Bosnia and Herzegovina</li>
+                              <li id="BW">Botswana</li>
+                              <li id="BV">Bouvet Island</li>
+                              <li id="BR">Brazil</li>
+                              <li id="BN">Brunei Darussalam</li>
+                              <li id="BG">Bulgaria</li>
+                              <li id="BF">Burkina Faso</li>
+                              <li id="BI">Burundi</li>
+                              <li id="KH">Cambodia</li>
+                              <li id="CM">Cameroon</li>
+                              <li id="CA">Canada</li>
+                              <li id="CV">Cape Verde</li>
+                              <li id="KY">Cayman Islands</li>
+                              <li id="CF">Central African Republic</li>
+                              <li id="TD">Chad</li>
+                              <li id="CL">Chile</li>
+                              <li id="CN">China</li>
+                              <li id="CX">Christmas Island</li>
+                              <li id="CO">Colombia</li>
+                              <li id="KM">Comoros</li>
+                              <li id="CG">Congo</li>
+                              <li id="CD">Congo</li>
+                              <li id="CK">Cook Islands</li>
+                              <li id="CR">Costa Rica</li>
+                              <li id="CI">Ivory Coast</li>
+                              <li id="HR">Croatia</li>
+                              <li id="CU">Cuba</li>
+                              <li id="CW">Curaçao</li>
+                              <li id="CY">Cyprus</li>
+                              <li id="CZ">Czech Republic</li>
+                              <li id="DK">Denmark</li>
+                              <li id="DJ">Djibouti</li>
+                              <li id="DM">Dominica</li>
+                              <li id="DO">Dominican Republic</li>
+                              <li id="EC">Ecuador</li>
+                              <li id="EG">Egypt</li>
+                              <li id="SV">El Salvador</li>
+                              <li id="GQ">Equatorial Guinea</li>
+                              <li id="ER">Eritrea</li>
+                              <li id="EE">Estonia</li>
+                              <li id="ET">Ethiopia</li>
+                              <li id="FK">Falkland Islands</li>
+                              <li id="FO">Faroe Islands</li>
+                              <li id="FJ">Fiji</li>
+                              <li id="FI">Finland</li>
+                              <li id="FR">France</li>
+                              <li id="GF">French Guiana</li>
+                              <li id="PF">French Polynesia</li>
+                              <li id="GA">Gabon</li>
+                              <li id="GM">Gambia</li>
+                              <li id="GE">Georgia</li>
+                              <li id="DE">Germany</li>
+                              <li id="GH">Ghana</li>
+                              <li id="GI">Gibraltar</li>
+                              <li id="GR">Greece</li>
+                              <li id="GL">Greenland</li>
+                              <li id="GD">Grenada</li>
+                              <li id="GP">Guadeloupe</li>
+                              <li id="GU">Guam</li>
+                              <li id="GT">Guatemala</li>
+                              <li id="GG">Guernsey</li>
+                              <li id="GN">Guinea</li>
+                              <li id="GW">Guinea-Bissau</li>
+                              <li id="GY">Guyana</li>
+                              <li id="HT">Haiti</li>
+                              <li id="HN">Honduras</li>
+                              <li id="HK">Hong Kong</li>
+                              <li id="HU">Hungary</li>
+                              <li id="IS">Iceland</li>
+                              <li id="IN">India</li>
+                              <li id="ID">Indonesia</li>
+                              <li id="IR">Iran</li>
+                              <li id="IQ">Iraq</li>
+                              <li id="IE">Ireland</li>
+                              <li id="IM">Isle of Man</li>
+                              <li id="IL">Israel</li>
+                              <li id="IT">Italy</li>
+                              <li id="JM">Jamaica</li>
+                              <li id="JP">Japan</li>
+                              <li id="JE">Jersey</li>
+                              <li id="JO">Jordan</li>
+                              <li id="KZ">Kazakhstan</li>
+                              <li id="KE">Kenya</li>
+                              <li id="KI">Kiribati</li>
+                              <li id="KR">Korea</li>
+                              <li id="KW">Kuwait</li>
+                              <li id="KG">Kyrgyzstan</li>
+                              <li id="LV">Latvia</li>
+                              <li id="LB">Lebanon</li>
+                              <li id="LS">Lesotho</li>
+                              <li id="LR">Liberia</li>
+                              <li id="LY">Libya</li>
+                              <li id="LI">Liechtenstein</li>
+                              <li id="LT">Lithuania</li>
+                              <li id="LU">Luxembourg</li>
+                              <li id="MO">Macao</li>
+                              <li id="MK">Macedonia</li>
+                              <li id="MG">Madagascar</li>
+                              <li id="MW">Malawi</li>
+                              <li id="MY">Malaysia</li>
+                              <li id="MV">Maldives</li>
+                              <li id="ML">Mali</li>
+                              <li id="MT">Malta</li>
+                              <li id="MH">Marshall Islands</li>
+                              <li id="MQ">Martinique</li>
+                              <li id="MR">Mauritania</li>
+                              <li id="MU">Mauritius</li>
+                              <li id="YT">Mayotte</li>
+                              <li id="MX">Mexico</li>
+                              <li id="FM">Micronesia</li>
+                              <li id="MD">Moldova</li>
+                              <li id="MC">Monaco</li>
+                              <li id="MN">Mongolia</li>
+                              <li id="ME">Montenegro</li>
+                              <li id="MS">Montserrat</li>
+                              <li id="MA">Morocco</li>
+                              <li id="MZ">Mozambique</li>
+                              <li id="MM">Myanmar</li>
+                              <li id="NA">Namibia</li>
+                              <li id="NR">Nauru</li>
+                              <li id="NP">Nepal</li>
+                              <li id="NL">Netherlands</li>
+                              <li id="NC">New Caledonia</li>
+                              <li id="NZ">New Zealand</li>
+                              <li id="NI">Nicaragua</li>
+                              <li id="NE">Niger</li>
+                              <li id="NG">Nigeria</li>
+                              <li id="NU">Niue</li>
+                              <li id="NF">Norfolk Island</li>
+                              <li id="MP">Northern Mariana Islands</li>
+                              <li id="NO">Norway</li>
+                              <li id="OM">Oman</li>
+                              <li id="PK">Pakistan</li>
+                              <li id="PW">Palau</li>
+                              <li id="PS">Palestine</li>
+                              <li id="PA">Panama</li>
+                              <li id="PG">Papua New Guinea</li>
+                              <li id="PY">Paraguay</li>
+                              <li id="PE">Peru</li>
+                              <li id="PH">Philippines</li>
+                              <li id="PN">Pitcairn</li>
+                              <li id="PL">Poland</li>
+                              <li id="PT">Portugal</li>
+                              <li id="PR">Puerto Rico</li>
+                              <li id="QA">Qatar</li>
+                              <li id="RE">Réunion</li>
+                              <li id="RO">Romania</li>
+                              <li id="RU">Russia</li>
+                              <li id="RW">Rwanda</li>
+                              <li id="BL">Saint Barthélemy</li>
+                              <li id="LC">Saint Lucia</li>
+                              <li id="WS">Samoa</li>
+                              <li id="SM">San Marino</li>
+                              <li id="SA">Saudi Arabia</li>
+                              <li id="SN">Senegal</li>
+                              <li id="RS">Serbia</li>
+                              <li id="SC">Seychelles</li>
+                              <li id="SL">Sierra Leone</li>
+                              <li id="SG">Singapore</li>
+                              <li id="SX">Sint Maarten</li>
+                              <li id="SK">Slovakia</li>
+                              <li id="SI">Slovenia</li>
+                              <li id="SB">Solomon Islands</li>
+                              <li id="SO">Somalia</li>
+                              <li id="ZA">South Africa</li>
+                              <li id="SS">South Sudan</li>
+                              <li id="ES">Spain</li>
+                              <li id="LK">Sri Lanka</li>
+                              <li id="SD">Sudan</li>
+                              <li id="SR">Suriname</li>
+                              <li id="SZ">Swaziland</li>
+                              <li id="SE">Sweden</li>
+                              <li id="CH">Switzerland</li>
+                              <li id="SY">Syria</li>
+                              <li id="TW">Taiwan</li>
+                              <li id="TJ">Tajikistan</li>
+                              <li id="TH">Thailand</li>
+                              <li id="TL">Timor-Leste</li>
+                              <li id="TG">Togo</li>
+                              <li id="TK">Tokelau</li>
+                              <li id="TO">Tonga</li>
+                              <li id="TN">Tunisia</li>
+                              <li id="TR">Turkey</li>
+                              <li id="TM">Turkmenistan</li>
+                              <li id="TV">Tuvalu</li>
+                              <li id="UG">Uganda</li>
+                              <li id="UA">Ukraine</li>
+                              <li id="AE">UAE</li>
+                              <li id="GB">United Kingdom</li>
+                              <li id="US">United States</li>
+                              <li id="UY">Uruguay</li>
+                              <li id="UZ">Uzbekistan</li>
+                              <li id="VU">Vanuatu</li>
+                              <li id="VE">Venezuela</li>
+                              <li id="VN">Viet Nam</li>
+                              <li id="VI">Virgin Islands</li>
+                              <li id="WF">Wallis and Futuna</li>
+                              <li id="EH">Western Sahara</li>
+                              <li id="YE">Yemen</li>
+                              <li id="ZM">Zambia</li>
+                              <li id="ZW">Zimbabwe</li>
+                              <li id="Other">Other</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <span class="msg"></span>
+                      </span>
+                    </div>
                   </div>
                   <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
                   <style type="text/css">
