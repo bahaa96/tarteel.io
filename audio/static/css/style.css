@@ -478,10 +478,11 @@ body {
   flex-flow: row;
   justify-content: space-between;
   margin-left: 2em;
+  text-align: left;
 }
 .screen5 .content ul li .text p {
   color: #5fc49e;
-  font-size: 12pt;
+  font-size: 11pt;
   font-weight: 600;
 }
 .screen5 .content ul li p.arabic {
@@ -503,7 +504,10 @@ body {
 .content .back {
   position: absolute;
   left: 10px;
-  top: 10px;
+  top: 5px;
+}
+.screen6 .content .back {
+  top: -5px;
 }
 .content .back button {
   background: transparent;
@@ -544,6 +548,12 @@ body {
   .screen6 .content ul li p.text {
     text-align: right;
     margin-right: 1em;
+  }
+  .screen5 .content ul li .text {
+    margin-left: 1em;
+  }
+  #ayah-text {
+    min-height: 100px;
   }
 }
 
