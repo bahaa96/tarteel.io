@@ -83,6 +83,13 @@
   border: 1px solid darkgray;
   padding: 5px 0;
   text-align: center;
+  width: 100%;
+}
+@media screen and (max-width: 650px) {
+  .dropdown .dropdown-menu .search {
+    margin: auto;
+    width: 90%;
+  }
 }
 .dropdown .dropdown-menu li {
   padding: 10px;

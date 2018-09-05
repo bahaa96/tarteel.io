@@ -157,5 +157,11 @@ bar.text.style.fontSize = '2rem';
 value = {{ recording_count }};
 animate_value = value/10000;
 bar.animate(animate_value);  // Number from 0.0 to 1.0
+
+const toggleNavbarMenu = () => {
+  const hamburger = document.querySelector(".hamburger svg");
+  hamburger.classList.toggle('active');
+  $(".navbar ul").toggle()
+}
 </script>
 </html>

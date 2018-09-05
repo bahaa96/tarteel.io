@@ -61,4 +61,12 @@
     </footer>
 
   </body>
+  <script src="{% static 'js/jquery-1.8.1.js' %}"></script>
+  <script>
+  const toggleNavbarMenu = () => {
+    const hamburger = document.querySelector(".hamburger svg");
+    hamburger.classList.toggle('active');
+    $(".navbar ul").toggle()
+  }
+</script>
 </html>
