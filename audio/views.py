@@ -7,7 +7,7 @@ import json
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from quickstart.models import AnnotatedRecording, DemographicInformation
+from restapi.models import AnnotatedRecording, DemographicInformation
 from rest_framework.decorators import api_view
 
 END_OF_FILE = 6236
