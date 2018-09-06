@@ -62,6 +62,7 @@ class DemographicInformationViewList(APIView):
           gender=new_entry.data.get('gender'),
           age=new_entry.data.get('age'),
           ethnicity=new_entry.data.get('ethnicity'),
+          qiraah=new_entry.data.get('qiraah'),
           country=new_entry.data.get('country')
         )
     except:

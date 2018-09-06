@@ -75,4 +75,7 @@ def privacy(request):
     return render(request, 'audio/privacy.html', {})
 
 def mobile_app(request):
-    return render(request, 'audio/mobile_app.html', {})
+    recording_count = AnnotatedRecording.objects.filter(file__gt='', file__isnull=False).count()
+    if recording_count > 1000:
+        recording_count -= 1000
+    return render(request, 'audio/mobile_app.html', {"recording_count": recording_count})
