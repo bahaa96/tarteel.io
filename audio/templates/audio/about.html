@@ -7,10 +7,36 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
     <title>Tarteel</title>
+    <script src="../../static/js/data.js"></script>
   </head>
-    <body style="max-width: 600px; margin: auto">
+    <body style="max-width: 750px; margin: auto">
+    <div class="navbar" style="display: flex;">
+      <div class="logo" >
+        <a href="/">
+          <img src="../../static/img/Logo3x.png" alt="Tarteel-logo">
+          <button data-balloon="Total Recited Ayahs" data-balloon-pos="down" class="counter">{{recording_count|add:"-1"}}</button>
+        </a>
+      </div>
+      <ul>
+        <li class="active"><a href="/about">About</a></li>
+        <li><a href="/mobile_app">Mobile App</a></li>
+      </ul>
+      <button class="hamburger" onclick="toggleNavbarMenu()">
+        <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="50" >
+          <path
+            class="line top"
+            d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20" />
+          <path
+            class="line middle"
+            d="m 70,50 h -40" />
+          <path
+            class="line bottom"
+            d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20" />
+        </svg>
+      </button>
+    </div>
     <div class="mobile-app-banner">
-      <img src="{% static 'img/Logo3x.png' %}" alt="Tarteel-logo" id="background-logo">
+      <img src="{% static 'img/Logo3x.png' %}" alt="Tarteel-logo" id="background-logo" style="top: -85px;">
     <!-- <div class="about_us_page_ayah_count">
       <h3>
         {{ recording_count }}
@@ -24,7 +50,9 @@
     </div> -->
 
     <div align="center"><link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
-    <div id="counter"></div></div>
+    <div id="counter" style="margin-top: 5em">
+      <p class='counter-text'>Ayahs recited</p>
+    </div></div>
 
     <div align="center" class ="info" id="about_us_page_recited">You have recited: <span id="user-recording-count" style="font-weight: bold"></span> ayahs masha'allah, helping us reach a total of <span style="font-weight: bold">{{ recording_count }}</span> ayahs so far!</div>
 
@@ -66,12 +94,11 @@
         <h2> How can I help? </h2>
 
         Tarteel is an open-source project that is maintained by developers interested in furthering the mission of Tarteel. If you'd like to contribute, please check out our GitHub repo: <a href="https://github.com/abidlabs/tarteel.io">https://github.com/abidlabs/tarteel.io</a>.
-        <footer>
-          <div class="footer-btn" onclick="window.location='/'">
-            <span>Continue Reading</span>
+        <footer style="flex-flow: column;padding-top: 2em">
+          <div class="footer-btn" onclick="window.open('mailto:tarteel@abdellatif.io', '_self');">
+            <span>Contact Us</span>
           </div>
         </footer>
-
       </div>
     </div>
     </div>
@@ -130,5 +157,11 @@ bar.text.style.fontSize = '2rem';
 value = {{ recording_count }};
 animate_value = value/10000;
 bar.animate(animate_value);  // Number from 0.0 to 1.0
+
+const toggleNavbarMenu = () => {
+  const hamburger = document.querySelector(".hamburger svg");
+  hamburger.classList.toggle('active');
+  $(".navbar ul").toggle()
+}
 </script>
 </html>
