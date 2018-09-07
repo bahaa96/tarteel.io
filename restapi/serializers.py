@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from quickstart.models import AnnotatedRecording, DemographicInformation
+from restapi.models import AnnotatedRecording, DemographicInformation
 
 class AnnotatedRecordingSerializerPost(serializers.ModelSerializer):
   class Meta():
