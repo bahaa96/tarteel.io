@@ -37,9 +37,9 @@
             </a>
           </div>
           <ul>
-            <li><a href="/about" class="arabic-text" data-i18n="about-link-text"></a></li>
-            <li><a onclick="goToSubscribe()" class="arabic-text" data-i18n="subscribe-button-text"></a></li>
-            <li><a href="/mobile_app" class="arabic-text" data-i18n="mobile-app-link-text"></a></li>
+            <li><a href="/about" class="arabic-text rtl" data-i18n="about-link-text"></a></li>
+            <li><a onclick="goToSubscribe()" class="arabic-text rtl" data-i18n="subscribe-button-text"></a></li>
+            <li><a href="/mobile_app" class="arabic-text rtl" data-i18n="mobile-app-link-text"></a></li>
           </ul>
           <button class="hamburger" onclick="toggleNavbarMenu()">
             <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="50" >
@@ -61,20 +61,20 @@
         </div>
         <div id="core-text">
           <div class="info" id="start-text">
-            <h3> Salaam! </h3>
-            Welcome to the <b>Tarteel 10,000 Challenge</b>! Thank you for helping us build the world's first public, open-source dataset</a> of Quran recitations by ordinary people, like you and me. <a href="/about">Learn more</a>
-            <h3> How it works </h3>
+            <h3 data-i18n="landing-greeting-message" class="rtl"></h3>
+            <div data-i18n="landing-first-paragraph" class=" large-arabic-text rtl"></div>
+            <h3 data-i18n="landing-second-paragraph-title" class="rtl"></h3>
             <ul>
-            <li> To start off, Tarteel will provide you with <b>5 verses</b> to recite.
-            <li> Click the mic to record yourself reciting the verse. <b>Don't worry</b> about making your recitation perfect, as we're looking for people with a variety of recitation levels.
-            <li> These recitations <a href="/privacy">will be released</a> as an open-source initiative to encourage machine learning applications based on recitations of the Quran.
+              <li data-i18n="landing-list-first-item" class="large-arabic-text rtl"></li>
+              <li data-i18n="landing-list-second-item" class="large-arabic-text rtl"></li>
+              <li data-i18n="landing-list-third-item" class="large-arabic-text rtl"></li>
             </ul>
-             Click <strong>START</strong> below to get started!
+             <div data-i18n="landing-last-line" class="large-arabic-text rtl"></div>
           </div>
         </div>
         <footer>
           <div class="footer-btn btn" id="start" >
-            <span>Start</span>
+            <span data-i18n="landing-button-text"></span>
           </div>
         </footer>
       </div>
@@ -96,11 +96,11 @@
               </a>
             </div>
             <ul>
-              <li><a onclick="getRandomAyah()" class="arabic-text" data-i18n="random-ayah-link-text"></a></li>
-              <li><a href="/about" class="arabic-text" data-i18n="about-link-text"></a></li>
-              <li><a onclick="goToSubscribe()" class="arabic-text" data-i18n="subscribe-button-text"></a></li>
-              <li><a href="/mobile_app" class="arabic-text" data-i18n="mobile-app-link-text"></a></li>
-              <li><a onclick="goToDemographics()" class="arabic-text" data-i18n="demographic-info-link-text"></a></li>
+              <li><a onclick="getRandomAyah()" class="arabic-text rtl" data-i18n="random-ayah-link-text"></a></li>
+              <li><a href="/about" class="arabic-text rtl" data-i18n="about-link-text"></a></li>
+              <li><a onclick="goToSubscribe()" class="arabic-text rtl" data-i18n="subscribe-button-text"></a></li>
+              <li><a href="/mobile_app" class="arabic-text rtl" data-i18n="mobile-app-link-text"></a></li>
+              <li><a onclick="goToDemographics()" class="arabic-text rtl" data-i18n="demographic-info-link-text"></a></li>
             </ul>
             <button class="hamburger" onclick="toggleNavbarMenu()">
               <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="50" >
@@ -131,8 +131,8 @@
                 <div class="recording-btn btn" id="mic">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 34"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
                 </div>
-                <button class="previous note-button arabic-text" onclick="setPreviousAyah()"  data-i18n="previous-ayah"></button>
-                <button class="next note-button arabic-text" onclick="setNextAyah(true)" data-i18n="next-ayah"></button>
+                <button class="previous note-button arabic-text rtl" onclick="setPreviousAyah()"  data-i18n="previous-ayah"></button>
+                <button class="next note-button arabic-text rtl" onclick="setNextAyah(true)" data-i18n="next-ayah"></button>
               </div>
               <p class="recording-note small-arabic-text" data-i18n="continuous-mode-note-text"></p>
               <div class="review">
@@ -144,7 +144,7 @@
                   <p data-i18n="retry-button-text">retry</p>
                 </div>
               </div>
-              <button class="previous-ayah note-button arabic-text" onclick="handleReviewPreviousAyah()" data-i18n="previous-ayah"></button>
+              <button class="previous-ayah note-button arabic-text rtl" onclick="handleReviewPreviousAyah()" data-i18n="previous-ayah"></button>
 
             </div>
             <div class="tg-list-item">
@@ -165,17 +165,17 @@
                 <h3 style="text-align: center" data-i18n="demographics-page-title"></h3>
               {%endif%}
               <div id='demographics-form-div'>
-                <div class="arabic-text">
+                <div class="arabic-text rtl">
                   <span data-i18n="demographic-page-first-paragraph-1"></span> <strong>{{recording_count}}</strong> <span data-i18n="demographic-page-first-paragraph-2"></span>
                 </div>
                 <br><br>
                 <form id='demographics-form'>
-                  <div class="arabic-text" data-i18n="demographic-page-second-paragraph"></div>
+                  <div class="arabic-text rtl" data-i18n="demographic-page-second-paragraph"></div>
                   <br><br>
 
                   <div style="text-align:center; margin: 0 -40px; margin-top: 20px;">
                     <div class="form-row">
-                      <label class="arabic-text" data-i18n="gender-input-label"></label>
+                      <label class="arabic-text rtl" data-i18n="gender-input-label"></label>
                       <div class="gender-radio">
                         <ul>
                           <span></span>
@@ -202,7 +202,7 @@
                       <!--</span>-->
                     </div>
                     <div class="form-row">
-                      <label class="arabic-text" data-i18n="age-input-label"></label>
+                      <label class="arabic-text rtl" data-i18n="age-input-label"></label>
                       <span class="dropdown-container">
                         <div class="dropdown age" style="width:100px">
                           <div class="select">
@@ -225,7 +225,7 @@
                       </span>
                     </div>
                     <div class="form-row">
-                      <label class="arabic-text" data-i18n="qiraah-input-label"></label>
+                      <label class="arabic-text rtl" data-i18n="qiraah-input-label"></label>
                       <span class="dropdown-container">
                         <div class="dropdown qiraah" style="width:100px">
                           <div class="select">
@@ -235,8 +235,8 @@
                           <input type="hidden" name="qiraah" value="Hafs">
                           <div class="dropdown-menu">
                             <ul>
-                              <li id="Hafs" data-i18n="qiraah-input-option-hafs"></li>
-                              <li id="Warsh" data-i18n="qiraah-input-option-warsh"></li>
+                              <li id="hafs" data-i18n="qiraah-input-option-hafs"></li>
+                              <li id="warsh" data-i18n="qiraah-input-option-warsh"></li>
                               <li id="notsure" data-i18n="qiraah-input-option-notsure"></li>
                               <li id="other" data-i18n="qiraah-input-option-other"></li>
                             </ul>
@@ -246,7 +246,7 @@
                       </span>
                     </div>
                     <div class="form-row">
-                      <label class="arabic-text" data-i18n="heritage-input-label"></label>
+                      <label class="arabic-text rtl" data-i18n="heritage-input-label"></label>
                       <span class="dropdown-container">
                         <div class="dropdown heritage" style="width:200px">
                           <div class="select">
@@ -518,7 +518,7 @@
       <div class="screen4">
         <div class="content">
           <h3 style="text-align: center; font-size: 2em" data-i18n="subscribe-page-title"></h3>
-          <p class="text large-arabic-text">
+          <p class="text large-arabic-text rtl">
             <span data-i18n="subscribe-page-first-paragraph-1"></span> <strong>{{recording_count}}</strong> <span data-i18n="subscribe-page-first-paragraph-2"></span>
           </p>
           <!-- Begin MailChimp Signup Form -->
@@ -528,7 +528,7 @@
             /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
                We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
           </style>
-          <div id="mc_embed_signup" class="arabic-text">
+          <div id="mc_embed_signup" class="arabic-text rtl">
             <form action="https://tarteel.us19.list-manage.com/subscribe/post?u=ab8add36046818c66a55a4f9c&amp;id=4015afc1f5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
               <div id="mc_embed_signup_scroll">
                 <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
@@ -541,7 +541,7 @@
           <!--End mc_embed_signup-->
 
         <p style="text-align: center">
-          <ul><li class="large-arabic-text ">
+          <ul><li class="large-arabic-text rtl">
             <span data-i18n="subscribe-page-congrats-message-1"></span>
              <b data-i18n="continuous-mode-note-text" style="text-transform: capitalize"></b>
             <span data-i18n="subscribe-page-congrats-message-2"></span>
@@ -555,7 +555,7 @@
           </footer>
 
             <div id="share" style="text-align:center">
-              <div class="large-arabic-text">
+              <div class="large-arabic-text rtl">
                 <span data-i18n="subscribe-page-help-us-message-1"></span>
                 (<a href="https://tarteel.io">https://tarteel.io</a>)
                 <span data-i18n="subscribe-page-help-us-message-2"></span>  <br>
